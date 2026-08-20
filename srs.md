@@ -827,32 +827,35 @@ Các Business Requirement được đánh mã theo dạng:
 
 
 Bước 6: XD các Bussiness Process.
-YÊU CẦU KHÁCH HÀNG
-        │
-        ▼
-BƯỚC 1: PHÂN TÍCH YÊU CẦU
-        │
-        ▼
-BƯỚC 2: STAKEHOLDER
-        │
-        ▼
-BƯỚC 3: BUSINESS GOAL
-        │
-        ▼
-BƯỚC 4: SCOPE
-        │
-        ▼
-  GẶP KHÁCH HÀNG
-  XÁC NHẬN LẠI
-        │
-        ▼
-BƯỚC 5: BUSINESS REQUIREMENT
-        │
-        ▼
-   BR01, BR02, BR03...
-        │
-        ▼
-SAU NÀY: FUNCTIONAL REQUIREMENT
-        │
-        ▼
-USE CASE / PROCESS / DESIGN
+### 6.2. Business Process tổng quát
+
+```mermaid
+flowchart TD
+    A([Bắt đầu]) --> B[Khách hàng đăng nhập]
+    B --> C[Nhập điểm đón và điểm đến]
+    C --> D[Chọn loại xe]
+    D --> E[Gửi yêu cầu đặt xe]
+
+    E --> F[Hệ thống tìm tài xế]
+    F --> G{Có tài xế phù hợp?}
+
+    G -- Không --> H[Thông báo không tìm được tài xế]
+    H --> Z([Kết thúc])
+
+    G -- Có --> I[Gửi yêu cầu cho tài xế]
+    I --> J{Tài xế chấp nhận?}
+
+    J -- Không --> F
+    J -- Có --> K[Phân công tài xế]
+
+    K --> L[Tài xế đến điểm đón]
+    L --> M[Đón khách]
+    M --> N[Thực hiện chuyến]
+    N --> O[Hoàn thành chuyến]
+
+    O --> P[Tính cước]
+    P --> Q[Thanh toán]
+    Q --> R[Đánh giá tài xế]
+    R --> S[Lưu lịch sử]
+    S --> Z
+```
