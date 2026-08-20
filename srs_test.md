@@ -574,66 +574,119 @@ Một số nội dung chưa đủ thông tin để xác định chi tiết và c
 | 10 | Quyền hạn cụ thể của từng loại nhân viên vận hành. |
 
 ---
+# 8. Business Rules và Business Exceptions
 
-# 10. Tổng kết Bước 1 → Bước 7
+## 8.1. Business Rules – Quy tắc nghiệp vụ
 
-```mermaid
-flowchart TD
-    A[Bước 1 - Phân tích yêu cầu] --> B[Bước 2 - Stakeholder]
-    B --> C[Bước 3 - Business Goal]
-    C --> D[Bước 4 - Scope]
-    D --> E[Xác nhận với khách hàng]
-    E --> F[Bước 5 - Business Requirement]
-    F --> G[Bước 6 - Business Process]
-    G --> H[Bước 7 - Functional Requirement]
-    H --> I[Use Case và thiết kế chi tiết]
-```
+Business Rule là những quy tắc mà hệ thống phải tuân thủ trong quá trình xử lý nghiệp vụ.
 
-## Chuỗi phân tích của CAB System
+Đối với CAB System, các quy tắc nghiệp vụ cơ bản gồm:
 
-```text
-Yêu cầu khách hàng
-        ↓
-Stakeholder
-        ↓
-Business Goal (BG)
-        ↓
-Scope
-        ↓
-Business Requirement (BR)
-        ↓
-Business Process (BP)
-        ↓
-Functional Requirement (FR)
-        ↓
-Use Case
-        ↓
-Thiết kế hệ thống
-```
+| Mã | Business Rule | Diễn giải |
+|---|---|---|
+| BRULE01 | Khách hàng phải đăng nhập | Khách hàng phải đăng nhập trước khi đặt chuyến. |
+| BRULE02 | Tài xế phải ở trạng thái sẵn sàng | Chỉ tài xế đang sẵn sàng mới được hệ thống tìm và phân công chuyến. |
+| BRULE03 | Một chuyến chỉ có một tài xế | Một chuyến xe chỉ được phân công cho một tài xế tại một thời điểm. |
+| BRULE04 | Tài xế có quyền nhận hoặc từ chối | Tài xế có thể chấp nhận hoặc từ chối yêu cầu chuyến. |
+| BRULE05 | Tự động tìm tài xế khác | Nếu tài xế từ chối hoặc không phản hồi, hệ thống tiếp tục tìm tài xế khác. |
+| BRULE06 | Không tìm được tài xế | Nếu không có tài xế phù hợp, hệ thống phải thông báo cho khách hàng. |
+| BRULE07 | Chỉ được đánh giá sau chuyến | Khách hàng chỉ được đánh giá tài xế sau khi chuyến hoàn thành. |
+| BRULE08 | Tính cước sau khi hoàn thành | Hệ thống xác định số tiền phải trả khi chuyến hoàn thành. |
+| BRULE09 | Hỗ trợ nhiều phương thức thanh toán | Khách hàng có thể thanh toán bằng tiền mặt hoặc thanh toán điện tử. |
+| BRULE10 | Không lưu thông tin thẻ nhạy cảm | Hệ thống CAB không lưu trực tiếp thông tin nhạy cảm của thẻ hoặc tài khoản thanh toán. |
+| BRULE11 | Chỉ người có quyền mới được quản trị | Nhân viên chỉ được thực hiện các chức năng phù hợp với quyền được cấp. |
+| BRULE12 | Lưu lịch sử chuyến | Các chuyến đã thực hiện phải được lưu để tra cứu. |
+| BRULE13 | Ghi nhận thao tác quan trọng | Các thao tác quản trị quan trọng phải được ghi log. |
+| BRULE14 | Tài xế phải có phương tiện | Tài xế muốn nhận chuyến phải có phương tiện hợp lệ được quản lý trong hệ thống. |
+| BRULE15 | Trạng thái chuyến phải hợp lệ | Chuyến xe phải chuyển trạng thái theo đúng quy trình nghiệp vụ. |
 
-## Ví dụ hoàn chỉnh
+---
+
+## 8.2. Trạng thái chuyến xe
+
+Một chuyến xe có thể có các trạng thái cơ bản:
 
 ```text
-BG01
-Tự động tìm và phân công tài xế
-        ↓
-BR05
-Tìm tài xế
-        ↓
-BP03
-Quy trình tìm tài xế
-        ↓
-FR05.01
-Tìm tài xế sẵn sàng
+REQUESTED
+    ↓
+SEARCHING_DRIVER
+    ↓
+DRIVER_ASSIGNED
+    ↓
+DRIVER_ARRIVING
+    ↓
+DRIVER_ARRIVED
+    ↓
+PASSENGER_PICKED_UP
+    ↓
+IN_PROGRESS
+    ↓
+COMPLETED
 
-FR05.02
-Kiểm tra vị trí
+Bước 10: Thiết kế danh sách Non-Functional Requirements
 
-FR05.03
-Lọc tài xế phù hợp
+---
 
-FR05.04
-Ưu tiên tài xế
-```
+# 10. Non-Functional Requirements – Yêu cầu phi chức năng
 
+## 10.1. Khái niệm
 
+Non-Functional Requirement (NFR) là các yêu cầu mô tả cách hệ thống phải hoạt động và chất lượng mà hệ thống cần đáp ứng.
+
+Functional Requirement trả lời câu hỏi:
+
+> Hệ thống phải làm gì?
+
+Non-Functional Requirement trả lời câu hỏi:
+
+> Hệ thống phải hoạt động như thế nào?
+
+Ví dụ:
+
+- FR: Hệ thống cho phép khách hàng đặt xe.
+- NFR: Hệ thống phải phản hồi yêu cầu đặt xe trong thời gian hợp lý.
+
+---
+
+## 10.2. Danh sách Non-Functional Requirements
+
+| Mã | Nhóm | Tên yêu cầu | Diễn giải |
+|---|---|---|---|
+| NFR01 | Performance | Hiệu năng | Hệ thống phải phản hồi nhanh đối với các thao tác thông thường. |
+| NFR02 | Performance | Xử lý đồng thời | Hệ thống phải hỗ trợ nhiều khách hàng và tài xế sử dụng cùng lúc. |
+| NFR03 | Availability | Tính sẵn sàng | Hệ thống phải hoạt động ổn định trong thời gian cung cấp dịch vụ. |
+| NFR04 | Scalability | Khả năng mở rộng | Hệ thống phải có khả năng mở rộng khi số lượng người dùng và chuyến xe tăng. |
+| NFR05 | Security | Xác thực | Người dùng phải được xác thực trước khi sử dụng các chức năng yêu cầu tài khoản. |
+| NFR06 | Security | Phân quyền | Người dùng chỉ được sử dụng các chức năng phù hợp với quyền của mình. |
+| NFR07 | Security | Bảo vệ dữ liệu | Thông tin cá nhân, thông tin tài xế, dữ liệu vị trí và giao dịch phải được bảo vệ. |
+| NFR08 | Security | Bảo vệ mật khẩu | Mật khẩu không được lưu trực tiếp dưới dạng rõ. |
+| NFR09 | Security | Audit Log | Các thao tác quan trọng phải được ghi nhận để phục vụ kiểm tra. |
+| NFR10 | Reliability | Độ tin cậy | Lỗi ở thanh toán hoặc thông báo không được làm dừng toàn bộ hệ thống đặt xe. |
+| NFR11 | Recovery | Khả năng phục hồi | Hệ thống cần có khả năng phục hồi sau khi xảy ra lỗi hoặc sự cố. |
+| NFR12 | Maintainability | Khả năng bảo trì | Hệ thống phải dễ sửa lỗi, bảo trì và nâng cấp. |
+| NFR13 | Extensibility | Khả năng mở rộng chức năng | Hệ thống có thể bổ sung dịch vụ, phương thức thanh toán và kênh thông báo mới. |
+| NFR14 | Usability | Dễ sử dụng | Giao diện phải đơn giản và dễ sử dụng đối với khách hàng, tài xế và nhân viên. |
+| NFR15 | Backup | Sao lưu dữ liệu | Dữ liệu quan trọng cần được sao lưu để hạn chế mất dữ liệu. |
+| NFR16 | Monitoring | Giám sát | Hệ thống cần có khả năng theo dõi trạng thái và phát hiện lỗi. |
+| NFR17 | Privacy | Quyền riêng tư | Thông tin cá nhân của khách hàng và tài xế phải được bảo vệ. |
+
+---
+
+## 10.3. Chi tiết các yêu cầu phi chức năng
+
+### NFR01 – Performance
+
+Hệ thống phải có thời gian phản hồi hợp lý đối với các thao tác thông thường như:
+
+- Đăng nhập.
+- Tạo yêu cầu đặt xe.
+- Xem thông tin chuyến.
+- Xem lịch sử chuyến.
+- Tra cứu giao dịch.
+
+Trong điều kiện tải bình thường, thời gian phản hồi mục tiêu có thể đặt là:
+
+```text
+
+Bước 11: Xác định và vẽ các Use case.
+Bước 12: Viết các đặc tả use case.
