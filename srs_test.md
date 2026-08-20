@@ -690,3 +690,4 @@ Trong điều kiện tải bình thường, thời gian phản hồi mục tiêu
 
 Bước 11: Xác định và vẽ các Use case.
 Bước 12: Viết các đặc tả use case.
+
