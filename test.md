@@ -1347,46 +1347,422 @@ Các báo cáo:
 
 ---
 
-# 13. TRACEABILITY TỔNG QUÁT
 
-Bảng này giúp kiểm tra các yêu cầu từ Business Goal đến Functional Requirement và Use Case.
 
-| BG | BR | FR | Use Case |
-|---|---|---|---|
-| BG01 | BR05, BR06 | FR05.*, FR06.* | UC04, UC11, UC12, UC13 |
-| BG02 | BR10, BR11, BR12 | FR10.*, FR11.*, FR12.* | UC07 |
-| BG03 | BR01, BR07, BR13, BR14 | FR01.*, FR07.*, FR13.*, FR14.* | UC04, UC05, UC08 |
-| BG04 | BR02, BR03, BR04, BR17 | FR02.*, FR03.*, FR04.*, FR17.* | UC03, UC09, UC16, UC17, UC18, UC21 |
-| BG05 | BR15, BR16 | FR15.*, FR16.* | UC19, UC20 |
-| BG06 | BR19 | FR19.* | UC22 |
-| BG07 | BR18, BR20 | FR18.*, FR20.* | UC23, UC24, UC25 |
-| BG08 | NFR13-NFR18 | Các yêu cầu mở rộng | Các UC liên quan |
+
+# 13. Acceptance Criteria – Tiêu chí chấp nhận
+
+## 13.1. Khái niệm
+
+Acceptance Criteria (AC) là tập hợp các điều kiện mà một chức năng phải đáp ứng để được xem là hoàn thành và có thể nghiệm thu.
+
+Mỗi Acceptance Criteria cần mô tả rõ:
+
+- Chức năng phải làm được gì.
+- Điều kiện để thực hiện.
+- Kết quả mong đợi.
+- Trường hợp lỗi hoặc ngoại lệ nếu có.
+
+Acceptance Criteria được sử dụng để:
+
+- Business Analyst xác nhận yêu cầu với khách hàng.
+- Developer biết chức năng cần thực hiện như thế nào.
+- Tester dùng làm cơ sở kiểm thử.
+- Khách hàng dùng để nghiệm thu chức năng.
 
 ---
 
-# 14. CÁC YÊU CẦU CẦN XÁC NHẬN VỚI KHÁCH HÀNG
+# 13.2. Acceptance Criteria cho chức năng đặt chuyến
 
-Trước khi chuyển sang thiết kế chi tiết, Business Analyst cần xác nhận:
+## AC01 – Đặt chuyến thành công
 
-| STT | Nội dung |
-|---|---|
-| 1 | Công thức tính cước. |
-| 2 | Tiêu chí ưu tiên tài xế. |
-| 3 | Khoảng cách tối đa để tìm tài xế. |
-| 4 | Thời gian tài xế phải phản hồi. |
-| 5 | Số lần tìm tài xế lại. |
-| 6 | Chính sách hủy chuyến. |
-| 7 | Chính sách thanh toán thất bại. |
-| 8 | Tần suất cập nhật vị trí. |
-| 9 | Các kênh thông báo. |
-| 10 | Thời gian lưu trữ dữ liệu. |
-| 11 | Quyền cụ thể của Operator và Admin. |
-| 12 | Số lượng người dùng dự kiến. |
+**Mã:** AC01  
+**Chức năng:** Đặt chuyến xe  
+**Liên quan:** BR01, FR01.01 – FR01.06
 
+### Điều kiện
 
+- Khách hàng đã đăng nhập.
+- Khách hàng nhập điểm đón.
+- Khách hàng nhập điểm đến.
+- Khách hàng chọn loại xe.
 
+### Tiêu chí chấp nhận
 
+- Hệ thống phải kiểm tra đầy đủ thông tin đặt xe.
+- Nếu thông tin hợp lệ, hệ thống tạo một chuyến mới.
+- Chuyến mới có trạng thái "Đang tìm tài xế".
+- Hệ thống lưu thông tin điểm đón, điểm đến và loại xe.
+- Hệ thống bắt đầu quá trình tìm tài xế.
+- Khách hàng nhận được thông báo yêu cầu đã được tiếp nhận.
 
-```mermaid
-flowchart LR
-    A["B1<br/>
+---
+
+## AC02 – Đặt chuyến thiếu thông tin
+
+**Mã:** AC02  
+**Chức năng:** Đặt chuyến xe
+
+### Tiêu chí chấp nhận
+
+- Nếu khách hàng chưa nhập điểm đón, hệ thống phải thông báo lỗi.
+- Nếu khách hàng chưa nhập điểm đến, hệ thống phải thông báo lỗi.
+- Nếu khách hàng chưa chọn loại xe, hệ thống phải thông báo lỗi.
+- Hệ thống không được tạo chuyến khi thông tin không đầy đủ.
+
+---
+
+# 13.3. Acceptance Criteria cho chức năng tìm tài xế
+
+## AC03 – Tìm được tài xế
+
+**Mã:** AC03  
+**Chức năng:** Tự động tìm tài xế  
+**Liên quan:** BR05, FR05.01 – FR05.04
+
+### Điều kiện
+
+- Có yêu cầu đặt xe hợp lệ.
+- Có tài xế đang ở trạng thái sẵn sàng.
+- Tài xế phù hợp với loại xe được yêu cầu.
+
+### Tiêu chí chấp nhận
+
+- Hệ thống phải tìm các tài xế phù hợp.
+- Hệ thống phải xem xét vị trí của tài xế.
+- Hệ thống phải lựa chọn tài xế theo tiêu chí ưu tiên đã được doanh nghiệp xác nhận.
+- Hệ thống gửi yêu cầu chuyến đến tài xế được lựa chọn.
+- Trạng thái chuyến được cập nhật phù hợp.
+
+---
+
+## AC04 – Tài xế từ chối chuyến
+
+**Mã:** AC04  
+**Chức năng:** Xử lý tài xế từ chối chuyến
+
+### Tiêu chí chấp nhận
+
+- Hệ thống phải ghi nhận tài xế đã từ chối chuyến.
+- Hệ thống không được gán chuyến đó cho tài xế đã từ chối.
+- Hệ thống phải tiếp tục tìm tài xế phù hợp khác.
+- Khách hàng không cần tạo lại yêu cầu đặt xe.
+
+---
+
+## AC05 – Tài xế không phản hồi
+
+**Mã:** AC05  
+**Chức năng:** Xử lý tài xế không phản hồi
+
+### Tiêu chí chấp nhận
+
+- Hệ thống phải xác định tài xế không phản hồi sau thời gian quy định.
+- Hệ thống tiếp tục tìm tài xế khác.
+- Chuyến vẫn được giữ ở trạng thái đang tìm tài xế.
+- Thời gian phản hồi cụ thể phải được xác nhận với khách hàng.
+
+---
+
+## AC06 – Không tìm được tài xế
+
+**Mã:** AC06  
+**Chức năng:** Không tìm được tài xế
+
+### Tiêu chí chấp nhận
+
+- Hệ thống phải xác định khi không còn tài xế phù hợp.
+- Hệ thống cập nhật trạng thái chuyến thành "Không tìm được tài xế".
+- Hệ thống phải thông báo rõ ràng cho khách hàng.
+- Hệ thống không được tự động tạo chuyến mới.
+
+---
+
+# 13.4. Acceptance Criteria cho chức năng quản lý tài xế
+
+## AC07 – Tài xế chuyển sang trạng thái sẵn sàng
+
+**Mã:** AC07  
+**Chức năng:** Cập nhật trạng thái tài xế  
+**Liên quan:** BR03, FR03.02
+
+### Tiêu chí chấp nhận
+
+- Tài xế phải đăng nhập trước khi thay đổi trạng thái.
+- Tài xế có thể chuyển sang trạng thái "Sẵn sàng".
+- Hệ thống lưu trạng thái mới.
+- Tài xế ở trạng thái sẵn sàng có thể được hệ thống lựa chọn để nhận chuyến.
+
+---
+
+## AC08 – Tài xế cập nhật trạng thái chuyến
+
+**Mã:** AC08  
+**Chức năng:** Thực hiện chuyến  
+**Liên quan:** BR08
+
+### Tiêu chí chấp nhận
+
+Tài xế có thể cập nhật lần lượt các trạng thái:
+
+1. Đã đến điểm đón.
+2. Đã đón khách.
+3. Đang di chuyển.
+4. Hoàn thành chuyến.
+
+Hệ thống phải:
+
+- Lưu trạng thái mới.
+- Lưu thời điểm cập nhật.
+- Thông báo trạng thái phù hợp cho khách hàng.
+
+---
+
+# 13.5. Acceptance Criteria cho theo dõi chuyến
+
+## AC09 – Khách hàng theo dõi trạng thái chuyến
+
+**Mã:** AC09  
+**Chức năng:** Theo dõi chuyến  
+**Liên quan:** BR07
+
+### Tiêu chí chấp nhận
+
+- Khách hàng phải đăng nhập.
+- Khách hàng chỉ được xem các chuyến của mình.
+- Hệ thống hiển thị trạng thái hiện tại của chuyến.
+- Khi tài xế cập nhật trạng thái, hệ thống phải cập nhật thông tin chuyến.
+- Khách hàng có thể xem thông tin tài xế đã nhận chuyến.
+
+---
+
+# 13.6. Acceptance Criteria cho thanh toán
+
+## AC10 – Thanh toán bằng tiền mặt
+
+**Mã:** AC10  
+**Chức năng:** Thanh toán tiền mặt  
+**Liên quan:** BR11, FR11.02
+
+### Tiêu chí chấp nhận
+
+- Khách hàng có thể chọn phương thức tiền mặt.
+- Hệ thống ghi nhận phương thức thanh toán là tiền mặt.
+- Sau khi chuyến hoàn thành, hệ thống ghi nhận trạng thái thanh toán theo quy trình doanh nghiệp.
+- Thông tin giao dịch được lưu để tra cứu.
+
+---
+
+## AC11 – Thanh toán điện tử thành công
+
+**Mã:** AC11  
+**Chức năng:** Thanh toán điện tử  
+**Liên quan:** BR11, FR11.03
+
+### Tiêu chí chấp nhận
+
+- Khách hàng có thể chọn thanh toán điện tử.
+- Hệ thống gửi yêu cầu thanh toán đến nhà cung cấp thanh toán.
+- Hệ thống nhận kết quả giao dịch.
+- Nếu giao dịch thành công, trạng thái thanh toán được cập nhật thành "Đã thanh toán".
+- Khách hàng nhận được thông báo kết quả.
+- Hệ thống không lưu trực tiếp thông tin nhạy cảm của thẻ hoặc tài khoản thanh toán.
+
+---
+
+## AC12 – Thanh toán điện tử thất bại
+
+**Mã:** AC12  
+**Chức năng:** Xử lý thanh toán thất bại  
+**Liên quan:** BR12
+
+### Tiêu chí chấp nhận
+
+- Hệ thống phải ghi nhận giao dịch thất bại.
+- Khách hàng phải nhận được thông báo thanh toán thất bại.
+- Hệ thống không được ghi nhận giao dịch thất bại là đã thanh toán.
+- Khách hàng có thể thực hiện thanh toán lại nếu chính sách doanh nghiệp cho phép.
+
+---
+
+# 13.7. Acceptance Criteria cho thông báo
+
+## AC13 – Gửi thông báo
+
+**Mã:** AC13  
+**Chức năng:** Thông báo  
+**Liên quan:** BR13
+
+### Tiêu chí chấp nhận
+
+Hệ thống phải có khả năng gửi thông báo khi:
+
+- Yêu cầu đặt xe được tiếp nhận.
+- Tài xế nhận chuyến.
+- Tài xế đến điểm đón.
+- Chuyến hoàn thành.
+- Thanh toán thành công hoặc thất bại.
+
+Thông báo phải được gửi đến đúng người nhận.
+
+---
+
+# 13.8. Acceptance Criteria cho đánh giá tài xế
+
+## AC14 – Đánh giá tài xế
+
+**Mã:** AC14  
+**Chức năng:** Đánh giá tài xế  
+**Liên quan:** BR14
+
+### Tiêu chí chấp nhận
+
+- Chỉ khách hàng đã thực hiện chuyến mới được đánh giá tài xế.
+- Chỉ có thể đánh giá sau khi chuyến hoàn thành.
+- Khách hàng có thể nhập mức đánh giá.
+- Hệ thống phải lưu đánh giá.
+- Một chuyến không được đánh giá nhiều lần nếu chính sách doanh nghiệp không cho phép.
+
+---
+
+# 13.9. Acceptance Criteria cho quản lý vận hành
+
+## AC15 – Nhân viên xem chuyến đang diễn ra
+
+**Mã:** AC15  
+**Chức năng:** Quản lý vận hành  
+**Liên quan:** BR15
+
+### Tiêu chí chấp nhận
+
+- Nhân viên vận hành phải đăng nhập.
+- Nhân viên có quyền phù hợp mới được xem danh sách chuyến.
+- Hệ thống hiển thị các chuyến đang diễn ra.
+- Có thể xem trạng thái chuyến.
+- Có thể xem thông tin khách hàng và tài xế theo quyền được cấp.
+
+---
+
+## AC16 – Phân quyền nhân viên
+
+**Mã:** AC16  
+**Chức năng:** Phân quyền  
+**Liên quan:** BR18
+
+### Tiêu chí chấp nhận
+
+- Người dùng phải được xác thực trước khi sử dụng chức năng yêu cầu tài khoản.
+- Mỗi người dùng phải có vai trò phù hợp.
+- Người dùng chỉ được thực hiện các chức năng mà vai trò của mình được cấp quyền.
+- Nhân viên không có quyền không được thực hiện các thao tác nhạy cảm.
+- Hệ thống phải từ chối truy cập trái phép.
+
+---
+
+# 13.10. Acceptance Criteria cho báo cáo
+
+## AC17 – Báo cáo hoạt động
+
+**Mã:** AC17  
+**Chức năng:** Báo cáo  
+**Liên quan:** BR19
+
+### Tiêu chí chấp nhận
+
+Hệ thống phải cung cấp các thông tin báo cáo cơ bản:
+
+- Số lượng chuyến.
+- Số chuyến hoàn thành.
+- Số chuyến bị hủy.
+- Doanh thu.
+- Tỷ lệ hoàn thành.
+- Hiệu quả hoạt động của tài xế.
+
+Dữ liệu báo cáo phải được lấy từ dữ liệu thực tế của hệ thống.
+
+---
+
+# 13.11. Acceptance Criteria cho ghi log
+
+## AC18 – Ghi nhận thao tác quan trọng
+
+**Mã:** AC18  
+**Chức năng:** Ghi nhận thao tác  
+**Liên quan:** BR20
+
+### Tiêu chí chấp nhận
+
+Hệ thống phải ghi nhận các thao tác quan trọng như:
+
+- Đăng nhập.
+- Thay đổi thông tin quan trọng.
+- Thay đổi quyền.
+- Thao tác quản trị.
+- Xử lý giao dịch.
+- Xử lý sự cố.
+
+Thông tin log tối thiểu gồm:
+
+- Người thực hiện.
+- Thời gian.
+- Thao tác.
+- Đối tượng được tác động.
+- Kết quả thao tác.
+
+---
+
+# 13.12. Bảng tổng hợp Acceptance Criteria
+
+| Mã AC | Chức năng | Business Requirement | Kết quả nghiệm thu |
+|---|---|---|---|
+| AC01 | Đặt chuyến thành công | BR01 | Tạo được chuyến hợp lệ |
+| AC02 | Kiểm tra thông tin đặt chuyến | BR01 | Không tạo chuyến khi thiếu dữ liệu |
+| AC03 | Tìm tài xế | BR05 | Tìm được tài xế phù hợp |
+| AC04 | Tài xế từ chối | BR06 | Hệ thống tìm tài xế khác |
+| AC05 | Tài xế không phản hồi | BR06 | Hệ thống tiếp tục tìm |
+| AC06 | Không tìm được tài xế | BR06 | Thông báo khách hàng |
+| AC07 | Trạng thái tài xế | BR03 | Tài xế chuyển được trạng thái |
+| AC08 | Cập nhật chuyến | BR08 | Trạng thái chuyến được cập nhật |
+| AC09 | Theo dõi chuyến | BR07 | Khách hàng xem được trạng thái |
+| AC10 | Thanh toán tiền mặt | BR11 | Ghi nhận thanh toán tiền mặt |
+| AC11 | Thanh toán điện tử | BR11 | Ghi nhận kết quả giao dịch |
+| AC12 | Thanh toán thất bại | BR12 | Thông báo và cho phép xử lý lại |
+| AC13 | Thông báo | BR13 | Gửi thông báo đúng sự kiện |
+| AC14 | Đánh giá | BR14 | Khách hàng đánh giá sau chuyến |
+| AC15 | Quản lý vận hành | BR15 | Nhân viên xem được chuyến |
+| AC16 | Phân quyền | BR18 | Chặn truy cập trái phép |
+| AC17 | Báo cáo | BR19 | Hiển thị số liệu hoạt động |
+| AC18 | Ghi log | BR20 | Lưu được thao tác quan trọng |
+
+---
+
+# 13.13. Quy tắc nghiệm thu
+
+Một chức năng được xem là đạt khi:
+
+1. Chức năng thực hiện đúng yêu cầu đã xác định.
+2. Các điều kiện Acceptance Criteria được đáp ứng.
+3. Dữ liệu được lưu chính xác.
+4. Các trường hợp lỗi cơ bản được xử lý.
+5. Người dùng nhận được thông báo phù hợp.
+6. Người dùng không có quyền không thể thực hiện chức năng.
+7. Tester kiểm thử đạt các tiêu chí tương ứng.
+8. Khách hàng xác nhận chức năng đạt yêu cầu.
+
+---
+
+# 13.14. Lưu ý các Acceptance Criteria chưa chốt
+
+Một số Acceptance Criteria cần được cập nhật sau khi khách hàng xác nhận:
+
+- Thời gian tài xế phải phản hồi.
+- Số lần hệ thống tìm lại tài xế.
+- Công thức tính cước.
+- Chính sách hủy chuyến.
+- Chính sách thanh toán thất bại.
+- Tần suất cập nhật vị trí.
+- Thời gian lưu trữ dữ liệu.
+- Các kênh thông báo.
+- Quyền cụ thể của từng loại nhân viên.
+
+Các giá trị trên hiện được xem là **TBD (To Be Determined)** và sẽ được cập nhật sau khi có xác nhận chính thức từ khách hàng.
