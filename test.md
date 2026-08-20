@@ -1765,4 +1765,151 @@ Một số Acceptance Criteria cần được cập nhật sau khi khách hàng 
 - Các kênh thông báo.
 - Quyền cụ thể của từng loại nhân viên.
 
-Các giá trị trên hiện được xem là **TBD (To Be Determined)** và sẽ được cập nhật sau khi có xác nhận chính thức từ khách hàng.
+
+# 14. Requirement Traceability Matrix (RTM)
+## Ma trận truy xuất nguồn gốc yêu cầu
+
+### 14.1. Mục đích
+
+Requirement Traceability Matrix (RTM) là ma trận dùng để theo dõi mối liên hệ giữa các yêu cầu trong toàn bộ quá trình phát triển hệ thống.
+
+RTM giúp kiểm tra:
+
+- Business Process có được chuyển thành Business Requirement hay không.
+- Business Requirement có được phân rã thành Functional Requirement hay không.
+- Functional Requirement có Use Case tương ứng hay không.
+- Use Case có Acceptance Criteria để nghiệm thu hay không.
+- Khi thiết kế hệ thống, lập trình và kiểm thử, có thể truy ngược về yêu cầu ban đầu hay không.
+
+Luồng truy xuất yêu cầu của CAB System:
+
+Business Process
+        ↓
+Business Requirement
+        ↓
+Functional Requirement
+        ↓
+Use Case
+        ↓
+Acceptance Criteria
+        ↓
+Thiết kế
+        ↓
+Lập trình
+        ↓
+Kiểm thử
+        ↓
+Nghiệm thu
+
+---
+
+## 14.2. Các giai đoạn truy xuất yêu cầu
+
+| Giai đoạn | Nội dung |
+|---|---|
+| 1. Business Process | Xác định quy trình nghiệp vụ cần hệ thống hỗ trợ. |
+| 2. Business Requirement | Xác định doanh nghiệp cần hệ thống thực hiện nghiệp vụ gì. |
+| 3. Functional Requirement | Phân rã nghiệp vụ thành các chức năng cụ thể. |
+| 4. Use Case | Xác định người dùng tương tác với chức năng như thế nào. |
+| 5. Thiết kế | Thiết kế giao diện, cơ sở dữ liệu, kiến trúc và các thành phần liên quan. |
+| 6. Development | Lập trình các chức năng theo yêu cầu và thiết kế. |
+| 7. Testing | Kiểm thử chức năng dựa trên yêu cầu và Acceptance Criteria. |
+| 8. Acceptance | Khách hàng kiểm tra và nghiệm thu chức năng. |
+
+---
+
+# 14.3. Requirement Traceability Matrix
+
+Trong dự án CAB System, sử dụng các cột:
+
+- **BP:** Business Process – Quy trình nghiệp vụ.
+- **BR:** Business Requirement – Yêu cầu nghiệp vụ.
+- **FR:** Functional Requirement – Yêu cầu chức năng.
+- **UC:** Use Case – Trường hợp sử dụng.
+- **AC:** Acceptance Criteria – Tiêu chí chấp nhận.
+
+| BP | BR | FR | UC | AC |
+|---|---|---|---|---|
+| BP02 – Đặt chuyến | BR01 – Đặt chuyến xe | FR01.01 – Nhập điểm đón | UC01 – Đặt chuyến | AC01 – Đặt chuyến thành công |
+| BP02 – Đặt chuyến | BR01 – Đặt chuyến xe | FR01.02 – Nhập điểm đến | UC01 – Đặt chuyến | AC01 – Đặt chuyến thành công |
+| BP02 – Đặt chuyến | BR01 – Đặt chuyến xe | FR01.03 – Chọn loại xe | UC01 – Đặt chuyến | AC01 – Đặt chuyến thành công |
+| BP02 – Đặt chuyến | BR01 – Đặt chuyến xe | FR01.04 – Gửi yêu cầu | UC01 – Đặt chuyến | AC01 – Đặt chuyến thành công |
+| BP02 – Đặt chuyến | BR01 – Đặt chuyến xe | FR01.05 – Kiểm tra yêu cầu | UC01 – Đặt chuyến | AC02 – Thiếu thông tin |
+| BP02 – Đặt chuyến | BR01 – Đặt chuyến xe | FR01.06 – Tạo chuyến | UC01 – Đặt chuyến | AC01 – Đặt chuyến thành công |
+| BP03 – Tìm tài xế | BR05 – Tìm tài xế | FR05.01 – Tìm tài xế sẵn sàng | UC02 – Tìm tài xế | AC03 – Tìm được tài xế |
+| BP03 – Tìm tài xế | BR05 – Tìm tài xế | FR05.02 – Kiểm tra vị trí | UC02 – Tìm tài xế | AC03 – Tìm được tài xế |
+| BP03 – Tìm tài xế | BR05 – Tìm tài xế | FR05.03 – Lọc tài xế | UC02 – Tìm tài xế | AC03 – Tìm được tài xế |
+| BP03 – Tìm tài xế | BR05 – Tìm tài xế | FR05.04 – Ưu tiên tài xế | UC02 – Tìm tài xế | AC03 – Tìm được tài xế |
+| BP04 – Phân công tài xế | BR06 – Phân công tài xế | FR06.01 – Gửi yêu cầu | UC03 – Phân công tài xế | AC03 – Tìm được tài xế |
+| BP04 – Phân công tài xế | BR06 – Phân công tài xế | FR06.02 – Chấp nhận chuyến | UC03 – Phân công tài xế | AC03 – Tìm được tài xế |
+| BP04 – Phân công tài xế | BR06 – Phân công tài xế | FR06.03 – Từ chối chuyến | UC03 – Phân công tài xế | AC04 – Tài xế từ chối |
+| BP04 – Phân công tài xế | BR06 – Phân công tài xế | FR06.04 – Xử lý không phản hồi | UC03 – Phân công tài xế | AC05 – Không phản hồi |
+| BP04 – Phân công tài xế | BR06 – Phân công tài xế | FR06.05 – Tìm tài xế khác | UC03 – Phân công tài xế | AC04 – Tài xế từ chối |
+| BP04 – Phân công tài xế | BR06 – Phân công tài xế | FR06.06 – Thông báo thất bại | UC03 – Phân công tài xế | AC06 – Không tìm được tài xế |
+| BP05 – Thực hiện chuyến | BR08 – Thực hiện chuyến | FR08.01 – Đã đến điểm đón | UC04 – Thực hiện chuyến | AC08 – Cập nhật chuyến |
+| BP05 – Thực hiện chuyến | BR08 – Thực hiện chuyến | FR08.02 – Đã đón khách | UC04 – Thực hiện chuyến | AC08 – Cập nhật chuyến |
+| BP05 – Thực hiện chuyến | BR08 – Thực hiện chuyến | FR08.03 – Đang di chuyển | UC04 – Thực hiện chuyến | AC08 – Cập nhật chuyến |
+| BP05 – Thực hiện chuyến | BR08 – Thực hiện chuyến | FR08.04 – Hoàn thành chuyến | UC04 – Thực hiện chuyến | AC08 – Cập nhật chuyến |
+| BP05 – Thực hiện chuyến | BR07 – Theo dõi chuyến | FR07.01 – Xem trạng thái | UC05 – Theo dõi chuyến | AC09 – Theo dõi chuyến |
+| BP05 – Thực hiện chuyến | BR07 – Theo dõi chuyến | FR07.02 – Xem tài xế | UC05 – Theo dõi chuyến | AC09 – Theo dõi chuyến |
+| BP05 – Thực hiện chuyến | BR07 – Theo dõi chuyến | FR07.03 – Theo dõi vị trí | UC05 – Theo dõi chuyến | AC09 – Theo dõi chuyến |
+| BP06 – Tính cước | BR10 – Tính cước | FR10.01 – Tính cước | UC06 – Tính cước | AC10 – Thanh toán |
+| BP06 – Tính cước | BR10 – Tính cước | FR10.02 – Xác định dịch vụ | UC06 – Tính cước | AC10 – Thanh toán |
+| BP06 – Tính cước | BR10 – Tính cước | FR10.03 – Lưu cước | UC06 – Tính cước | AC10 – Thanh toán |
+| BP07 – Thanh toán | BR11 – Thanh toán | FR11.01 – Chọn phương thức | UC07 – Thanh toán | AC10 – Tiền mặt |
+| BP07 – Thanh toán | BR11 – Thanh toán | FR11.02 – Thanh toán tiền mặt | UC07 – Thanh toán | AC10 – Tiền mặt |
+| BP07 – Thanh toán | BR11 – Thanh toán | FR11.03 – Thanh toán điện tử | UC07 – Thanh toán | AC11 – Thanh toán điện tử |
+| BP07 – Thanh toán | BR11 – Thanh toán | FR11.04 – Nhận kết quả | UC07 – Thanh toán | AC11 – Thanh toán điện tử |
+| BP07 – Thanh toán | BR12 – Xử lý thanh toán lỗi | FR12.01 – Ghi nhận lỗi | UC08 – Xử lý thanh toán lỗi | AC12 – Thanh toán thất bại |
+| BP07 – Thanh toán | BR12 – Xử lý thanh toán lỗi | FR12.02 – Thông báo lỗi | UC08 – Xử lý thanh toán lỗi | AC12 – Thanh toán thất bại |
+| BP07 – Thanh toán | BR12 – Xử lý thanh toán lỗi | FR12.03 – Thanh toán lại | UC08 – Xử lý thanh toán lỗi | AC12 – Thanh toán thất bại |
+| BP08 – Thông báo | BR13 – Thông báo | FR13.01 – Thông báo đặt xe | UC09 – Gửi thông báo | AC13 – Gửi thông báo |
+| BP08 – Thông báo | BR13 – Thông báo | FR13.02 – Thông báo nhận chuyến | UC09 – Gửi thông báo | AC13 – Gửi thông báo |
+| BP08 – Thông báo | BR13 – Thông báo | FR13.03 – Thông báo đến điểm đón | UC09 – Gửi thông báo | AC13 – Gửi thông báo |
+| BP08 – Thông báo | BR13 – Thông báo | FR13.04 – Thông báo hoàn thành | UC09 – Gửi thông báo | AC13 – Gửi thông báo |
+| BP08 – Thông báo | BR13 – Thông báo | FR13.05 – Thông báo thanh toán | UC09 – Gửi thông báo | AC13 – Gửi thông báo |
+| BP09 – Đánh giá | BR14 – Đánh giá tài xế | FR14.01 – Đánh giá tài xế | UC10 – Đánh giá tài xế | AC14 – Đánh giá |
+| BP09 – Đánh giá | BR14 – Đánh giá tài xế | FR14.02 – Lưu đánh giá | UC10 – Đánh giá tài xế | AC14 – Đánh giá |
+| BP10 – Quản lý vận hành | BR15 – Quản lý vận hành | FR15.01 – Quản lý khách hàng | UC11 – Quản lý vận hành | AC15 – Quản lý vận hành |
+| BP10 – Quản lý vận hành | BR15 – Quản lý vận hành | FR15.02 – Quản lý tài xế | UC11 – Quản lý vận hành | AC15 – Quản lý vận hành |
+| BP10 – Quản lý vận hành | BR15 – Quản lý vận hành | FR15.03 – Quản lý phương tiện | UC11 – Quản lý vận hành | AC15 – Quản lý vận hành |
+| BP10 – Quản lý vận hành | BR15 – Quản lý vận hành | FR15.04 – Theo dõi chuyến | UC11 – Quản lý vận hành | AC15 – Quản lý vận hành |
+| BP10 – Quản lý vận hành | BR16 – Xử lý sự cố | FR16.01 – Xem chuyến lỗi | UC12 – Xử lý sự cố | AC15 – Quản lý vận hành |
+| BP10 – Quản lý vận hành | BR16 – Xử lý sự cố | FR16.02 – Xử lý chuyến lỗi | UC12 – Xử lý sự cố | AC15 – Quản lý vận hành |
+| BP10 – Quản lý vận hành | BR17 – Quản lý giao dịch | FR17.01 – Tra cứu giao dịch | UC13 – Tra cứu giao dịch | AC15 – Quản lý vận hành |
+| BP10 – Quản lý vận hành | BR17 – Quản lý giao dịch | FR17.02 – Xem trạng thái giao dịch | UC13 – Tra cứu giao dịch | AC15 – Quản lý vận hành |
+| BP10 – Quản lý vận hành | BR18 – Phân quyền | FR18.01 – Xác thực | UC14 – Đăng nhập | AC16 – Phân quyền |
+| BP10 – Quản lý vận hành | BR18 – Phân quyền | FR18.02 – Phân quyền | UC15 – Phân quyền | AC16 – Phân quyền |
+| BP10 – Quản lý vận hành | BR18 – Phân quyền | FR18.03 – Kiểm soát quản trị | UC15 – Phân quyền | AC16 – Phân quyền |
+| BP10 – Quản lý vận hành | BR19 – Báo cáo | FR19.01 – Báo cáo chuyến | UC16 – Báo cáo | AC17 – Báo cáo |
+| BP10 – Quản lý vận hành | BR19 – Báo cáo | FR19.02 – Báo cáo doanh thu | UC16 – Báo cáo | AC17 – Báo cáo |
+| BP10 – Quản lý vận hành | BR19 – Báo cáo | FR19.03 – Báo cáo hoàn thành | UC16 – Báo cáo | AC17 – Báo cáo |
+| BP10 – Quản lý vận hành | BR19 – Báo cáo | FR19.04 – Báo cáo hủy | UC16 – Báo cáo | AC17 – Báo cáo |
+| BP10 – Quản lý vận hành | BR19 – Báo cáo | FR19.05 – Báo cáo tài xế | UC16 – Báo cáo | AC17 – Báo cáo |
+| BP10 – Quản lý vận hành | BR20 – Ghi nhận thao tác | FR20.01 – Ghi log | UC17 – Ghi nhận thao tác | AC18 – Ghi log |
+| BP10 – Quản lý vận hành | BR20 – Ghi nhận thao tác | FR20.02 – Tra cứu log | UC18 – Tra cứu log | AC18 – Ghi log |
+
+---
+
+# 14.4. Truy xuất từ yêu cầu đến kiểm thử
+
+Sau khi có RTM, mỗi yêu cầu cần được liên kết tiếp với Test Case.
+
+Luồng đầy đủ:
+
+```text
+BP
+ ↓
+BR
+ ↓
+FR
+ ↓
+UC
+ ↓
+AC
+ ↓
+Test Case
+ ↓
+Test Result
+ ↓
+Nghiệm thu
