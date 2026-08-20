@@ -859,3 +859,148 @@ flowchart TD
     R --> S[Lưu lịch sử]
     S --> Z
 ```
+
+
+Bước 7: Tiếp đến phân rã yêu cầu nghiệp vụ (FR) 
+
+# 7. Functional Requirements – Phân rã yêu cầu chức năng
+
+## 7.1. Khái niệm
+
+Functional Requirement (FR) là các yêu cầu mô tả những chức năng mà hệ thống CAB System phải thực hiện để đáp ứng các Business Requirement (BR).
+
+Business Requirement trả lời câu hỏi:
+
+> Doanh nghiệp yêu cầu hệ thống hỗ trợ nghiệp vụ gì?
+
+Functional Requirement trả lời câu hỏi:
+
+> Hệ thống phải thực hiện những gì để hỗ trợ nghiệp vụ đó?
+
+Các Functional Requirement được phân rã từ Business Requirement và được đánh mã theo dạng:
+
+- FR01.01
+- FR01.02
+- FR01.03
+- ...
+
+Trong đó:
+
+- FR01 là nhóm chức năng tương ứng với một Business Requirement.
+- .01, .02, .03... là các chức năng nhỏ được phân rã từ Business Requirement đó.
+
+---
+
+## 7.2. Nguyên tắc phân rã
+
+Mỗi Business Requirement có thể được phân rã thành một hoặc nhiều Functional Requirement.
+
+Ví dụ:
+
+**BR01 – Đặt chuyến xe**
+
+được phân rã thành:
+
+- FR01.01 – Nhập điểm đón.
+- FR01.02 – Nhập điểm đến.
+- FR01.03 – Lựa chọn loại xe.
+- FR01.04 – Gửi yêu cầu đặt xe.
+- FR01.05 – Kiểm tra thông tin đặt xe.
+- FR01.06 – Tạo chuyến đi.
+
+---
+
+# 7.3. Danh sách Functional Requirements
+
+| Mã FR | Mã BR | Tên Functional Requirement | Diễn giải |
+|---|---|---|---|
+| FR01.01 | BR01 | Nhập điểm đón | Hệ thống phải cho phép khách hàng nhập hoặc lựa chọn điểm đón. |
+| FR01.02 | BR01 | Nhập điểm đến | Hệ thống phải cho phép khách hàng nhập hoặc lựa chọn điểm đến. |
+| FR01.03 | BR01 | Lựa chọn loại xe | Hệ thống phải cho phép khách hàng lựa chọn loại xe/dịch vụ phù hợp. |
+| FR01.04 | BR01 | Gửi yêu cầu đặt xe | Hệ thống phải cho phép khách hàng gửi yêu cầu đặt xe sau khi nhập đầy đủ thông tin. |
+| FR01.05 | BR01 | Kiểm tra yêu cầu đặt xe | Hệ thống phải kiểm tra thông tin bắt buộc trước khi tạo chuyến. |
+| FR01.06 | BR01 | Tạo chuyến đi | Hệ thống phải tạo yêu cầu chuyến đi và lưu thông tin chuyến. |
+| FR02.01 | BR02 | Đăng ký khách hàng | Hệ thống phải cho phép khách hàng tạo tài khoản. |
+| FR02.02 | BR02 | Đăng nhập | Hệ thống phải cho phép khách hàng đăng nhập bằng thông tin xác thực hợp lệ. |
+| FR02.03 | BR02 | Cập nhật thông tin | Hệ thống phải cho phép khách hàng cập nhật thông tin cá nhân. |
+| FR03.01 | BR03 | Quản lý hồ sơ tài xế | Hệ thống phải cho phép quản lý thông tin hồ sơ tài xế. |
+| FR03.02 | BR03 | Cập nhật trạng thái tài xế | Hệ thống phải cho phép tài xế chuyển trạng thái sẵn sàng hoặc không sẵn sàng nhận chuyến. |
+| FR03.03 | BR03 | Quản lý tài khoản tài xế | Hệ thống phải hỗ trợ tạo, cập nhật và quản lý tài khoản tài xế. |
+| FR04.01 | BR04 | Quản lý phương tiện | Hệ thống phải cho phép lưu và cập nhật thông tin phương tiện. |
+| FR04.02 | BR04 | Gán phương tiện cho tài xế | Hệ thống phải cho phép quản lý phương tiện được sử dụng bởi tài xế. |
+| FR05.01 | BR05 | Tìm tài xế sẵn sàng | Hệ thống phải tìm các tài xế đang ở trạng thái sẵn sàng nhận chuyến. |
+| FR05.02 | BR05 | Kiểm tra vị trí tài xế | Hệ thống phải sử dụng thông tin vị trí để xác định tài xế phù hợp. |
+| FR05.03 | BR05 | Lọc tài xế phù hợp | Hệ thống phải lọc tài xế dựa trên loại dịch vụ và các tiêu chí vận hành. |
+| FR05.04 | BR05 | Ưu tiên tài xế | Hệ thống phải ưu tiên tài xế theo tiêu chí do doanh nghiệp xác nhận. |
+| FR06.01 | BR06 | Gửi yêu cầu nhận chuyến | Hệ thống phải gửi thông tin yêu cầu chuyến đến tài xế phù hợp. |
+| FR06.02 | BR06 | Tài xế chấp nhận chuyến | Hệ thống phải ghi nhận khi tài xế chấp nhận chuyến. |
+| FR06.03 | BR06 | Tài xế từ chối chuyến | Hệ thống phải ghi nhận khi tài xế từ chối chuyến. |
+| FR06.04 | BR06 | Xử lý tài xế không phản hồi | Hệ thống phải xử lý trường hợp tài xế không phản hồi trong thời gian quy định. |
+| FR06.05 | BR06 | Tìm tài xế tiếp theo | Hệ thống phải tiếp tục tìm tài xế khác khi tài xế được đề xuất từ chối hoặc không phản hồi. |
+| FR06.06 | BR06 | Thông báo không tìm được tài xế | Hệ thống phải thông báo cho khách hàng khi không tìm được tài xế phù hợp. |
+| FR07.01 | BR07 | Xem trạng thái chuyến | Hệ thống phải cho phép khách hàng xem trạng thái hiện tại của chuyến đi. |
+| FR07.02 | BR07 | Xem thông tin tài xế | Hệ thống phải cho phép khách hàng xem thông tin tài xế đã nhận chuyến. |
+| FR07.03 | BR07 | Theo dõi vị trí tài xế | Hệ thống phải hiển thị thông tin vị trí tài xế theo khả năng của dịch vụ vị trí được tích hợp. |
+| FR08.01 | BR08 | Cập nhật đã đến điểm đón | Tài xế phải có thể cập nhật trạng thái đã đến điểm đón. |
+| FR08.02 | BR08 | Cập nhật đã đón khách | Tài xế phải có thể cập nhật trạng thái đã đón khách. |
+| FR08.03 | BR08 | Cập nhật đang di chuyển | Tài xế phải có thể cập nhật trạng thái đang di chuyển. |
+| FR08.04 | BR08 | Cập nhật hoàn thành chuyến | Tài xế phải có thể cập nhật trạng thái hoàn thành chuyến. |
+| FR09.01 | BR09 | Ghi nhận vị trí tài xế | Hệ thống phải ghi nhận thông tin vị trí của tài xế khi tài xế đang hoạt động. |
+| FR09.02 | BR09 | Cập nhật vị trí | Hệ thống phải cập nhật vị trí tài xế theo cơ chế được xác định. |
+| FR10.01 | BR10 | Tính cước | Hệ thống phải tính số tiền khách hàng cần thanh toán sau khi chuyến hoàn thành. |
+| FR10.02 | BR10 | Xác định loại dịch vụ | Hệ thống phải sử dụng loại dịch vụ của chuyến để tính cước. |
+| FR10.03 | BR10 | Lưu thông tin cước | Hệ thống phải lưu số tiền và thông tin cước của chuyến. |
+| FR11.01 | BR11 | Chọn phương thức thanh toán | Hệ thống phải cho phép khách hàng lựa chọn phương thức thanh toán. |
+| FR11.02 | BR11 | Thanh toán tiền mặt | Hệ thống phải hỗ trợ phương thức thanh toán bằng tiền mặt. |
+| FR11.03 | BR11 | Thanh toán điện tử | Hệ thống phải hỗ trợ thanh toán điện tử thông qua nhà cung cấp bên ngoài. |
+| FR11.04 | BR11 | Nhận kết quả thanh toán | Hệ thống phải nhận và cập nhật kết quả từ nhà cung cấp thanh toán. |
+| FR12.01 | BR12 | Ghi nhận thanh toán thất bại | Hệ thống phải ghi nhận giao dịch thanh toán thất bại. |
+| FR12.02 | BR12 | Thông báo thanh toán thất bại | Hệ thống phải thông báo cho khách hàng khi thanh toán thất bại. |
+| FR12.03 | BR12 | Xử lý lại thanh toán | Hệ thống phải hỗ trợ xử lý lại thanh toán theo chính sách của doanh nghiệp. |
+| FR13.01 | BR13 | Thông báo tiếp nhận yêu cầu | Hệ thống phải thông báo khi yêu cầu đặt xe được tiếp nhận. |
+| FR13.02 | BR13 | Thông báo tài xế nhận chuyến | Hệ thống phải thông báo khi tài xế nhận chuyến. |
+| FR13.03 | BR13 | Thông báo tài xế đến | Hệ thống phải thông báo khi tài xế đến điểm đón. |
+| FR13.04 | BR13 | Thông báo hoàn thành chuyến | Hệ thống phải thông báo khi chuyến hoàn thành. |
+| FR13.05 | BR13 | Thông báo kết quả thanh toán | Hệ thống phải thông báo kết quả thanh toán cho khách hàng. |
+| FR14.01 | BR14 | Đánh giá tài xế | Hệ thống phải cho phép khách hàng đánh giá tài xế sau chuyến đi. |
+| FR14.02 | BR14 | Lưu đánh giá | Hệ thống phải lưu thông tin đánh giá của khách hàng. |
+| FR15.01 | BR15 | Quản lý khách hàng | Nhân viên vận hành phải có thể tra cứu và quản lý thông tin khách hàng theo quyền được cấp. |
+| FR15.02 | BR15 | Quản lý tài xế | Nhân viên vận hành phải có thể tra cứu và quản lý thông tin tài xế theo quyền được cấp. |
+| FR15.03 | BR15 | Quản lý phương tiện | Nhân viên vận hành phải có thể tra cứu và quản lý thông tin phương tiện. |
+| FR15.04 | BR15 | Theo dõi chuyến đang diễn ra | Nhân viên vận hành phải có thể xem các chuyến đang thực hiện. |
+| FR16.01 | BR16 | Xem chuyến có vấn đề | Nhân viên vận hành phải có thể xem thông tin các chuyến gặp sự cố. |
+| FR16.02 | BR16 | Hỗ trợ xử lý chuyến | Nhân viên vận hành phải có thể thực hiện các thao tác hỗ trợ theo quyền được cấp. |
+| FR17.01 | BR17 | Tra cứu giao dịch | Nhân viên được phân quyền phải có thể tra cứu lịch sử giao dịch. |
+| FR17.02 | BR17 | Xem trạng thái giao dịch | Hệ thống phải hiển thị trạng thái của giao dịch. |
+| FR18.01 | BR18 | Xác thực người dùng | Hệ thống phải xác thực người dùng trước khi cho phép truy cập chức năng yêu cầu tài khoản. |
+| FR18.02 | BR18 | Phân quyền | Hệ thống phải kiểm soát quyền truy cập dựa trên vai trò. |
+| FR18.03 | BR18 | Kiểm soát thao tác quản trị | Hệ thống phải hạn chế các thao tác nhạy cảm đối với người dùng không có quyền. |
+| FR19.01 | BR19 | Báo cáo số lượng chuyến | Hệ thống phải cung cấp báo cáo về số lượng chuyến. |
+| FR19.02 | BR19 | Báo cáo doanh thu | Hệ thống phải cung cấp báo cáo doanh thu. |
+| FR19.03 | BR19 | Báo cáo tỷ lệ hoàn thành | Hệ thống phải cung cấp tỷ lệ chuyến hoàn thành. |
+| FR19.04 | BR19 | Báo cáo tỷ lệ hủy | Hệ thống phải cung cấp tỷ lệ chuyến bị hủy. |
+| FR19.05 | BR19 | Báo cáo hiệu quả tài xế | Hệ thống phải cung cấp thông tin phục vụ đánh giá hiệu quả tài xế. |
+| FR20.01 | BR20 | Ghi log thao tác | Hệ thống phải ghi nhận các thao tác quan trọng. |
+| FR20.02 | BR20 | Tra cứu log | Người dùng có quyền phải có thể tra cứu lịch sử thao tác phục vụ kiểm tra sự cố. |
+
+---
+
+# 7.4. Phân rã một số Business Requirement quan trọng
+
+## BR01 – Đặt chuyến xe
+
+Business Requirement:
+
+> Hệ thống phải cho phép khách hàng tạo yêu cầu đặt xe.
+
+Được phân rã thành:
+
+```text
+BR01 – Đặt chuyến xe
+        │
+        ├── FR01.01 – Nhập điểm đón
+        ├── FR01.02 – Nhập điểm đến
+        ├── FR01.03 – Lựa chọn loại xe
+        ├── FR01.04 – Gửi yêu cầu đặt xe
+        ├── FR01.05 – Kiểm tra yêu cầu
+        └── FR01.06 – Tạo chuyến đi
