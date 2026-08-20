@@ -1007,238 +1007,149 @@ BR01 – Đặt chuyến xe
 
 
 
-Bước 8: Những Bussiness rule và những accession
-# 8. Business Rules và Exceptional Cases
+Bước 8: Những Bussiness rule và những exception
+# 8. Business Rules và Business Exceptions
 
 ## 8.1. Business Rules – Quy tắc nghiệp vụ
 
-Business Rule là các quy tắc mà hệ thống CAB phải tuân theo trong quá trình xử lý nghiệp vụ.
-
-Các quy tắc này giúp đảm bảo hệ thống hoạt động đúng với chính sách của doanh nghiệp.
+Business Rule là những quy tắc mà hệ thống CAB phải tuân theo trong quá trình thực hiện nghiệp vụ.
 
 | Mã | Business Rule | Diễn giải |
 |---|---|---|
 | BRULE01 | Khách hàng phải đăng nhập | Khách hàng phải đăng nhập trước khi đặt chuyến. |
-| BRULE02 | Tài xế phải ở trạng thái sẵn sàng | Chỉ tài xế đang sẵn sàng mới được hệ thống xem xét để nhận chuyến. |
-| BRULE03 | Tài xế phải có phương tiện hợp lệ | Tài xế chỉ được nhận chuyến khi có phương tiện hợp lệ được quản lý trong hệ thống. |
+| BRULE02 | Tài xế phải sẵn sàng | Chỉ tài xế có trạng thái sẵn sàng mới được hệ thống tìm và phân công chuyến. |
+| BRULE03 | Tài xế phải có phương tiện hợp lệ | Tài xế phải có phương tiện hợp lệ trước khi nhận chuyến. |
 | BRULE04 | Một chuyến chỉ có một tài xế | Một chuyến chỉ được phân công cho một tài xế tại một thời điểm. |
-| BRULE05 | Tài xế có quyền chấp nhận hoặc từ chối | Tài xế có thể chấp nhận hoặc từ chối yêu cầu chuyến. |
+| BRULE05 | Tài xế được chấp nhận hoặc từ chối | Tài xế có thể chấp nhận hoặc từ chối yêu cầu chuyến. |
 | BRULE06 | Tự động tìm tài xế khác | Nếu tài xế từ chối hoặc không phản hồi, hệ thống tiếp tục tìm tài xế khác. |
-| BRULE07 | Không tìm được tài xế | Nếu không có tài xế phù hợp, hệ thống phải thông báo cho khách hàng. |
+| BRULE07 | Thông báo khi không tìm được tài xế | Nếu không tìm được tài xế phù hợp, hệ thống phải thông báo cho khách hàng. |
 | BRULE08 | Cập nhật trạng thái chuyến | Tài xế phải cập nhật trạng thái trong quá trình thực hiện chuyến. |
-| BRULE09 | Chỉ tính cước sau khi hoàn thành | Hệ thống xác định cước cuối cùng khi chuyến được hoàn thành. |
-| BRULE10 | Hỗ trợ nhiều phương thức thanh toán | Khách hàng có thể thanh toán bằng tiền mặt hoặc thanh toán điện tử. |
-| BRULE11 | Không lưu thông tin nhạy cảm của thanh toán | Hệ thống CAB không lưu trực tiếp thông tin nhạy cảm của thẻ hoặc tài khoản thanh toán. |
-| BRULE12 | Thanh toán điện tử thông qua nhà cung cấp | Thanh toán điện tử được xử lý thông qua nhà cung cấp thanh toán bên ngoài. |
-| BRULE13 | Thanh toán thất bại phải được thông báo | Khi thanh toán điện tử thất bại, khách hàng phải được thông báo. |
-| BRULE14 | Có thể xử lý lại thanh toán | Khách hàng có thể thực hiện lại thanh toán theo chính sách của doanh nghiệp. |
-| BRULE15 | Chỉ đánh giá sau chuyến | Khách hàng chỉ được đánh giá tài xế sau khi chuyến hoàn thành. |
-| BRULE16 | Phân quyền người dùng | Người dùng chỉ được thực hiện các chức năng phù hợp với vai trò của mình. |
-| BRULE17 | Thao tác quản trị phải có quyền | Các thao tác quản trị quan trọng chỉ được thực hiện bởi người có quyền. |
-| BRULE18 | Ghi nhận thao tác quan trọng | Các thao tác quan trọng phải được ghi nhận để phục vụ kiểm tra khi có sự cố. |
-| BRULE19 | Dữ liệu chuyến phải được lưu | Thông tin chuyến đi phải được lưu để phục vụ tra cứu và báo cáo. |
-| BRULE20 | Dữ liệu giao dịch phải được lưu | Thông tin giao dịch phải được lưu để phục vụ tra cứu. |
+| BRULE09 | Tính cước khi hoàn thành | Hệ thống tính cước sau khi chuyến được hoàn thành. |
+| BRULE10 | Có nhiều phương thức thanh toán | Khách hàng có thể thanh toán bằng tiền mặt hoặc thanh toán điện tử. |
+| BRULE11 | Không lưu thông tin thanh toán nhạy cảm | CAB không lưu trực tiếp thông tin nhạy cảm của thẻ hoặc tài khoản thanh toán. |
+| BRULE12 | Chỉ được đánh giá sau chuyến | Khách hàng chỉ được đánh giá tài xế sau khi chuyến hoàn thành. |
+| BRULE13 | Phân quyền theo vai trò | Người dùng chỉ được sử dụng chức năng phù hợp với quyền của mình. |
+| BRULE14 | Ghi nhận thao tác quan trọng | Các thao tác quan trọng phải được ghi nhận để phục vụ kiểm tra. |
 
 ---
 
-## 8.2. Một số Business Rule chưa được xác định
+## 8.2. Business Exceptions – Trường hợp ngoại lệ
 
-Một số quy tắc chưa có thông tin cụ thể từ khách hàng.
+Business Exception là những trường hợp xảy ra ngoài quy trình bình thường và hệ thống cần có cách xử lý.
 
-Các quy tắc này cần được xác nhận trước khi phát triển chính thức.
-
-| Mã | Nội dung cần xác nhận |
-|---|---|
-| BRULE21 | Khoảng cách tối đa để tìm tài xế. |
-| BRULE22 | Tiêu chí ưu tiên tài xế. |
-| BRULE23 | Thời gian tài xế phải phản hồi yêu cầu chuyến. |
-| BRULE24 | Số lần hệ thống được phép tìm tài xế khác. |
-| BRULE25 | Công thức tính cước cụ thể. |
-| BRULE26 | Chính sách hủy chuyến của khách hàng. |
-| BRULE27 | Chính sách hủy chuyến của tài xế. |
-| BRULE28 | Số lần khách hàng được phép thử lại thanh toán. |
-| BRULE29 | Thời gian lưu trữ dữ liệu. |
-| BRULE30 | Tần suất cập nhật vị trí tài xế. |
+| Mã | Business Exception | Cách xử lý |
+|---|---|---|
+| EX01 | Không tìm được tài xế | Hệ thống thông báo cho khách hàng và kết thúc yêu cầu tìm tài xế. |
+| EX02 | Tài xế từ chối chuyến | Hệ thống tiếp tục tìm tài xế khác. |
+| EX03 | Tài xế không phản hồi | Sau thời gian chờ, hệ thống bỏ qua tài xế và tìm tài xế khác. |
+| EX04 | Thanh toán thất bại | Hệ thống thông báo cho khách hàng và cho phép thanh toán lại theo chính sách. |
+| EX05 | Khách hàng mất kết nối | Hệ thống lưu trạng thái chuyến và đồng bộ lại khi khách hàng kết nối lại. |
+| EX06 | Tài xế mất kết nối | Hệ thống giữ trạng thái gần nhất và cho phép đồng bộ lại khi tài xế kết nối. |
+| EX07 | Khách hàng hủy chuyến | Hệ thống kiểm tra chính sách hủy và cập nhật trạng thái nếu được phép. |
+| EX08 | Tài xế hủy chuyến | Hệ thống ghi nhận việc hủy và có thể tìm tài xế khác nếu chính sách cho phép. |
+| EX09 | Hai tài xế cùng nhận chuyến | Hệ thống chỉ xác nhận một tài xế đầu tiên hợp lệ và từ chối các yêu cầu còn lại. |
+| EX10 | Không thể cập nhật vị trí | Hệ thống sử dụng vị trí gần nhất và thông báo cho bộ phận vận hành nếu cần. |
 
 ---
 
-# 8.3. Exceptional Cases – Các trường hợp ngoại lệ
-
-Exceptional Case là những trường hợp xảy ra ngoài quy trình bình thường và hệ thống cần có cách xử lý.
-
-## EC01 – Không tìm được tài xế
-
-**Điều kiện:**
-
-Không có tài xế phù hợp hoặc tất cả tài xế được đề xuất đều từ chối.
-
-**Xử lý:**
-
-1. Hệ thống dừng quá trình tìm tài xế.
-2. Hệ thống cập nhật trạng thái chuyến.
-3. Hệ thống thông báo cho khách hàng.
-4. Khách hàng có thể tạo yêu cầu mới.
-
----
-
-## EC02 – Tài xế từ chối chuyến
-
-**Điều kiện:**
-
-Tài xế nhận được yêu cầu nhưng từ chối.
-
-**Xử lý:**
-
-1. Hệ thống ghi nhận tài xế từ chối.
-2. Hệ thống không phân công chuyến cho tài xế đó.
-3. Hệ thống tiếp tục tìm tài xế khác.
-4. Nếu không còn tài xế phù hợp thì thông báo cho khách hàng.
-
----
-
-## EC03 – Tài xế không phản hồi
-
-**Điều kiện:**
-
-Tài xế được gửi yêu cầu nhưng không phản hồi trong thời gian quy định.
-
-**Xử lý:**
-
-1. Hệ thống xác định yêu cầu đã hết thời gian chờ.
-2. Hệ thống bỏ qua tài xế đó.
-3. Hệ thống tiếp tục tìm tài xế khác.
-
-> Thời gian chờ cụ thể cần được khách hàng xác nhận.
-
----
-
-## EC04 – Thanh toán điện tử thất bại
-
-**Điều kiện:**
-
-Nhà cung cấp thanh toán trả về kết quả giao dịch thất bại.
-
-**Xử lý:**
-
-1. Hệ thống ghi nhận giao dịch thất bại.
-2. Hệ thống thông báo cho khách hàng.
-3. Hệ thống không ghi nhận giao dịch là thanh toán thành công.
-4. Khách hàng có thể thử lại theo chính sách.
-
----
-
-## EC05 – Mất kết nối mạng của khách hàng
-
-**Điều kiện:**
-
-Khách hàng mất kết nối trong quá trình sử dụng hệ thống.
-
-**Xử lý:**
-
-1. Hệ thống vẫn lưu trạng thái đã xử lý thành công trước khi mất kết nối.
-2. Khi kết nối lại, ứng dụng lấy lại trạng thái chuyến.
-3. Khách hàng tiếp tục theo dõi chuyến.
-
----
-
-## EC06 – Mất kết nối của tài xế
-
-**Điều kiện:**
-
-Tài xế mất kết nối trong quá trình thực hiện chuyến.
-
-**Xử lý:**
-
-1. Hệ thống giữ lại trạng thái chuyến gần nhất.
-2. Hệ thống không tự động thay đổi trạng thái nếu chưa có thông tin xác nhận.
-3. Khi tài xế kết nối lại, hệ thống đồng bộ thông tin.
-4. Nhân viên vận hành có thể kiểm tra và hỗ trợ nếu cần.
-
----
-
-## EC07 – Tài xế không cập nhật trạng thái
-
-**Điều kiện:**
-
-Tài xế không cập nhật trạng thái chuyến theo quy trình.
-
-**Xử lý:**
-
-1. Hệ thống ghi nhận trạng thái hiện tại.
-2. Hệ thống có thể cảnh báo cho nhân viên vận hành.
-3. Nhân viên vận hành kiểm tra và hỗ trợ nếu cần.
-
----
-
-## EC08 – Khách hàng hủy chuyến
-
-**Điều kiện:**
-
-Khách hàng yêu cầu hủy chuyến.
-
-**Xử lý:**
-
-1. Hệ thống kiểm tra trạng thái chuyến.
-2. Hệ thống kiểm tra chính sách hủy chuyến.
-3. Nếu được phép, hệ thống cập nhật chuyến thành hủy.
-4. Hệ thống thông báo cho tài xế.
-5. Nếu có phí hủy, hệ thống xử lý theo chính sách.
-
-> Chính sách và phí hủy chuyến cần được khách hàng xác nhận.
-
----
-
-## EC09 – Tài xế hủy chuyến
-
-**Điều kiện:**
-
-Tài xế yêu cầu hủy chuyến.
-
-**Xử lý:**
-
-1. Hệ thống kiểm tra trạng thái chuyến.
-2. Hệ thống ghi nhận việc hủy.
-3. Hệ thống thông báo cho khách hàng.
-4. Hệ thống có thể tìm tài xế khác nếu chính sách cho phép.
-
----
-
-## EC10 – Hai tài xế cùng nhận một chuyến
-
-**Điều kiện:**
-
-Có khả năng nhiều tài xế phản hồi gần như cùng lúc.
-
-**Xử lý:**
-
-1. Hệ thống phải kiểm tra trạng thái chuyến.
-2. Chỉ một tài xế đầu tiên được hệ thống xác nhận thành công.
-3. Các yêu cầu nhận chuyến khác phải được từ chối.
-4. Hệ thống thông báo kết quả cho các bên liên quan.
-
----
-
-# 8.4. Quy trình xử lý ngoại lệ tổng quát
+## 8.3. Quy trình Business Rule và Exception
 
 ```mermaid
 flowchart TD
-    A[Phát sinh ngoại lệ] --> B{Loại ngoại lệ?}
+    A[Khách hàng đặt chuyến] --> B[Tìm tài xế]
 
-    B -->|Không tìm được tài xế| C[Thông báo khách hàng]
-    B -->|Tài xế từ chối| D[Tìm tài xế khác]
-    B -->|Không phản hồi| D
-    B -->|Thanh toán thất bại| E[Thông báo thanh toán thất bại]
-    B -->|Mất kết nối| F[Giữ trạng thái và đồng bộ lại]
-    B -->|Hủy chuyến| G[Kiểm tra chính sách hủy]
+    B --> C{Có tài xế phù hợp?}
 
-    D --> H{Có tài xế khác?}
-    H -->|Có| I[Gửi yêu cầu mới]
-    H -->|Không| C
+    C -- Có --> D[Gửi yêu cầu cho tài xế]
+    C -- Không --> E[EX01: Không tìm được tài xế]
 
-    E --> J[Cho phép xử lý lại theo chính sách]
+    D --> F{Tài xế phản hồi?}
 
-    F --> K[Tiếp tục xử lý khi kết nối lại]
+    F -- Không --> G[EX03: Không phản hồi]
+    G --> B
 
-    G --> L{Được phép hủy?}
-    L -->|Có| M[Cập nhật chuyến thành hủy]
-    L -->|Không| N[Thông báo không thể hủy]
+    F -- Có --> H{Chấp nhận?}
+
+    H -- Không --> I[EX02: Từ chối chuyến]
+    I --> B
+
+    H -- Có --> J[Phân công tài xế]
+    J --> K[Thực hiện chuyến]
+    K --> L[Hoàn thành chuyến]
+    L --> M[Tính cước]
+    M --> N[Thanh toán]
+
+    N --> O{Thanh toán thành công?}
+
+    O -- Có --> P[Hoàn tất]
+    O -- Không --> Q[EX04: Thanh toán thất bại]
+    Q --> R[Thanh toán lại theo chính sách]
+```
+
+Bước 9: Xây dựng các data model
+# 9. Data Model – Mô hình dữ liệu
+
+## 9.1. Mục đích
+
+Data Model mô tả các dữ liệu chính mà hệ thống CAB System cần quản lý và mối quan hệ giữa các dữ liệu.
+
+Ở mức cơ bản, hệ thống cần quản lý:
+
+- Khách hàng.
+- Tài xế.
+- Phương tiện.
+- Chuyến đi.
+- Thanh toán.
+- Đánh giá.
+- Thông báo.
+
+---
+
+## 9.2. Các đối tượng dữ liệu chính
+
+| Mã | Đối tượng | Mô tả |
+|---|---|---|
+| DM01 | Customer | Lưu thông tin khách hàng. |
+| DM02 | Driver | Lưu thông tin tài xế. |
+| DM03 | Vehicle | Lưu thông tin phương tiện. |
+| DM04 | Trip | Lưu thông tin chuyến đi. |
+| DM05 | Payment | Lưu thông tin thanh toán. |
+| DM06 | Rating | Lưu đánh giá của khách hàng đối với tài xế. |
+| DM07 | Notification | Lưu thông tin thông báo. |
+| DM08 | UserAccount | Quản lý tài khoản đăng nhập và vai trò người dùng. |
+
+---
+
+# 9.3. Thuộc tính chính của các đối tượng
+
+## 9.3.1. Customer – Khách hàng
+
+| Thuộc tính | Ý nghĩa |
+|---|---|
+| customer_id | Mã khách hàng |
+| full_name | Họ tên |
+| phone | Số điện thoại |
+| email | Email |
+| address | Địa chỉ |
+| status | Trạng thái tài khoản |
+
+---
+
+## 9.3.2. Driver – Tài xế
+
+| Thuộc tính | Ý nghĩa |
+|---|---|
+| driver_id | Mã tài xế |
+| full_name | Họ tên |
+| phone | Số điện thoại |
+| license_number | Số giấy phép lái xe |
+| status | Trạng thái tài xế |
+| current_location | Vị trí hiện tại |
+
+Ví dụ trạng thái:
+
+```text
+AVAILABLE     – Sẵn sàng
+BUSY          – Đang có chuyến
+OFFLINE       – Không hoạt động
+```
