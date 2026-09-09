@@ -1,0 +1,365 @@
+openapi: 3.0.3
+info:
+  title: CAB System - Payment API
+  version: 1.0.0
+  description: API tính cước, thanh toán tiền mặt, thanh toán điện tử và xử lý lỗi thanh toán.
+servers:
+- url: http://localhost:3000/api
+  description: Local development server
+tags:
+- name: Payment
+  description: API tính cước, thanh toán tiền mặt, thanh toán điện tử và xử lý lỗi thanh toán.
+x-functional-requirements:
+- id: FR10.01
+  business_requirement: BR10
+  name: Tính cước
+  description: Tính số tiền cần thanh toán.
+  api:
+    method: POST
+    path: /trips/{tripId}/fare/calculate
+- id: FR10.02
+  business_requirement: BR10
+  name: Xác định dịch vụ
+  description: Xác định loại dịch vụ của chuyến.
+  api:
+    method: POST
+    path: /trips/{tripId}/fare/calculate
+- id: FR10.03
+  business_requirement: BR10
+  name: Lưu cước
+  description: Lưu thông tin cước.
+  api:
+    method: POST
+    path: /trips/{tripId}/fare/calculate
+- id: FR11.01
+  business_requirement: BR11
+  name: Chọn phương thức
+  description: Chọn phương thức thanh toán.
+  api:
+    method: PATCH
+    path: /payments/{paymentId}/method
+- id: FR11.02
+  business_requirement: BR11
+  name: Tiền mặt
+  description: Hỗ trợ thanh toán tiền mặt.
+  api:
+    method: POST
+    path: /payments/cash
+- id: FR11.03
+  business_requirement: BR11
+  name: Thanh toán điện tử
+  description: Hỗ trợ thanh toán điện tử.
+  api:
+    method: POST
+    path: /payments/electronic
+- id: FR11.04
+  business_requirement: BR11
+  name: Nhận kết quả
+  description: Nhận kết quả giao dịch.
+  api:
+    method: GET
+    path: /payments/{paymentId}
+- id: FR12.01
+  business_requirement: BR12
+  name: Ghi nhận lỗi
+  description: Ghi nhận giao dịch lỗi.
+  api:
+    method: PATCH
+    path: /payments/{paymentId}/failed
+- id: FR12.02
+  business_requirement: BR12
+  name: Thông báo lỗi
+  description: Thông báo khách hàng.
+  api:
+    method: PATCH
+    path: /payments/{paymentId}/failed
+- id: FR12.03
+  business_requirement: BR12
+  name: Thanh toán lại
+  description: Cho phép xử lý lại theo chính sách.
+  api:
+    method: POST
+    path: /payments/{paymentId}/retry
+paths:
+  /trips/{tripId}/fare/calculate:
+    post:
+      tags:
+      - Payment
+      summary: Tính và lưu cước chuyến
+      x-fr-ids:
+      - FR10.01
+      - FR10.02
+      - FR10.03
+      responses:
+        '200':
+          description: Thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '400':
+          description: Yêu cầu không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: tripId
+        in: path
+        required: true
+        description: Mã chuyến
+        schema:
+          type: string
+  /payments/{paymentId}/method:
+    patch:
+      tags:
+      - Payment
+      summary: Chọn phương thức thanh toán
+      x-fr-ids:
+      - FR11.01
+      responses:
+        '200':
+          description: Thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '400':
+          description: Yêu cầu không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: paymentId
+        in: path
+        required: true
+        description: Mã thanh toán
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentMethodRequest'
+  /payments/cash:
+    post:
+      tags:
+      - Payment
+      summary: Ghi nhận thanh toán tiền mặt
+      x-fr-ids:
+      - FR11.02
+      responses:
+        '200':
+          description: Thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '400':
+          description: Yêu cầu không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CashPaymentRequest'
+  /payments/electronic:
+    post:
+      tags:
+      - Payment
+      summary: Khởi tạo thanh toán điện tử
+      x-fr-ids:
+      - FR11.03
+      responses:
+        '200':
+          description: Thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '400':
+          description: Yêu cầu không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ElectronicPaymentRequest'
+  /payments/{paymentId}:
+    get:
+      tags:
+      - Payment
+      summary: Nhận/xem kết quả giao dịch
+      x-fr-ids:
+      - FR11.04
+      responses:
+        '200':
+          description: Thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '400':
+          description: Yêu cầu không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: paymentId
+        in: path
+        required: true
+        description: Mã thanh toán
+        schema:
+          type: string
+  /payments/{paymentId}/failed:
+    patch:
+      tags:
+      - Payment
+      summary: Ghi nhận và thông báo thanh toán thất bại
+      x-fr-ids:
+      - FR12.01
+      - FR12.02
+      responses:
+        '200':
+          description: Thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '400':
+          description: Yêu cầu không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: paymentId
+        in: path
+        required: true
+        description: Mã thanh toán
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentFailRequest'
+  /payments/{paymentId}/retry:
+    post:
+      tags:
+      - Payment
+      summary: Thử lại thanh toán
+      x-fr-ids:
+      - FR12.03
+      responses:
+        '200':
+          description: Thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '400':
+          description: Yêu cầu không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: paymentId
+        in: path
+        required: true
+        description: Mã thanh toán
+        schema:
+          type: string
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    MessageResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: Thao tác thành công
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+          example: Dữ liệu không hợp lệ
+    PaymentMethodRequest:
+      type: object
+      required:
+      - method
+      properties:
+        method:
+          type: string
+          enum:
+          - CASH
+          - ELECTRONIC
+    CashPaymentRequest:
+      type: object
+      required:
+      - tripId
+      - amount
+      properties:
+        tripId:
+          type: string
+        amount:
+          type: number
+          format: double
+    ElectronicPaymentRequest:
+      type: object
+      required:
+      - tripId
+      - amount
+      properties:
+        tripId:
+          type: string
+        amount:
+          type: number
+          format: double
+        provider:
+          type: string
+          example: PAYMENT_PROVIDER
+    PaymentFailRequest:
+      type: object
+      properties:
+        reason:
+          type: string
+          example: Provider rejected transaction
