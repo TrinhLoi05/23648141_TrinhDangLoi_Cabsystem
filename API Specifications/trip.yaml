@@ -1,0 +1,522 @@
+openapi: 3.0.3
+info:
+  title: CAB System - Trip API
+  version: 1.0.0
+  description: API tìm tài xế, phân công, theo dõi, cập nhật trạng thái chuyến và vị trí tài xế.
+servers:
+- url: http://localhost:3000/api
+  description: Local development server
+tags:
+- name: Trip
+  description: API tìm tài xế, phân công, theo dõi, cập nhật trạng thái chuyến và vị trí tài xế.
+x-functional-requirements:
+- id: FR05.01
+  business_requirement: BR05
+  name: Tìm tài xế sẵn sàng
+  description: Tìm tài xế đang sẵn sàng.
+  api:
+    method: POST
+    path: /trips/{tripId}/matching
+- id: FR05.02
+  business_requirement: BR05
+  name: Kiểm tra vị trí
+  description: Kiểm tra vị trí tài xế.
+  api:
+    method: POST
+    path: /trips/{tripId}/matching
+- id: FR05.03
+  business_requirement: BR05
+  name: Lọc tài xế
+  description: Lọc tài xế phù hợp.
+  api:
+    method: POST
+    path: /trips/{tripId}/matching
+- id: FR05.04
+  business_requirement: BR05
+  name: Ưu tiên tài xế
+  description: Ưu tiên theo tiêu chí được xác nhận.
+  api:
+    method: POST
+    path: /trips/{tripId}/matching
+- id: FR06.01
+  business_requirement: BR06
+  name: Gửi yêu cầu
+  description: Gửi yêu cầu chuyến.
+  api:
+    method: POST
+    path: /trips/{tripId}/driver-offer
+- id: FR06.02
+  business_requirement: BR06
+  name: Chấp nhận
+  description: Ghi nhận tài xế chấp nhận.
+  api:
+    method: POST
+    path: /trips/{tripId}/accept
+- id: FR06.03
+  business_requirement: BR06
+  name: Từ chối
+  description: Ghi nhận tài xế từ chối.
+  api:
+    method: POST
+    path: /trips/{tripId}/reject
+- id: FR06.04
+  business_requirement: BR06
+  name: Không phản hồi
+  description: Xử lý khi tài xế không phản hồi.
+  api:
+    method: POST
+    path: /trips/{tripId}/matching/retry
+- id: FR06.05
+  business_requirement: BR06
+  name: Tìm tài xế khác
+  description: Tiếp tục tìm tài xế khác.
+  api:
+    method: POST
+    path: /trips/{tripId}/matching/retry
+- id: FR06.06
+  business_requirement: BR06
+  name: Thông báo thất bại
+  description: Thông báo không tìm được tài xế.
+  api:
+    method: POST
+    path: /trips/{tripId}/matching/fail
+- id: FR07.01
+  business_requirement: BR07
+  name: Xem trạng thái
+  description: Xem trạng thái chuyến.
+  api:
+    method: GET
+    path: /trips/{tripId}
+- id: FR07.02
+  business_requirement: BR07
+  name: Xem tài xế
+  description: Xem thông tin tài xế.
+  api:
+    method: GET
+    path: /trips/{tripId}
+- id: FR07.03
+  business_requirement: BR07
+  name: Theo dõi vị trí
+  description: Theo dõi vị trí tài xế.
+  api:
+    method: GET
+    path: /trips/{tripId}/tracking
+- id: FR08.01
+  business_requirement: BR08
+  name: Đã đến
+  description: Tài xế cập nhật đã đến.
+  api:
+    method: PATCH
+    path: /trips/{tripId}/status
+- id: FR08.02
+  business_requirement: BR08
+  name: Đã đón khách
+  description: Tài xế cập nhật đã đón khách.
+  api:
+    method: PATCH
+    path: /trips/{tripId}/status
+- id: FR08.03
+  business_requirement: BR08
+  name: Đang di chuyển
+  description: Tài xế cập nhật đang di chuyển.
+  api:
+    method: PATCH
+    path: /trips/{tripId}/status
+- id: FR08.04
+  business_requirement: BR08
+  name: Hoàn thành
+  description: Tài xế hoàn thành chuyến.
+  api:
+    method: PATCH
+    path: /trips/{tripId}/status
+- id: FR09.01
+  business_requirement: BR09
+  name: Ghi nhận vị trí
+  description: Ghi nhận vị trí tài xế.
+  api:
+    method: POST
+    path: /drivers/{driverId}/locations
+- id: FR09.02
+  business_requirement: BR09
+  name: Cập nhật vị trí
+  description: Cập nhật vị trí mới.
+  api:
+    method: POST
+    path: /drivers/{driverId}/locations
+paths:
+  /trips/{tripId}/matching:
+    post:
+      tags:
+      - Trip
+      summary: Tìm, lọc và ưu tiên tài xế phù hợp
+      x-fr-ids:
+      - FR05.01
+      - FR05.02
+      - FR05.03
+      - FR05.04
+      responses:
+        '200':
+          description: Thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '400':
+          description: Yêu cầu không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: tripId
+        in: path
+        required: true
+        description: Mã chuyến
+        schema:
+          type: string
+  /trips/{tripId}/driver-offer:
+    post:
+      tags:
+      - Trip
+      summary: Gửi yêu cầu chuyến tới tài xế
+      x-fr-ids:
+      - FR06.01
+      responses:
+        '200':
+          description: Thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '400':
+          description: Yêu cầu không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: tripId
+        in: path
+        required: true
+        description: Mã chuyến
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DriverOfferRequest'
+  /trips/{tripId}/accept:
+    post:
+      tags:
+      - Trip
+      summary: Tài xế chấp nhận chuyến
+      x-fr-ids:
+      - FR06.02
+      responses:
+        '200':
+          description: Thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '400':
+          description: Yêu cầu không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: tripId
+        in: path
+        required: true
+        description: Mã chuyến
+        schema:
+          type: string
+  /trips/{tripId}/reject:
+    post:
+      tags:
+      - Trip
+      summary: Tài xế từ chối chuyến
+      x-fr-ids:
+      - FR06.03
+      responses:
+        '200':
+          description: Thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '400':
+          description: Yêu cầu không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: tripId
+        in: path
+        required: true
+        description: Mã chuyến
+        schema:
+          type: string
+  /trips/{tripId}/matching/retry:
+    post:
+      tags:
+      - Trip
+      summary: Xử lý không phản hồi và tìm tài xế khác
+      x-fr-ids:
+      - FR06.04
+      - FR06.05
+      responses:
+        '200':
+          description: Thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '400':
+          description: Yêu cầu không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: tripId
+        in: path
+        required: true
+        description: Mã chuyến
+        schema:
+          type: string
+  /trips/{tripId}/matching/fail:
+    post:
+      tags:
+      - Trip
+      summary: Ghi nhận không tìm được tài xế
+      x-fr-ids:
+      - FR06.06
+      responses:
+        '200':
+          description: Thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '400':
+          description: Yêu cầu không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: tripId
+        in: path
+        required: true
+        description: Mã chuyến
+        schema:
+          type: string
+  /trips/{tripId}:
+    get:
+      tags:
+      - Trip
+      summary: Xem trạng thái chuyến và tài xế
+      x-fr-ids:
+      - FR07.01
+      - FR07.02
+      responses:
+        '200':
+          description: Thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '400':
+          description: Yêu cầu không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: tripId
+        in: path
+        required: true
+        description: Mã chuyến
+        schema:
+          type: string
+  /trips/{tripId}/tracking:
+    get:
+      tags:
+      - Trip
+      summary: Theo dõi vị trí tài xế
+      x-fr-ids:
+      - FR07.03
+      responses:
+        '200':
+          description: Thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '400':
+          description: Yêu cầu không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: tripId
+        in: path
+        required: true
+        description: Mã chuyến
+        schema:
+          type: string
+  /trips/{tripId}/status:
+    patch:
+      tags:
+      - Trip
+      summary: Cập nhật trạng thái chuyến
+      x-fr-ids:
+      - FR08.01
+      - FR08.02
+      - FR08.03
+      - FR08.04
+      responses:
+        '200':
+          description: Thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '400':
+          description: Yêu cầu không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: tripId
+        in: path
+        required: true
+        description: Mã chuyến
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TripStatusRequest'
+  /drivers/{driverId}/locations:
+    post:
+      tags:
+      - Trip
+      summary: Ghi nhận và cập nhật vị trí tài xế
+      x-fr-ids:
+      - FR09.01
+      - FR09.02
+      responses:
+        '200':
+          description: Thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '400':
+          description: Yêu cầu không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: driverId
+        in: path
+        required: true
+        description: Mã tài xế
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LocationRequest'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    MessageResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: Thao tác thành công
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+          example: Dữ liệu không hợp lệ
+    DriverOfferRequest:
+      type: object
+      required:
+      - driverId
+      properties:
+        driverId:
+          type: string
+          example: DRV001
+    TripStatusRequest:
+      type: object
+      required:
+      - status
+      properties:
+        status:
+          type: string
+          enum:
+          - DRIVER_ARRIVED
+          - PASSENGER_PICKED_UP
+          - IN_PROGRESS
+          - COMPLETED
+    LocationRequest:
+      type: object
+      required:
+      - latitude
+      - longitude
+      properties:
+        latitude:
+          type: number
+          format: double
+          example: 10.8223
+        longitude:
+          type: number
+          format: double
+          example: 106.6872
