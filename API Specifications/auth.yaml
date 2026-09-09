@@ -1,0 +1,544 @@
+openapi: 3.0.3
+
+info:
+  title: CAB System - Authentication API
+  version: 1.0.0
+  description: >
+    API phục vụ các chức năng xác thực và quản lý thông tin
+    khách hàng của CAB System.
+
+servers:
+  - url: http://localhost:3000/api
+    description: Local development server
+
+tags:
+  - name: Auth
+    description: Đăng ký và đăng nhập
+
+  - name: Customer
+    description: Quản lý thông tin khách hàng
+
+# =========================================================
+# FUNCTIONAL REQUIREMENTS
+# =========================================================
+
+x-functional-requirements:
+
+  - id: FR02.01
+    business_requirement: BR02
+    name: Đăng ký
+    description: Khách hàng có thể tạo tài khoản.
+    api:
+      method: POST
+      path: /auth/register
+
+  - id: FR02.02
+    business_requirement: BR02
+    name: Đăng nhập
+    description: Khách hàng có thể đăng nhập vào hệ thống.
+    api:
+      method: POST
+      path: /auth/login
+
+  - id: FR02.03
+    business_requirement: BR02
+    name: Cập nhật thông tin
+    description: Khách hàng có thể cập nhật thông tin cá nhân.
+    api:
+      method: PATCH
+      path: /customers/{customerId}
+
+
+# =========================================================
+# API PATHS
+# =========================================================
+
+paths:
+
+  # -------------------------------------------------------
+  # FR02.01 - ĐĂNG KÝ
+  # -------------------------------------------------------
+
+  /auth/register:
+    post:
+      tags:
+        - Auth
+
+      summary: Đăng ký tài khoản khách hàng
+
+      description: >
+        Cho phép khách hàng tạo tài khoản mới trong CAB System.
+
+      operationId: registerCustomer
+
+      x-fr-id: FR02.01
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+
+            example:
+              fullName: Nguyễn Văn A
+              phone: "0901234567"
+              email: nguyenvana@gmail.com
+              password: "123456"
+
+      responses:
+
+        '201':
+          description: Đăng ký tài khoản thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+
+              example:
+                success: true
+                message: Đăng ký tài khoản thành công
+                data:
+                  customerId: CUS001
+                  fullName: Nguyễn Văn A
+                  phone: "0901234567"
+                  email: nguyenvana@gmail.com
+
+        '400':
+          description: Dữ liệu đăng ký không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+              example:
+                success: false
+                message: Thông tin đăng ký không hợp lệ
+
+        '409':
+          description: Email hoặc số điện thoại đã tồn tại
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+              example:
+                success: false
+                message: Email hoặc số điện thoại đã được sử dụng
+
+
+  # -------------------------------------------------------
+  # FR02.02 - ĐĂNG NHẬP
+  # -------------------------------------------------------
+
+  /auth/login:
+    post:
+      tags:
+        - Auth
+
+      summary: Đăng nhập
+
+      description: >
+        Cho phép khách hàng đăng nhập bằng email hoặc
+        số điện thoại và mật khẩu.
+
+      operationId: loginCustomer
+
+      x-fr-id: FR02.02
+
+      requestBody:
+        required: true
+
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+
+            example:
+              identifier: "0901234567"
+              password: "123456"
+
+      responses:
+
+        '200':
+          description: Đăng nhập thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+
+              example:
+                success: true
+                message: Đăng nhập thành công
+                data:
+                  accessToken: eyJhbGciOiJIUzI1NiJ9.example
+                  user:
+                    customerId: CUS001
+                    fullName: Nguyễn Văn A
+                    role: CUSTOMER
+
+        '400':
+          description: Thiếu thông tin đăng nhập
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+              example:
+                success: false
+                message: Vui lòng nhập tài khoản và mật khẩu
+
+        '401':
+          description: Sai thông tin đăng nhập
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+              example:
+                success: false
+                message: Tài khoản hoặc mật khẩu không chính xác
+
+        '403':
+          description: Tài khoản bị khóa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+              example:
+                success: false
+                message: Tài khoản đã bị khóa
+
+
+  # -------------------------------------------------------
+  # FR02.03 - CẬP NHẬT THÔNG TIN CÁ NHÂN
+  # -------------------------------------------------------
+
+  /customers/{customerId}:
+    patch:
+      tags:
+        - Customer
+
+      summary: Cập nhật thông tin khách hàng
+
+      description: >
+        Cho phép khách hàng đã đăng nhập cập nhật
+        thông tin cá nhân của mình.
+
+      operationId: updateCustomerProfile
+
+      x-fr-id: FR02.03
+
+      security:
+        - bearerAuth: []
+
+      parameters:
+
+        - name: customerId
+          in: path
+          required: true
+          description: Mã khách hàng
+          schema:
+            type: string
+          example: CUS001
+
+      requestBody:
+        required: true
+
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCustomerRequest'
+
+            example:
+              fullName: Nguyễn Văn An
+              phone: "0901234567"
+              email: nguyenvanan@gmail.com
+
+      responses:
+
+        '200':
+          description: Cập nhật thông tin thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerResponse'
+
+              example:
+                success: true
+                message: Cập nhật thông tin thành công
+                data:
+                  customerId: CUS001
+                  fullName: Nguyễn Văn An
+                  phone: "0901234567"
+                  email: nguyenvanan@gmail.com
+
+        '400':
+          description: Dữ liệu cập nhật không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+              example:
+                success: false
+                message: Thông tin cập nhật không hợp lệ
+
+        '401':
+          description: Chưa đăng nhập
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+              example:
+                success: false
+                message: Bạn chưa đăng nhập
+
+        '403':
+          description: Không có quyền cập nhật
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+              example:
+                success: false
+                message: Bạn không có quyền cập nhật tài khoản này
+
+        '404':
+          description: Không tìm thấy khách hàng
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+              example:
+                success: false
+                message: Không tìm thấy khách hàng
+
+
+# =========================================================
+# COMPONENTS
+# =========================================================
+
+components:
+
+  # -------------------------------------------------------
+  # SECURITY
+  # -------------------------------------------------------
+
+  securitySchemes:
+
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+
+  # -------------------------------------------------------
+  # SCHEMAS
+  # -------------------------------------------------------
+
+  schemas:
+
+    RegisterRequest:
+      type: object
+
+      required:
+        - fullName
+        - phone
+        - password
+
+      properties:
+
+        fullName:
+          type: string
+          description: Họ tên khách hàng
+          example: Nguyễn Văn A
+
+        phone:
+          type: string
+          description: Số điện thoại
+          example: "0901234567"
+
+        email:
+          type: string
+          format: email
+          description: Email khách hàng
+          example: nguyenvana@gmail.com
+
+        password:
+          type: string
+          format: password
+          description: Mật khẩu
+          minLength: 6
+          example: "123456"
+
+
+    LoginRequest:
+      type: object
+
+      required:
+        - identifier
+        - password
+
+      properties:
+
+        identifier:
+          type: string
+          description: Email hoặc số điện thoại
+          example: "0901234567"
+
+        password:
+          type: string
+          format: password
+          description: Mật khẩu
+          example: "123456"
+
+
+    UpdateCustomerRequest:
+      type: object
+
+      properties:
+
+        fullName:
+          type: string
+          description: Họ tên
+          example: Nguyễn Văn An
+
+        phone:
+          type: string
+          description: Số điện thoại
+          example: "0901234567"
+
+        email:
+          type: string
+          format: email
+          description: Email
+          example: nguyenvanan@gmail.com
+
+
+    AuthResponse:
+      type: object
+
+      properties:
+
+        success:
+          type: boolean
+          example: true
+
+        message:
+          type: string
+          example: Đăng ký tài khoản thành công
+
+        data:
+          type: object
+
+          properties:
+
+            customerId:
+              type: string
+              example: CUS001
+
+            fullName:
+              type: string
+              example: Nguyễn Văn A
+
+            phone:
+              type: string
+              example: "0901234567"
+
+            email:
+              type: string
+              example: nguyenvana@gmail.com
+
+
+    LoginResponse:
+      type: object
+
+      properties:
+
+        success:
+          type: boolean
+          example: true
+
+        message:
+          type: string
+          example: Đăng nhập thành công
+
+        data:
+          type: object
+
+          properties:
+
+            accessToken:
+              type: string
+              example: eyJhbGciOiJIUzI1NiJ9.example
+
+            user:
+              type: object
+
+              properties:
+
+                customerId:
+                  type: string
+                  example: CUS001
+
+                fullName:
+                  type: string
+                  example: Nguyễn Văn A
+
+                role:
+                  type: string
+                  example: CUSTOMER
+
+
+    CustomerResponse:
+      type: object
+
+      properties:
+
+        success:
+          type: boolean
+          example: true
+
+        message:
+          type: string
+          example: Cập nhật thông tin thành công
+
+        data:
+          type: object
+
+          properties:
+
+            customerId:
+              type: string
+              example: CUS001
+
+            fullName:
+              type: string
+              example: Nguyễn Văn An
+
+            phone:
+              type: string
+              example: "0901234567"
+
+            email:
+              type: string
+              example: nguyenvanan@gmail.com
+
+
+    ErrorResponse:
+      type: object
+
+      properties:
+
+        success:
+          type: boolean
+          example: false
+
+        message:
+          type: string
+          example: Dữ liệu không hợp lệ
