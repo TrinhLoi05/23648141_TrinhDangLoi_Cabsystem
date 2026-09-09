@@ -1,0 +1,301 @@
+openapi: 3.0.3
+info:
+  title: CAB System - Operation API
+  version: 1.0.0
+  description: API dành cho nhân viên vận hành quản lý khách hàng, tài xế, phương tiện, chuyến và giao dịch.
+servers:
+- url: http://localhost:3000/api
+  description: Local development server
+tags:
+- name: Operation
+  description: API dành cho nhân viên vận hành quản lý khách hàng, tài xế, phương tiện, chuyến và giao dịch.
+x-functional-requirements:
+- id: FR15.01
+  business_requirement: BR15
+  name: Quản lý khách hàng
+  description: Nhân viên quản lý khách hàng.
+  api:
+    method: GET
+    path: /operations/customers
+- id: FR15.02
+  business_requirement: BR15
+  name: Quản lý tài xế
+  description: Nhân viên quản lý tài xế.
+  api:
+    method: GET
+    path: /operations/drivers
+- id: FR15.03
+  business_requirement: BR15
+  name: Quản lý phương tiện
+  description: Nhân viên quản lý phương tiện.
+  api:
+    method: GET
+    path: /operations/vehicles
+- id: FR15.04
+  business_requirement: BR15
+  name: Theo dõi chuyến
+  description: Nhân viên theo dõi chuyến.
+  api:
+    method: GET
+    path: /operations/trips
+- id: FR16.01
+  business_requirement: BR16
+  name: Xem chuyến lỗi
+  description: Xem chuyến gặp vấn đề.
+  api:
+    method: GET
+    path: /operations/incidents
+- id: FR16.02
+  business_requirement: BR16
+  name: Xử lý chuyến lỗi
+  description: Hỗ trợ xử lý chuyến lỗi.
+  api:
+    method: PATCH
+    path: /operations/incidents/{incidentId}
+- id: FR17.01
+  business_requirement: BR17
+  name: Tra cứu giao dịch
+  description: Tra cứu giao dịch.
+  api:
+    method: GET
+    path: /operations/transactions
+- id: FR17.02
+  business_requirement: BR17
+  name: Xem trạng thái
+  description: Xem trạng thái giao dịch.
+  api:
+    method: GET
+    path: /operations/transactions/{transactionId}
+paths:
+  /operations/customers:
+    get:
+      tags:
+      - Operation
+      summary: Tra cứu và quản lý khách hàng
+      x-fr-ids:
+      - FR15.01
+      responses:
+        '200':
+          description: Thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '400':
+          description: Yêu cầu không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - bearerAuth: []
+  /operations/drivers:
+    get:
+      tags:
+      - Operation
+      summary: Tra cứu và quản lý tài xế
+      x-fr-ids:
+      - FR15.02
+      responses:
+        '200':
+          description: Thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '400':
+          description: Yêu cầu không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - bearerAuth: []
+  /operations/vehicles:
+    get:
+      tags:
+      - Operation
+      summary: Tra cứu và quản lý phương tiện
+      x-fr-ids:
+      - FR15.03
+      responses:
+        '200':
+          description: Thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '400':
+          description: Yêu cầu không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - bearerAuth: []
+  /operations/trips:
+    get:
+      tags:
+      - Operation
+      summary: Theo dõi các chuyến đang diễn ra
+      x-fr-ids:
+      - FR15.04
+      responses:
+        '200':
+          description: Thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '400':
+          description: Yêu cầu không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - bearerAuth: []
+  /operations/incidents:
+    get:
+      tags:
+      - Operation
+      summary: Xem các chuyến gặp vấn đề
+      x-fr-ids:
+      - FR16.01
+      responses:
+        '200':
+          description: Thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '400':
+          description: Yêu cầu không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - bearerAuth: []
+  /operations/incidents/{incidentId}:
+    patch:
+      tags:
+      - Operation
+      summary: Xử lý chuyến gặp sự cố
+      x-fr-ids:
+      - FR16.02
+      responses:
+        '200':
+          description: Thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '400':
+          description: Yêu cầu không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: incidentId
+        in: path
+        required: true
+        description: Mã sự cố
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IncidentUpdateRequest'
+  /operations/transactions:
+    get:
+      tags:
+      - Operation
+      summary: Tra cứu giao dịch
+      x-fr-ids:
+      - FR17.01
+      responses:
+        '200':
+          description: Thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '400':
+          description: Yêu cầu không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - bearerAuth: []
+  /operations/transactions/{transactionId}:
+    get:
+      tags:
+      - Operation
+      summary: Xem trạng thái giao dịch
+      x-fr-ids:
+      - FR17.02
+      responses:
+        '200':
+          description: Thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '400':
+          description: Yêu cầu không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: transactionId
+        in: path
+        required: true
+        description: Mã giao dịch
+        schema:
+          type: string
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    MessageResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: Thao tác thành công
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+          example: Dữ liệu không hợp lệ
+    IncidentUpdateRequest:
+      type: object
+      required:
+      - action
+      properties:
+        action:
+          type: string
+          example: REASSIGN_DRIVER
+        note:
+          type: string
+          example: Tài xế mất kết nối, cần hỗ trợ.
