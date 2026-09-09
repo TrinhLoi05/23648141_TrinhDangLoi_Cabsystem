@@ -1,0 +1,492 @@
+openapi: 3.0.3
+
+info:
+  title: CAB System - Booking API
+  version: 1.0.0
+  description: >
+    API phục vụ chức năng đặt chuyến xe của khách hàng
+    trong CAB System.
+
+servers:
+  - url: http://localhost:3000/api
+    description: Local development server
+
+tags:
+  - name: Booking
+    description: Đặt chuyến xe
+
+
+# =========================================================
+# FUNCTIONAL REQUIREMENTS
+# =========================================================
+
+x-functional-requirements:
+
+  - id: FR01.01
+    business_requirement: BR01
+    name: Nhập điểm đón
+    description: Hệ thống cho phép khách hàng nhập điểm đón.
+    api:
+      method: POST
+      path: /bookings
+
+  - id: FR01.02
+    business_requirement: BR01
+    name: Nhập điểm đến
+    description: Hệ thống cho phép khách hàng nhập điểm đến.
+    api:
+      method: POST
+      path: /bookings
+
+  - id: FR01.03
+    business_requirement: BR01
+    name: Chọn loại xe
+    description: Hệ thống cho phép khách hàng lựa chọn loại xe.
+    api:
+      method: POST
+      path: /bookings
+
+  - id: FR01.04
+    business_requirement: BR01
+    name: Gửi yêu cầu
+    description: Hệ thống cho phép khách hàng gửi yêu cầu đặt xe.
+    api:
+      method: POST
+      path: /bookings
+
+  - id: FR01.05
+    business_requirement: BR01
+    name: Kiểm tra yêu cầu
+    description: Hệ thống kiểm tra thông tin đặt xe trước khi tạo chuyến.
+    api:
+      method: POST
+      path: /bookings/validate
+
+  - id: FR01.06
+    business_requirement: BR01
+    name: Tạo chuyến
+    description: Hệ thống tạo và lưu thông tin chuyến xe.
+    api:
+      method: POST
+      path: /bookings
+
+
+# =========================================================
+# API PATHS
+# =========================================================
+
+paths:
+
+  # =======================================================
+  # FR01.05 - KIỂM TRA YÊU CẦU ĐẶT XE
+  # =======================================================
+
+  /bookings/validate:
+    post:
+      tags:
+        - Booking
+
+      summary: Kiểm tra thông tin đặt chuyến
+
+      description: >
+        Kiểm tra điểm đón, điểm đến và loại xe trước
+        khi khách hàng gửi yêu cầu đặt chuyến.
+
+      operationId: validateBooking
+
+      x-fr-id: FR01.05
+
+      security:
+        - bearerAuth: []
+
+      requestBody:
+        required: true
+
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookingRequest'
+
+            example:
+              pickupLocation:
+                address: 12 Nguyễn Văn Bảo, Gò Vấp, TP.HCM
+                latitude: 10.8223
+                longitude: 106.6872
+
+              destination:
+                address: Sân bay Tân Sơn Nhất, TP.HCM
+                latitude: 10.8188
+                longitude: 106.6519
+
+              vehicleType: CAR_4_SEAT
+
+      responses:
+
+        '200':
+          description: Thông tin đặt chuyến hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationResponse'
+
+              example:
+                success: true
+                message: Thông tin đặt chuyến hợp lệ
+                data:
+                  valid: true
+
+        '400':
+          description: Thông tin đặt chuyến không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+              example:
+                success: false
+                message: Điểm đón hoặc điểm đến không hợp lệ
+
+        '401':
+          description: Khách hàng chưa đăng nhập
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+              example:
+                success: false
+                message: Bạn chưa đăng nhập
+
+
+  # =======================================================
+  # FR01.01
+  # FR01.02
+  # FR01.03
+  # FR01.04
+  # FR01.06
+  # TẠO YÊU CẦU ĐẶT CHUYẾN
+  # =======================================================
+
+  /bookings:
+    post:
+      tags:
+        - Booking
+
+      summary: Tạo yêu cầu đặt chuyến xe
+
+      description: >
+        Cho phép khách hàng nhập điểm đón, điểm đến,
+        lựa chọn loại xe và gửi yêu cầu đặt chuyến.
+        Khi dữ liệu hợp lệ, hệ thống tạo chuyến mới
+        và chuyển chuyến sang trạng thái SEARCHING_DRIVER.
+
+      operationId: createBooking
+
+      x-fr-ids:
+        - FR01.01
+        - FR01.02
+        - FR01.03
+        - FR01.04
+        - FR01.06
+
+      security:
+        - bearerAuth: []
+
+      requestBody:
+        required: true
+
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookingRequest'
+
+            example:
+              pickupLocation:
+                address: 12 Nguyễn Văn Bảo, Gò Vấp, TP.HCM
+                latitude: 10.8223
+                longitude: 106.6872
+
+              destination:
+                address: Sân bay Tân Sơn Nhất, TP.HCM
+                latitude: 10.8188
+                longitude: 106.6519
+
+              vehicleType: CAR_4_SEAT
+
+      responses:
+
+        '201':
+          description: Tạo yêu cầu đặt chuyến thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookingResponse'
+
+              example:
+                success: true
+                message: Yêu cầu đặt chuyến đã được tiếp nhận
+
+                data:
+                  tripId: TRIP001
+                  customerId: CUS001
+
+                  pickupLocation:
+                    address: 12 Nguyễn Văn Bảo, Gò Vấp, TP.HCM
+                    latitude: 10.8223
+                    longitude: 106.6872
+
+                  destination:
+                    address: Sân bay Tân Sơn Nhất, TP.HCM
+                    latitude: 10.8188
+                    longitude: 106.6519
+
+                  vehicleType: CAR_4_SEAT
+                  status: SEARCHING_DRIVER
+                  createdAt: "2026-09-09T20:30:00+07:00"
+
+        '400':
+          description: Thông tin đặt chuyến không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+              example:
+                success: false
+                message: Vui lòng nhập đầy đủ thông tin đặt chuyến
+
+        '401':
+          description: Khách hàng chưa đăng nhập
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+              example:
+                success: false
+                message: Bạn chưa đăng nhập
+
+        '422':
+          description: Không thể tạo chuyến từ dữ liệu hiện tại
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+              example:
+                success: false
+                message: Không thể tạo chuyến với thông tin đã cung cấp
+
+        '500':
+          description: Lỗi hệ thống khi tạo chuyến
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+              example:
+                success: false
+                message: Có lỗi xảy ra khi tạo chuyến
+
+
+# =========================================================
+# COMPONENTS
+# =========================================================
+
+components:
+
+  # =======================================================
+  # SECURITY
+  # =======================================================
+
+  securitySchemes:
+
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+
+  # =======================================================
+  # SCHEMAS
+  # =======================================================
+
+  schemas:
+
+    # -----------------------------------------------------
+    # LOCATION
+    # -----------------------------------------------------
+
+    Location:
+      type: object
+
+      required:
+        - address
+        - latitude
+        - longitude
+
+      properties:
+
+        address:
+          type: string
+          description: Địa chỉ
+          example: 12 Nguyễn Văn Bảo, Gò Vấp, TP.HCM
+
+        latitude:
+          type: number
+          format: double
+          description: Vĩ độ
+          example: 10.8223
+
+        longitude:
+          type: number
+          format: double
+          description: Kinh độ
+          example: 106.6872
+
+
+    # -----------------------------------------------------
+    # FR01.01 - FR01.04
+    # -----------------------------------------------------
+
+    BookingRequest:
+      type: object
+
+      required:
+        - pickupLocation
+        - destination
+        - vehicleType
+
+      properties:
+
+        pickupLocation:
+          $ref: '#/components/schemas/Location'
+
+        destination:
+          $ref: '#/components/schemas/Location'
+
+        vehicleType:
+          type: string
+          description: Loại xe khách hàng lựa chọn
+          enum:
+            - MOTORBIKE
+            - CAR_4_SEAT
+            - CAR_7_SEAT
+          example: CAR_4_SEAT
+
+
+    # -----------------------------------------------------
+    # FR01.05 - KIỂM TRA
+    # -----------------------------------------------------
+
+    ValidationResponse:
+      type: object
+
+      properties:
+
+        success:
+          type: boolean
+          example: true
+
+        message:
+          type: string
+          example: Thông tin đặt chuyến hợp lệ
+
+        data:
+          type: object
+
+          properties:
+
+            valid:
+              type: boolean
+              example: true
+
+
+    # -----------------------------------------------------
+    # FR01.06 - TRIP ĐƯỢC TẠO
+    # -----------------------------------------------------
+
+    Trip:
+      type: object
+
+      properties:
+
+        tripId:
+          type: string
+          description: Mã chuyến
+          example: TRIP001
+
+        customerId:
+          type: string
+          description: Mã khách hàng
+          example: CUS001
+
+        pickupLocation:
+          $ref: '#/components/schemas/Location'
+
+        destination:
+          $ref: '#/components/schemas/Location'
+
+        vehicleType:
+          type: string
+          enum:
+            - MOTORBIKE
+            - CAR_4_SEAT
+            - CAR_7_SEAT
+          example: CAR_4_SEAT
+
+        status:
+          type: string
+          description: Trạng thái chuyến
+          enum:
+            - REQUESTED
+            - SEARCHING_DRIVER
+            - DRIVER_ASSIGNED
+            - DRIVER_ARRIVING
+            - DRIVER_ARRIVED
+            - PASSENGER_PICKED_UP
+            - IN_PROGRESS
+            - COMPLETED
+            - CANCELLED
+            - NO_DRIVER_FOUND
+          example: SEARCHING_DRIVER
+
+        createdAt:
+          type: string
+          format: date-time
+          example: "2026-09-09T20:30:00+07:00"
+
+
+    BookingResponse:
+      type: object
+
+      properties:
+
+        success:
+          type: boolean
+          example: true
+
+        message:
+          type: string
+          example: Yêu cầu đặt chuyến đã được tiếp nhận
+
+        data:
+          $ref: '#/components/schemas/Trip'
+
+
+    # -----------------------------------------------------
+    # ERROR RESPONSE
+    # -----------------------------------------------------
+
+    ErrorResponse:
+      type: object
+
+      properties:
+
+        success:
+          type: boolean
+          example: false
+
+        message:
+          type: string
+          example: Thông tin đặt chuyến không hợp lệ
