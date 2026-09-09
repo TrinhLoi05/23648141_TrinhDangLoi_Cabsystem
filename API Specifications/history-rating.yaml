@@ -1,0 +1,126 @@
+openapi: 3.0.3
+info:
+  title: CAB System - History & Rating API
+  version: 1.0.0
+  description: API đánh giá tài xế sau khi chuyến hoàn thành.
+servers:
+- url: http://localhost:3000/api
+  description: Local development server
+tags:
+- name: HistoryRating
+  description: API đánh giá tài xế sau khi chuyến hoàn thành.
+x-functional-requirements:
+- id: FR14.01
+  business_requirement: BR14
+  name: Đánh giá tài xế
+  description: Khách hàng đánh giá tài xế.
+  api:
+    method: POST
+    path: /trips/{tripId}/ratings
+- id: FR14.02
+  business_requirement: BR14
+  name: Lưu đánh giá
+  description: Lưu đánh giá vào hệ thống.
+  api:
+    method: POST
+    path: /trips/{tripId}/ratings
+paths:
+  /trips/{tripId}/ratings:
+    post:
+      tags:
+      - HistoryRating
+      summary: Đánh giá và lưu đánh giá tài xế
+      x-fr-ids:
+      - FR14.01
+      - FR14.02
+      responses:
+        '200':
+          description: Đánh giá thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '400':
+          description: Yêu cầu không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: tripId
+        in: path
+        required: true
+        description: Mã chuyến
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RatingRequest'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    MessageResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: Thao tác thành công
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+          example: Dữ liệu không hợp lệ
+    RatingRequest:
+      type: object
+      required:
+      - score
+      properties:
+        score:
+          type: integer
+          minimum: 1
+          maximum: 5
+          example: 5
+        comment:
+          type: string
+          example: Tài xế thân thiện, lái xe an toàn.
+    Rating:
+      type: object
+      properties:
+        ratingId:
+          type: string
+          example: RAT001
+        tripId:
+          type: string
+          example: TRIP001
+        customerId:
+          type: string
+          example: CUS001
+        driverId:
+          type: string
+          example: DRV001
+        score:
+          type: integer
+          example: 5
+        comment:
+          type: string
+          example: Tài xế thân thiện.
+        createdAt:
+          type: string
+          format: date-time
+x-note: SRS hiện tại chưa có FR riêng cho chức năng xem lịch sử chuyến.
