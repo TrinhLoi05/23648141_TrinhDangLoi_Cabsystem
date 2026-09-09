@@ -1,0 +1,991 @@
+openapi: 3.0.3
+
+info:
+  title: CAB System - Driver API
+  version: 1.0.0
+  description: >
+    API phục vụ quản lý tài xế, hồ sơ tài xế,
+    trạng thái hoạt động và phương tiện trong CAB System.
+
+servers:
+  - url: http://localhost:3000/api
+    description: Local development server
+
+tags:
+  - name: Driver
+    description: Quản lý tài xế
+
+  - name: Vehicle
+    description: Quản lý phương tiện của tài xế
+
+
+# =========================================================
+# FUNCTIONAL REQUIREMENTS
+# =========================================================
+
+x-functional-requirements:
+
+  # -------------------------------------------------------
+  # BR03 - QUẢN LÝ TÀI XẾ
+  # -------------------------------------------------------
+
+  - id: FR03.01
+    business_requirement: BR03
+    name: Quản lý hồ sơ
+    description: Hệ thống lưu và cập nhật thông tin hồ sơ tài xế.
+    api:
+      method: PATCH
+      path: /drivers/{driverId}
+
+  - id: FR03.02
+    business_requirement: BR03
+    name: Cập nhật trạng thái
+    description: >
+      Tài xế có thể chuyển trạng thái sẵn sàng,
+      bận hoặc không hoạt động.
+    api:
+      method: PATCH
+      path: /drivers/{driverId}/availability
+
+  - id: FR03.03
+    business_requirement: BR03
+    name: Quản lý tài khoản
+    description: Hệ thống hỗ trợ tạo và quản lý tài khoản tài xế.
+    api:
+      method: POST
+      path: /drivers
+
+  # -------------------------------------------------------
+  # BR04 - QUẢN LÝ PHƯƠNG TIỆN
+  # -------------------------------------------------------
+
+  - id: FR04.01
+    business_requirement: BR04
+    name: Thêm phương tiện
+    description: Hệ thống cho phép thêm thông tin phương tiện của tài xế.
+    api:
+      method: POST
+      path: /drivers/{driverId}/vehicles
+
+  - id: FR04.02
+    business_requirement: BR04
+    name: Cập nhật phương tiện
+    description: Hệ thống cho phép cập nhật thông tin phương tiện.
+    api:
+      method: PATCH
+      path: /vehicles/{vehicleId}
+
+
+# =========================================================
+# API PATHS
+# =========================================================
+
+paths:
+
+  # =======================================================
+  # FR03.03 - TẠO TÀI KHOẢN / HỒ SƠ TÀI XẾ
+  # =======================================================
+
+  /drivers:
+    post:
+      tags:
+        - Driver
+
+      summary: Tạo tài khoản tài xế
+
+      description: >
+        Cho phép nhân viên vận hành hoặc Admin tạo
+        tài khoản và hồ sơ tài xế mới trong CAB System.
+
+      operationId: createDriver
+
+      x-fr-id: FR03.03
+
+      security:
+        - bearerAuth: []
+
+      requestBody:
+        required: true
+
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateDriverRequest'
+
+            example:
+              fullName: Nguyễn Văn B
+              phone: "0912345678"
+              email: driver01@gmail.com
+              licenseNumber: GPLX123456
+              password: "123456"
+
+      responses:
+
+        '201':
+          description: Tạo tài khoản tài xế thành công
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DriverResponse'
+
+              example:
+                success: true
+                message: Tạo tài khoản tài xế thành công
+
+                data:
+                  driverId: DRV001
+                  fullName: Nguyễn Văn B
+                  phone: "0912345678"
+                  email: driver01@gmail.com
+                  licenseNumber: GPLX123456
+                  status: OFFLINE
+
+        '400':
+          description: Dữ liệu tài xế không hợp lệ
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+              example:
+                success: false
+                message: Thông tin tài xế không hợp lệ
+
+        '401':
+          description: Người dùng chưa đăng nhập
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '403':
+          description: Không có quyền tạo tài xế
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+              example:
+                success: false
+                message: Bạn không có quyền tạo tài khoản tài xế
+
+        '409':
+          description: Số điện thoại hoặc email đã tồn tại
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+              example:
+                success: false
+                message: Email hoặc số điện thoại đã tồn tại
+
+
+  # =======================================================
+  # FR03.01 - QUẢN LÝ / CẬP NHẬT HỒ SƠ TÀI XẾ
+  # =======================================================
+
+  /drivers/{driverId}:
+    patch:
+      tags:
+        - Driver
+
+      summary: Cập nhật hồ sơ tài xế
+
+      description: >
+        Cho phép tài xế hoặc người có quyền cập nhật
+        thông tin hồ sơ của tài xế.
+
+      operationId: updateDriverProfile
+
+      x-fr-id: FR03.01
+
+      security:
+        - bearerAuth: []
+
+      parameters:
+
+        - name: driverId
+          in: path
+          required: true
+          description: Mã tài xế
+          schema:
+            type: string
+          example: DRV001
+
+      requestBody:
+        required: true
+
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateDriverRequest'
+
+            example:
+              fullName: Nguyễn Văn Bình
+              phone: "0912345678"
+              email: nguyenvanbinh@gmail.com
+              licenseNumber: GPLX123456
+
+      responses:
+
+        '200':
+          description: Cập nhật hồ sơ tài xế thành công
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DriverResponse'
+
+              example:
+                success: true
+                message: Cập nhật hồ sơ tài xế thành công
+
+                data:
+                  driverId: DRV001
+                  fullName: Nguyễn Văn Bình
+                  phone: "0912345678"
+                  email: nguyenvanbinh@gmail.com
+                  licenseNumber: GPLX123456
+                  status: AVAILABLE
+
+        '400':
+          description: Dữ liệu cập nhật không hợp lệ
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '401':
+          description: Chưa đăng nhập
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '403':
+          description: Không có quyền cập nhật
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '404':
+          description: Không tìm thấy tài xế
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+              example:
+                success: false
+                message: Không tìm thấy tài xế
+
+
+  # =======================================================
+  # FR03.02 - CẬP NHẬT TRẠNG THÁI TÀI XẾ
+  # =======================================================
+
+  /drivers/{driverId}/availability:
+    patch:
+      tags:
+        - Driver
+
+      summary: Cập nhật trạng thái hoạt động của tài xế
+
+      description: >
+        Cho phép tài xế thay đổi trạng thái hoạt động.
+        Chỉ tài xế ở trạng thái AVAILABLE mới được
+        hệ thống xem xét để nhận chuyến mới.
+
+      operationId: updateDriverAvailability
+
+      x-fr-id: FR03.02
+
+      security:
+        - bearerAuth: []
+
+      parameters:
+
+        - name: driverId
+          in: path
+          required: true
+          description: Mã tài xế
+          schema:
+            type: string
+          example: DRV001
+
+      requestBody:
+        required: true
+
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DriverAvailabilityRequest'
+
+            example:
+              status: AVAILABLE
+
+      responses:
+
+        '200':
+          description: Cập nhật trạng thái thành công
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DriverAvailabilityResponse'
+
+              example:
+                success: true
+                message: Cập nhật trạng thái tài xế thành công
+
+                data:
+                  driverId: DRV001
+                  status: AVAILABLE
+
+        '400':
+          description: Trạng thái không hợp lệ
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+              example:
+                success: false
+                message: Trạng thái tài xế không hợp lệ
+
+        '401':
+          description: Chưa đăng nhập
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '403':
+          description: Không có quyền cập nhật trạng thái
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '404':
+          description: Không tìm thấy tài xế
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+
+  # =======================================================
+  # FR04.01 - THÊM PHƯƠNG TIỆN
+  # =======================================================
+
+  /drivers/{driverId}/vehicles:
+    post:
+      tags:
+        - Vehicle
+
+      summary: Thêm phương tiện cho tài xế
+
+      description: >
+        Thêm phương tiện mới thuộc tài xế.
+        Phương tiện được sử dụng để xác định loại xe
+        mà tài xế có thể nhận chuyến.
+
+      operationId: createDriverVehicle
+
+      x-fr-id: FR04.01
+
+      security:
+        - bearerAuth: []
+
+      parameters:
+
+        - name: driverId
+          in: path
+          required: true
+          description: Mã tài xế
+          schema:
+            type: string
+          example: DRV001
+
+      requestBody:
+        required: true
+
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateVehicleRequest'
+
+            example:
+              vehicleType: CAR_4_SEAT
+              licensePlate: 51A-123.45
+              brand: Toyota
+              model: Vios
+              color: Trắng
+
+      responses:
+
+        '201':
+          description: Thêm phương tiện thành công
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VehicleResponse'
+
+              example:
+                success: true
+                message: Thêm phương tiện thành công
+
+                data:
+                  vehicleId: VEH001
+                  driverId: DRV001
+                  vehicleType: CAR_4_SEAT
+                  licensePlate: 51A-123.45
+                  brand: Toyota
+                  model: Vios
+                  color: Trắng
+                  status: ACTIVE
+
+        '400':
+          description: Thông tin phương tiện không hợp lệ
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '401':
+          description: Chưa đăng nhập
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '403':
+          description: Không có quyền thêm phương tiện
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '404':
+          description: Không tìm thấy tài xế
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '409':
+          description: Biển số xe đã tồn tại
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+              example:
+                success: false
+                message: Biển số xe đã tồn tại
+
+
+  # =======================================================
+  # FR04.02 - CẬP NHẬT PHƯƠNG TIỆN
+  # =======================================================
+
+  /vehicles/{vehicleId}:
+    patch:
+      tags:
+        - Vehicle
+
+      summary: Cập nhật thông tin phương tiện
+
+      description: >
+        Cho phép cập nhật thông tin phương tiện
+        đã tồn tại trong hệ thống.
+
+      operationId: updateVehicle
+
+      x-fr-id: FR04.02
+
+      security:
+        - bearerAuth: []
+
+      parameters:
+
+        - name: vehicleId
+          in: path
+          required: true
+          description: Mã phương tiện
+          schema:
+            type: string
+          example: VEH001
+
+      requestBody:
+        required: true
+
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateVehicleRequest'
+
+            example:
+              vehicleType: CAR_4_SEAT
+              licensePlate: 51A-123.45
+              brand: Toyota
+              model: Vios
+              color: Đen
+              status: ACTIVE
+
+      responses:
+
+        '200':
+          description: Cập nhật phương tiện thành công
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VehicleResponse'
+
+              example:
+                success: true
+                message: Cập nhật phương tiện thành công
+
+                data:
+                  vehicleId: VEH001
+                  driverId: DRV001
+                  vehicleType: CAR_4_SEAT
+                  licensePlate: 51A-123.45
+                  brand: Toyota
+                  model: Vios
+                  color: Đen
+                  status: ACTIVE
+
+        '400':
+          description: Dữ liệu phương tiện không hợp lệ
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '401':
+          description: Chưa đăng nhập
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '403':
+          description: Không có quyền cập nhật phương tiện
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '404':
+          description: Không tìm thấy phương tiện
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+
+# =========================================================
+# COMPONENTS
+# =========================================================
+
+components:
+
+  # =======================================================
+  # SECURITY
+  # =======================================================
+
+  securitySchemes:
+
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+
+  # =======================================================
+  # SCHEMAS
+  # =======================================================
+
+  schemas:
+
+    # -----------------------------------------------------
+    # FR03.03 - CREATE DRIVER
+    # -----------------------------------------------------
+
+    CreateDriverRequest:
+      type: object
+
+      required:
+        - fullName
+        - phone
+        - licenseNumber
+
+      properties:
+
+        fullName:
+          type: string
+          description: Họ tên tài xế
+          example: Nguyễn Văn B
+
+        phone:
+          type: string
+          description: Số điện thoại
+          example: "0912345678"
+
+        email:
+          type: string
+          format: email
+          description: Email tài xế
+          example: driver01@gmail.com
+
+        licenseNumber:
+          type: string
+          description: Số giấy phép lái xe
+          example: GPLX123456
+
+        password:
+          type: string
+          format: password
+          description: Mật khẩu ban đầu
+          minLength: 6
+          example: "123456"
+
+
+    # -----------------------------------------------------
+    # FR03.01 - UPDATE DRIVER
+    # -----------------------------------------------------
+
+    UpdateDriverRequest:
+      type: object
+
+      properties:
+
+        fullName:
+          type: string
+          example: Nguyễn Văn Bình
+
+        phone:
+          type: string
+          example: "0912345678"
+
+        email:
+          type: string
+          format: email
+          example: nguyenvanbinh@gmail.com
+
+        licenseNumber:
+          type: string
+          example: GPLX123456
+
+
+    Driver:
+      type: object
+
+      properties:
+
+        driverId:
+          type: string
+          example: DRV001
+
+        fullName:
+          type: string
+          example: Nguyễn Văn B
+
+        phone:
+          type: string
+          example: "0912345678"
+
+        email:
+          type: string
+          format: email
+          example: driver01@gmail.com
+
+        licenseNumber:
+          type: string
+          example: GPLX123456
+
+        status:
+          type: string
+
+          enum:
+            - AVAILABLE
+            - BUSY
+            - OFFLINE
+
+          example: AVAILABLE
+
+
+    DriverResponse:
+      type: object
+
+      properties:
+
+        success:
+          type: boolean
+          example: true
+
+        message:
+          type: string
+          example: Cập nhật tài xế thành công
+
+        data:
+          $ref: '#/components/schemas/Driver'
+
+
+    # -----------------------------------------------------
+    # FR03.02 - DRIVER AVAILABILITY
+    # -----------------------------------------------------
+
+    DriverAvailabilityRequest:
+      type: object
+
+      required:
+        - status
+
+      properties:
+
+        status:
+          type: string
+          description: Trạng thái hoạt động của tài xế
+
+          enum:
+            - AVAILABLE
+            - BUSY
+            - OFFLINE
+
+          example: AVAILABLE
+
+
+    DriverAvailabilityResponse:
+      type: object
+
+      properties:
+
+        success:
+          type: boolean
+          example: true
+
+        message:
+          type: string
+          example: Cập nhật trạng thái tài xế thành công
+
+        data:
+          type: object
+
+          properties:
+
+            driverId:
+              type: string
+              example: DRV001
+
+            status:
+              type: string
+
+              enum:
+                - AVAILABLE
+                - BUSY
+                - OFFLINE
+
+              example: AVAILABLE
+
+
+    # -----------------------------------------------------
+    # FR04.01 - CREATE VEHICLE
+    # -----------------------------------------------------
+
+    CreateVehicleRequest:
+      type: object
+
+      required:
+        - vehicleType
+        - licensePlate
+
+      properties:
+
+        vehicleType:
+          type: string
+          description: Loại phương tiện
+
+          enum:
+            - MOTORBIKE
+            - CAR_4_SEAT
+            - CAR_7_SEAT
+
+          example: CAR_4_SEAT
+
+        licensePlate:
+          type: string
+          description: Biển số xe
+          example: 51A-123.45
+
+        brand:
+          type: string
+          description: Hãng xe
+          example: Toyota
+
+        model:
+          type: string
+          description: Dòng xe
+          example: Vios
+
+        color:
+          type: string
+          description: Màu xe
+          example: Trắng
+
+
+    # -----------------------------------------------------
+    # FR04.02 - UPDATE VEHICLE
+    # -----------------------------------------------------
+
+    UpdateVehicleRequest:
+      type: object
+
+      properties:
+
+        vehicleType:
+          type: string
+
+          enum:
+            - MOTORBIKE
+            - CAR_4_SEAT
+            - CAR_7_SEAT
+
+        licensePlate:
+          type: string
+          example: 51A-123.45
+
+        brand:
+          type: string
+          example: Toyota
+
+        model:
+          type: string
+          example: Vios
+
+        color:
+          type: string
+          example: Đen
+
+        status:
+          type: string
+
+          enum:
+            - ACTIVE
+            - INACTIVE
+            - SUSPENDED
+
+          example: ACTIVE
+
+
+    Vehicle:
+      type: object
+
+      properties:
+
+        vehicleId:
+          type: string
+          example: VEH001
+
+        driverId:
+          type: string
+          example: DRV001
+
+        vehicleType:
+          type: string
+
+          enum:
+            - MOTORBIKE
+            - CAR_4_SEAT
+            - CAR_7_SEAT
+
+          example: CAR_4_SEAT
+
+        licensePlate:
+          type: string
+          example: 51A-123.45
+
+        brand:
+          type: string
+          example: Toyota
+
+        model:
+          type: string
+          example: Vios
+
+        color:
+          type: string
+          example: Trắng
+
+        status:
+          type: string
+
+          enum:
+            - ACTIVE
+            - INACTIVE
+            - SUSPENDED
+
+          example: ACTIVE
+
+
+    VehicleResponse:
+      type: object
+
+      properties:
+
+        success:
+          type: boolean
+          example: true
+
+        message:
+          type: string
+          example: Thao tác phương tiện thành công
+
+        data:
+          $ref: '#/components/schemas/Vehicle'
+
+
+    # -----------------------------------------------------
+    # ERROR RESPONSE
+    # -----------------------------------------------------
+
+    ErrorResponse:
+      type: object
+
+      properties:
+
+        success:
+          type: boolean
+          example: false
+
+        message:
+          type: string
+          example: Dữ liệu không hợp lệ
