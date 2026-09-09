@@ -1,0 +1,871 @@
+openapi: 3.0.3
+
+info:
+  title: CAB System - Authorization API
+  version: 1.0.0
+  description: >
+    API phục vụ các chức năng xác thực quyền truy cập,
+    phân quyền người dùng, kiểm soát thao tác quản trị
+    và quản lý Audit Log của CAB System.
+
+servers:
+  - url: http://localhost:3000/api
+    description: Local development server
+
+tags:
+  - name: Authorization
+    description: Xác thực và kiểm soát quyền truy cập
+
+  - name: Role
+    description: Quản lý vai trò và phân quyền người dùng
+
+  - name: AuditLog
+    description: Ghi nhận và tra cứu lịch sử thao tác
+
+
+# =========================================================
+# FUNCTIONAL REQUIREMENTS
+# =========================================================
+
+x-functional-requirements:
+
+  # -------------------------------------------------------
+  # BR18 - PHÂN QUYỀN
+  # -------------------------------------------------------
+
+  - id: FR18.01
+    business_requirement: BR18
+    name: Xác thực
+    description: Xác thực người dùng.
+    api:
+      method: POST
+      path: /authorization/verify
+
+  - id: FR18.02
+    business_requirement: BR18
+    name: Phân quyền
+    description: Kiểm soát quyền theo vai trò.
+    api:
+      method: PUT
+      path: /authorization/users/{userId}/role
+
+  - id: FR18.03
+    business_requirement: BR18
+    name: Kiểm soát quản trị
+    description: Hạn chế các thao tác nhạy cảm đối với người không có quyền.
+    api:
+      method: POST
+      path: /authorization/check
+
+  # -------------------------------------------------------
+  # BR20 - GHI NHẬN THAO TÁC
+  # -------------------------------------------------------
+
+  - id: FR20.01
+    business_requirement: BR20
+    name: Ghi log
+    description: Ghi nhận các thao tác quan trọng.
+    api:
+      method: POST
+      path: /audit-logs
+
+  - id: FR20.02
+    business_requirement: BR20
+    name: Tra cứu log
+    description: Cho phép người có quyền tra cứu lịch sử thao tác.
+    api:
+      method: GET
+      path: /audit-logs
+
+
+# =========================================================
+# API PATHS
+# =========================================================
+
+paths:
+
+  # =======================================================
+  # FR18.01 - XÁC THỰC NGƯỜI DÙNG
+  # =======================================================
+
+  /authorization/verify:
+    post:
+      tags:
+        - Authorization
+
+      summary: Xác thực người dùng
+
+      description: >
+        Kiểm tra Access Token của người dùng sau khi đăng nhập
+        để xác định người dùng có hợp lệ hay không.
+
+      operationId: verifyUser
+
+      x-fr-id: FR18.01
+
+      security:
+        - bearerAuth: []
+
+      responses:
+
+        '200':
+          description: Xác thực thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VerifyResponse'
+
+              example:
+                success: true
+                message: Xác thực thành công
+                data:
+                  userId: USR001
+                  fullName: Nguyễn Văn A
+                  role: CUSTOMER
+                  status: ACTIVE
+
+        '401':
+          description: Token không hợp lệ hoặc đã hết hạn
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+              example:
+                success: false
+                message: Token không hợp lệ hoặc đã hết hạn
+
+        '403':
+          description: Tài khoản không được phép truy cập
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+              example:
+                success: false
+                message: Tài khoản không được phép truy cập
+
+
+  # =======================================================
+  # FR18.02 - PHÂN QUYỀN NGƯỜI DÙNG
+  # =======================================================
+
+  /authorization/users/{userId}/role:
+    put:
+      tags:
+        - Role
+
+      summary: Phân quyền người dùng
+
+      description: >
+        Cho phép Admin thay đổi vai trò của một người dùng.
+        Chỉ người dùng có quyền quản trị mới được phép
+        thực hiện chức năng này.
+
+      operationId: updateUserRole
+
+      x-fr-id: FR18.02
+
+      security:
+        - bearerAuth: []
+
+      parameters:
+
+        - name: userId
+          in: path
+          required: true
+          description: Mã người dùng cần phân quyền
+          schema:
+            type: string
+          example: USR001
+
+      requestBody:
+        required: true
+
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateRoleRequest'
+
+            example:
+              role: DRIVER
+
+      responses:
+
+        '200':
+          description: Phân quyền thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoleResponse'
+
+              example:
+                success: true
+                message: Cập nhật quyền thành công
+                data:
+                  userId: USR001
+                  role: DRIVER
+
+        '400':
+          description: Vai trò không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+              example:
+                success: false
+                message: Vai trò không hợp lệ
+
+        '401':
+          description: Người dùng chưa được xác thực
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+              example:
+                success: false
+                message: Bạn chưa đăng nhập
+
+        '403':
+          description: Không có quyền phân quyền
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+              example:
+                success: false
+                message: Bạn không có quyền thực hiện chức năng này
+
+        '404':
+          description: Không tìm thấy người dùng
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+              example:
+                success: false
+                message: Không tìm thấy người dùng
+
+
+  # =======================================================
+  # FR18.03 - KIỂM SOÁT THAO TÁC QUẢN TRỊ
+  # =======================================================
+
+  /authorization/check:
+    post:
+      tags:
+        - Authorization
+
+      summary: Kiểm tra quyền thực hiện chức năng
+
+      description: >
+        Kiểm tra người dùng hiện tại có quyền thực hiện
+        một hành động trên một tài nguyên hay không.
+
+      operationId: checkPermission
+
+      x-fr-id: FR18.03
+
+      security:
+        - bearerAuth: []
+
+      requestBody:
+        required: true
+
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PermissionCheckRequest'
+
+            example:
+              resource: DRIVER
+              action: UPDATE
+
+      responses:
+
+        '200':
+          description: Kiểm tra quyền thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PermissionCheckResponse'
+
+              example:
+                success: true
+                message: Kiểm tra quyền thành công
+                data:
+                  resource: DRIVER
+                  action: UPDATE
+                  allowed: true
+
+        '400':
+          description: Resource hoặc action không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+              example:
+                success: false
+                message: Thông tin kiểm tra quyền không hợp lệ
+
+        '401':
+          description: Chưa xác thực
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+              example:
+                success: false
+                message: Người dùng chưa được xác thực
+
+        '403':
+          description: Không có quyền thực hiện
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+              example:
+                success: false
+                message: Bạn không có quyền thực hiện thao tác này
+
+
+  # =======================================================
+  # FR20.01 - GHI AUDIT LOG
+  # =======================================================
+
+  /audit-logs:
+    post:
+      tags:
+        - AuditLog
+
+      summary: Ghi nhận thao tác quan trọng
+
+      description: >
+        Ghi lại các thao tác quan trọng của người dùng
+        để phục vụ kiểm tra và xử lý sự cố.
+
+      operationId: createAuditLog
+
+      x-fr-id: FR20.01
+
+      security:
+        - bearerAuth: []
+
+      requestBody:
+        required: true
+
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAuditLogRequest'
+
+            example:
+              action: UPDATE_DRIVER
+              resource: DRIVER
+              resourceId: DRV001
+              description: Cập nhật trạng thái tài xế
+              result: SUCCESS
+
+      responses:
+
+        '201':
+          description: Ghi log thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuditLogResponse'
+
+              example:
+                success: true
+                message: Ghi nhận Audit Log thành công
+                data:
+                  logId: LOG001
+                  userId: USR001
+                  action: UPDATE_DRIVER
+                  resource: DRIVER
+                  resourceId: DRV001
+                  result: SUCCESS
+                  createdAt: "2026-09-09T20:00:00+07:00"
+
+        '400':
+          description: Dữ liệu log không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+              example:
+                success: false
+                message: Dữ liệu Audit Log không hợp lệ
+
+        '401':
+          description: Người dùng chưa được xác thực
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+
+    # =====================================================
+    # FR20.02 - TRA CỨU AUDIT LOG
+    # =====================================================
+
+    get:
+      tags:
+        - AuditLog
+
+      summary: Tra cứu Audit Log
+
+      description: >
+        Cho phép Admin hoặc người có quyền tra cứu
+        lịch sử các thao tác quan trọng trong hệ thống.
+
+      operationId: getAuditLogs
+
+      x-fr-id: FR20.02
+
+      security:
+        - bearerAuth: []
+
+      parameters:
+
+        - name: userId
+          in: query
+          required: false
+          description: Lọc theo mã người dùng
+          schema:
+            type: string
+          example: USR001
+
+        - name: action
+          in: query
+          required: false
+          description: Lọc theo hành động
+          schema:
+            type: string
+          example: UPDATE_DRIVER
+
+        - name: resource
+          in: query
+          required: false
+          description: Lọc theo đối tượng
+          schema:
+            type: string
+          example: DRIVER
+
+        - name: result
+          in: query
+          required: false
+          description: Lọc theo kết quả
+          schema:
+            type: string
+            enum:
+              - SUCCESS
+              - FAILED
+
+        - name: fromDate
+          in: query
+          required: false
+          description: Thời gian bắt đầu
+          schema:
+            type: string
+            format: date-time
+
+        - name: toDate
+          in: query
+          required: false
+          description: Thời gian kết thúc
+          schema:
+            type: string
+            format: date-time
+
+        - name: page
+          in: query
+          required: false
+          description: Trang hiện tại
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+
+        - name: limit
+          in: query
+          required: false
+          description: Số bản ghi trên một trang
+          schema:
+            type: integer
+            minimum: 1
+            default: 20
+
+      responses:
+
+        '200':
+          description: Tra cứu Audit Log thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuditLogListResponse'
+
+              example:
+                success: true
+                message: Tra cứu Audit Log thành công
+                data:
+                  - logId: LOG001
+                    userId: USR001
+                    action: UPDATE_DRIVER
+                    resource: DRIVER
+                    resourceId: DRV001
+                    result: SUCCESS
+                    createdAt: "2026-09-09T20:00:00+07:00"
+
+        '401':
+          description: Người dùng chưa được xác thực
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '403':
+          description: Không có quyền xem Audit Log
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+              example:
+                success: false
+                message: Bạn không có quyền xem Audit Log
+
+
+# =========================================================
+# COMPONENTS
+# =========================================================
+
+components:
+
+  # =======================================================
+  # SECURITY
+  # =======================================================
+
+  securitySchemes:
+
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+
+  # =======================================================
+  # SCHEMAS
+  # =======================================================
+
+  schemas:
+
+    # -----------------------------------------------------
+    # FR18.01
+    # -----------------------------------------------------
+
+    VerifyResponse:
+      type: object
+
+      properties:
+
+        success:
+          type: boolean
+          example: true
+
+        message:
+          type: string
+          example: Xác thực thành công
+
+        data:
+          type: object
+
+          properties:
+
+            userId:
+              type: string
+              example: USR001
+
+            fullName:
+              type: string
+              example: Nguyễn Văn A
+
+            role:
+              type: string
+              enum:
+                - CUSTOMER
+                - DRIVER
+                - OPERATOR
+                - ADMIN
+              example: CUSTOMER
+
+            status:
+              type: string
+              enum:
+                - ACTIVE
+                - LOCKED
+                - DISABLED
+              example: ACTIVE
+
+
+    # -----------------------------------------------------
+    # FR18.02
+    # -----------------------------------------------------
+
+    UpdateRoleRequest:
+      type: object
+
+      required:
+        - role
+
+      properties:
+
+        role:
+          type: string
+          description: Vai trò mới của người dùng
+          enum:
+            - CUSTOMER
+            - DRIVER
+            - OPERATOR
+            - ADMIN
+          example: DRIVER
+
+
+    RoleResponse:
+      type: object
+
+      properties:
+
+        success:
+          type: boolean
+          example: true
+
+        message:
+          type: string
+          example: Cập nhật quyền thành công
+
+        data:
+          type: object
+
+          properties:
+
+            userId:
+              type: string
+              example: USR001
+
+            role:
+              type: string
+              enum:
+                - CUSTOMER
+                - DRIVER
+                - OPERATOR
+                - ADMIN
+              example: DRIVER
+
+
+    # -----------------------------------------------------
+    # FR18.03
+    # -----------------------------------------------------
+
+    PermissionCheckRequest:
+      type: object
+
+      required:
+        - resource
+        - action
+
+      properties:
+
+        resource:
+          type: string
+          description: Đối tượng cần kiểm tra quyền
+          example: DRIVER
+
+        action:
+          type: string
+          description: Hành động cần thực hiện
+          example: UPDATE
+
+
+    PermissionCheckResponse:
+      type: object
+
+      properties:
+
+        success:
+          type: boolean
+          example: true
+
+        message:
+          type: string
+          example: Kiểm tra quyền thành công
+
+        data:
+          type: object
+
+          properties:
+
+            resource:
+              type: string
+              example: DRIVER
+
+            action:
+              type: string
+              example: UPDATE
+
+            allowed:
+              type: boolean
+              example: true
+
+
+    # -----------------------------------------------------
+    # FR20.01
+    # -----------------------------------------------------
+
+    CreateAuditLogRequest:
+      type: object
+
+      required:
+        - action
+        - resource
+        - result
+
+      properties:
+
+        action:
+          type: string
+          description: Hành động được thực hiện
+          example: UPDATE_DRIVER
+
+        resource:
+          type: string
+          description: Đối tượng bị tác động
+          example: DRIVER
+
+        resourceId:
+          type: string
+          description: Mã đối tượng
+          example: DRV001
+
+        description:
+          type: string
+          description: Nội dung chi tiết
+          example: Cập nhật trạng thái tài xế
+
+        result:
+          type: string
+          description: Kết quả thao tác
+          enum:
+            - SUCCESS
+            - FAILED
+          example: SUCCESS
+
+
+    AuditLog:
+      type: object
+
+      properties:
+
+        logId:
+          type: string
+          example: LOG001
+
+        userId:
+          type: string
+          example: USR001
+
+        action:
+          type: string
+          example: UPDATE_DRIVER
+
+        resource:
+          type: string
+          example: DRIVER
+
+        resourceId:
+          type: string
+          example: DRV001
+
+        description:
+          type: string
+          example: Cập nhật trạng thái tài xế
+
+        result:
+          type: string
+          enum:
+            - SUCCESS
+            - FAILED
+          example: SUCCESS
+
+        createdAt:
+          type: string
+          format: date-time
+          example: "2026-09-09T20:00:00+07:00"
+
+
+    AuditLogResponse:
+      type: object
+
+      properties:
+
+        success:
+          type: boolean
+          example: true
+
+        message:
+          type: string
+          example: Ghi nhận Audit Log thành công
+
+        data:
+          $ref: '#/components/schemas/AuditLog'
+
+
+    # -----------------------------------------------------
+    # FR20.02
+    # -----------------------------------------------------
+
+    AuditLogListResponse:
+      type: object
+
+      properties:
+
+        success:
+          type: boolean
+          example: true
+
+        message:
+          type: string
+          example: Tra cứu Audit Log thành công
+
+        data:
+          type: array
+
+          items:
+            $ref: '#/components/schemas/AuditLog'
+
+
+    # -----------------------------------------------------
+    # ERROR
+    # -----------------------------------------------------
+
+    ErrorResponse:
+      type: object
+
+      properties:
+
+        success:
+          type: boolean
+          example: false
+
+        message:
+          type: string
+          example: Bạn không có quyền thực hiện thao tác này
