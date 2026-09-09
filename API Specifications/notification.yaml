@@ -1,0 +1,154 @@
+openapi: 3.0.3
+info:
+  title: CAB System - Notification API
+  version: 1.0.0
+  description: API gửi thông báo cho khách hàng và tài xế theo sự kiện.
+servers:
+- url: http://localhost:3000/api
+  description: Local development server
+tags:
+- name: Notification
+  description: API gửi thông báo cho khách hàng và tài xế theo sự kiện.
+x-functional-requirements:
+- id: FR13.01
+  business_requirement: BR13
+  name: Thông báo đặt xe
+  description: Thông báo khi yêu cầu được tiếp nhận.
+  api:
+    method: POST
+    path: /notifications
+- id: FR13.02
+  business_requirement: BR13
+  name: Thông báo nhận chuyến
+  description: Thông báo khi có tài xế nhận chuyến.
+  api:
+    method: POST
+    path: /notifications
+- id: FR13.03
+  business_requirement: BR13
+  name: Thông báo đến
+  description: Thông báo khi tài xế đến.
+  api:
+    method: POST
+    path: /notifications
+- id: FR13.04
+  business_requirement: BR13
+  name: Thông báo hoàn thành
+  description: Thông báo khi chuyến hoàn thành.
+  api:
+    method: POST
+    path: /notifications
+- id: FR13.05
+  business_requirement: BR13
+  name: Thông báo thanh toán
+  description: Thông báo kết quả thanh toán.
+  api:
+    method: POST
+    path: /notifications
+paths:
+  /notifications:
+    post:
+      tags:
+      - Notification
+      summary: Gửi thông báo theo sự kiện
+      x-fr-ids:
+      - FR13.01
+      - FR13.02
+      - FR13.03
+      - FR13.04
+      - FR13.05
+      responses:
+        '200':
+          description: Gửi thông báo thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '400':
+          description: Yêu cầu không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NotificationRequest'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    MessageResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: Thao tác thành công
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+          example: Dữ liệu không hợp lệ
+    NotificationRequest:
+      type: object
+      required:
+      - userId
+      - type
+      - message
+      properties:
+        userId:
+          type: string
+          example: CUS001
+        tripId:
+          type: string
+          example: TRIP001
+        type:
+          type: string
+          enum:
+          - BOOKING_RECEIVED
+          - DRIVER_ASSIGNED
+          - DRIVER_ARRIVED
+          - TRIP_COMPLETED
+          - PAYMENT_RESULT
+        message:
+          type: string
+          example: Tài xế đã nhận chuyến của bạn.
+    Notification:
+      type: object
+      properties:
+        notificationId:
+          type: string
+          example: NOTI001
+        userId:
+          type: string
+          example: CUS001
+        tripId:
+          type: string
+          example: TRIP001
+        type:
+          type: string
+        message:
+          type: string
+        status:
+          type: string
+          enum:
+          - PENDING
+          - SENT
+          - FAILED
+        createdAt:
+          type: string
+          format: date-time
