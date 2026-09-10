@@ -1,7 +1,5 @@
 # TEST CASE – AUTH
 
-> Bộ Test Case cơ bản cho người mới học. Chỉ giữ các case quan trọng để đủ độ phủ theo yêu cầu.
-
 | Test Case ID | Test Scenario | Test Case | Preconditions | Test Steps | Test Data | Expected Result | Priority |
 |---|---|---|---|---|---|---|---|
 | TC-AUTH-001 | TS-AUTH-01 – Đăng ký tài khoản khách hàng | Đăng ký với dữ liệu hợp lệ | Khách hàng chưa có tài khoản. | 1. Gửi POST /auth/register.<br>2. Nhập đầy đủ dữ liệu hợp lệ.<br>3. Kiểm tra kết quả. | fullName: Nguyễn Văn A<br>phone: 0901234567<br>email: a@gmail.com<br>password: 123456 | Tạo tài khoản thành công. | High |
