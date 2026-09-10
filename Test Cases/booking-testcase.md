@@ -1,7 +1,5 @@
 # TEST CASE – BOOKING
 
-> Bộ Test Case cơ bản cho người mới học. Chỉ giữ các case quan trọng để đủ độ phủ theo yêu cầu.
-
 | Test Case ID | Test Scenario | Test Case | Preconditions | Test Steps | Test Data | Expected Result | Priority |
 |---|---|---|---|---|---|---|---|
 | TC-BOOK-001 | TS-BOOK-01 – Kiểm tra và tạo yêu cầu đặt chuyến | Dữ liệu đặt chuyến hợp lệ | Customer đã đăng nhập. | 1. POST /bookings/validate.<br>2. Gửi đủ điểm đón, điểm đến, loại xe. | pickupLocation: IUH<br>destination: Sân bay<br>vehicleType: CAR_4_SEAT | Dữ liệu được xác nhận hợp lệ. | High |
