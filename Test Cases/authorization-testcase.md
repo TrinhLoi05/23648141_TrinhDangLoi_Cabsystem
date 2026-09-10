@@ -1,7 +1,5 @@
 # TEST CASE – AUTHORIZATION
 
-> Bộ Test Case cơ bản cho người mới học. Chỉ giữ các case quan trọng để đủ độ phủ theo yêu cầu.
-
 | Test Case ID | Test Scenario | Test Case | Preconditions | Test Steps | Test Data | Expected Result | Priority |
 |---|---|---|---|---|---|---|---|
 | TC-AUTHZ-001 | TS-AUTHZ-01 – Xác thực và kiểm tra quyền | Xác thực với token hợp lệ | Người dùng đã đăng nhập. | 1. Gửi POST /authorization/verify với token hợp lệ.<br>2. Kiểm tra kết quả. | Bearer Token: valid | Xác thực thành công. | High |
