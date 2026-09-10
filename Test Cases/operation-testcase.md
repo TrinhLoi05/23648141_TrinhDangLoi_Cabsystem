@@ -1,7 +1,5 @@
 # TEST CASE – OPERATION
 
-> Bộ Test Case cơ bản cho người mới học. Chỉ giữ các case quan trọng để đủ độ phủ theo yêu cầu.
-
 | Test Case ID | Test Scenario | Test Case | Preconditions | Test Steps | Test Data | Expected Result | Priority |
 |---|---|---|---|---|---|---|---|
 | TC-OPS-001 | TS-OPS-01 – Xem dữ liệu vận hành | Operator xem dữ liệu khi có dữ liệu | Operator đã đăng nhập và có quyền. | 1. Gọi một API GET /operations/*.<br>2. Kiểm tra danh sách. | Ví dụ: GET /operations/trips | Hiển thị dữ liệu phù hợp. | High |
