@@ -1,7 +1,5 @@
 # TEST CASE – DRIVER
 
-> Bộ Test Case cơ bản cho người mới học. Chỉ giữ các case quan trọng để đủ độ phủ theo yêu cầu.
-
 | Test Case ID | Test Scenario | Test Case | Preconditions | Test Steps | Test Data | Expected Result | Priority |
 |---|---|---|---|---|---|---|---|
 | TC-DRIVER-001 | TS-DRIVER-01 – Quản lý hồ sơ tài xế | Tạo tài xế với dữ liệu hợp lệ | Admin/Operator có quyền. | 1. POST /drivers.<br>2. Nhập fullName và phone hợp lệ. | fullName: Nguyễn Văn B<br>phone: 0912345678<br>licenseNumber: GPLX123 | Tạo Driver thành công. | High |
