@@ -1,81 +1,31 @@
 # TEST CASE – TRIP
 
-## 1. Thông tin chung
+> Bộ Test Case cơ bản cho người mới học. Chỉ giữ các case quan trọng để đủ độ phủ theo yêu cầu.
 
-**Module:** Trip  
-**Business Requirement:** BR05, BR06, BR07, BR08, BR09
-
-Functional Requirements:
-
-- FR05.01 – FR05.04: Tìm tài xế.
-- FR06.01 – FR06.06: Phân công tài xế.
-- FR07.01 – FR07.03: Theo dõi chuyến.
-- FR08.01 – FR08.04: Thực hiện chuyến.
-- FR09.01 – FR09.02: Quản lý vị trí.
-
----
-
-# 2. Test Case – Tìm tài xế
-
-| Test Case ID | Test Scenario | FR | Pre-condition | Test Data | Test Steps | Expected Result | Priority | Status |
-|---|---|---|---|---|---|---|---|---|
-| TC-TRIP-01 | TS-TRIP-01 – Có Driver AVAILABLE | FR05.01 | Trip=SEARCHING_DRIVER | Driver AVAILABLE | Bắt đầu matching | Tìm được tài xế | High | Not Run |
-| TC-TRIP-02 | TS-TRIP-02 – Không có Driver AVAILABLE | FR05.01 | Không có tài xế sẵn sàng | Không | Matching | Không tìm được tài xế | High | Not Run |
-| TC-TRIP-03 | TS-TRIP-03 – Kiểm tra vị trí | FR05.02 | Driver có location | Lat/Long | Matching | Hệ thống sử dụng vị trí hiện tại | High | Not Run |
-| TC-TRIP-04 | TS-TRIP-04 – Lọc theo loại xe | FR05.03 | Có nhiều driver | CAR_4_SEAT | Matching | Chỉ tài xế phù hợp được chọn | High | Not Run |
-| TC-TRIP-05 | TS-TRIP-05 – Ưu tiên tài xế | FR05.04 | Nhiều driver phù hợp | Driver A/B | Matching | Áp dụng tiêu chí ưu tiên | Medium | Not Run |
-
-> Tiêu chí ưu tiên cụ thể hiện là TBD.
-
----
-
-# 3. Test Case – Phân công tài xế
-
-| Test Case ID | Test Scenario | FR | Pre-condition | Test Data | Test Steps | Expected Result | Priority | Status |
-|---|---|---|---|---|---|---|---|---|
-| TC-TRIP-06 | TS-TRIP-06 – Gửi yêu cầu | FR06.01 | Driver phù hợp | DRV001 | Gửi offer | Driver nhận yêu cầu chuyến | High | Not Run |
-| TC-TRIP-07 | TS-TRIP-07 – Driver chấp nhận | FR06.02 | Có offer | DRV001 | Chọn Accept | Driver được phân công | High | Not Run |
-| TC-TRIP-08 | TS-TRIP-08 – Driver từ chối | FR06.03 | Có offer | DRV001 | Chọn Reject | Hệ thống ghi nhận từ chối | High | Not Run |
-| TC-TRIP-09 | TS-TRIP-09 – Tìm driver khác | FR06.05 | Driver A reject | Driver B | Reject A | Hệ thống tìm Driver B | High | Not Run |
-| TC-TRIP-10 | TS-TRIP-10 – Không phản hồi | FR06.04 | Driver không trả lời | Timeout | Chờ hết thời gian | Xử lý timeout | High | Not Run |
-| TC-TRIP-11 | TS-TRIP-11 – Retry matching | FR06.05 | Driver A timeout | Driver B | Retry | Gửi yêu cầu tài xế tiếp theo | High | Not Run |
-| TC-TRIP-12 | TS-TRIP-12 – Không còn tài xế | FR06.06 | Không còn driver | Không | Matching thất bại | status=NO_DRIVER_FOUND | High | Not Run |
-| TC-TRIP-13 | TS-TRIP-13 – Thông báo không có tài xế | FR06.06 | NO_DRIVER_FOUND | CUS001 | Kết thúc matching | Customer nhận thông báo | High | Not Run |
-
----
-
-# 4. Test Case – Theo dõi chuyến
-
-| Test Case ID | Test Scenario | FR | Pre-condition | Test Data | Test Steps | Expected Result | Priority | Status |
-|---|---|---|---|---|---|---|---|---|
-| TC-TRIP-14 | TS-TRIP-14 – Xem trạng thái | FR07.01 | Trip tồn tại | TRIP001 | Mở Trip | Hiển thị đúng status | High | Not Run |
-| TC-TRIP-15 | TS-TRIP-15 – Xem tài xế | FR07.02 | Trip đã có driver | DRV001 | Xem chi tiết Trip | Hiển thị đúng Driver | High | Not Run |
-| TC-TRIP-16 | TS-TRIP-16 – Theo dõi vị trí | FR07.03 | Driver có vị trí | Lat/Long | Mở tracking | Hiển thị vị trí tài xế | High | Not Run |
-| TC-TRIP-17 | TS-TRIP-17 – Không có vị trí mới | FR07.03 | Mất cập nhật GPS | Last Location | Mở tracking | Hiển thị vị trí gần nhất nếu có | Medium | Not Run |
-| TC-TRIP-18 | TS-TRIP-18 – Xem chuyến người khác | FR07.01 | Trip thuộc Customer khác | TRIP002 | Truy cập Trip | Hệ thống từ chối | High | Not Run |
-
----
-
-# 5. Test Case – Thực hiện chuyến
-
-| Test Case ID | Test Scenario | FR | Pre-condition | Test Data | Test Steps | Expected Result | Priority | Status |
-|---|---|---|---|---|---|---|---|---|
-| TC-TRIP-19 | TS-TRIP-19 – Driver đến điểm đón | FR08.01 | Driver được phân công | DRIVER_ARRIVED | Chọn Đã đến | Status được cập nhật | High | Not Run |
-| TC-TRIP-20 | TS-TRIP-20 – Đã đón khách | FR08.02 | DRIVER_ARRIVED | PASSENGER_PICKED_UP | Chọn Đã đón | Status được cập nhật | High | Not Run |
-| TC-TRIP-21 | TS-TRIP-21 – Bắt đầu chuyến | FR08.03 | Đã đón khách | IN_PROGRESS | Chọn Bắt đầu | status=IN_PROGRESS | High | Not Run |
-| TC-TRIP-22 | TS-TRIP-22 – Hoàn thành | FR08.04 | Trip đang chạy | COMPLETED | Chọn Hoàn thành | status=COMPLETED | High | Not Run |
-| TC-TRIP-23 | TS-TRIP-23 – Sai trình tự | FR08.01-FR08.04 | Trip mới assigned | COMPLETED | Chuyển thẳng COMPLETED | Hệ thống từ chối | High | Not Run |
-| TC-TRIP-24 | TS-TRIP-24 – Driver khác cập nhật | FR08.01-FR08.04 | DRV002 không được phân công | TRIP001 | Gửi update | Hệ thống từ chối | High | Not Run |
-
-Trình tự hợp lệ:
-
-```text
-DRIVER_ASSIGNED
-      ↓
-DRIVER_ARRIVED
-      ↓
-PASSENGER_PICKED_UP
-      ↓
-IN_PROGRESS
-      ↓
-COMPLETED
+| Test Case ID | Test Scenario | Test Case | Preconditions | Test Steps | Test Data | Expected Result | Priority |
+|---|---|---|---|---|---|---|---|
+| TC-TRIP-001 | TS-TRIP-01 – Tìm tài xế | Có Driver AVAILABLE phù hợp | Trip đang tìm tài xế; có Driver AVAILABLE. | 1. POST /trips/{tripId}/matching.<br>2. Kiểm tra Driver được chọn. | Driver A: AVAILABLE | Hệ thống tìm được Driver phù hợp. | High |
+| TC-TRIP-002 | TS-TRIP-01 – Tìm tài xế | Driver BUSY không được chọn | Có Driver BUSY. | 1. Matching.<br>2. Kiểm tra kết quả. | Driver A: BUSY | Driver không được chọn theo BRULE02. | High |
+| TC-TRIP-003 | TS-TRIP-01 – Tìm tài xế | Không lấy được vị trí Driver | Driver phù hợp nhưng lỗi vị trí. | 1. Matching.<br>2. Mô phỏng không lấy được vị trí. | Location: unavailable | Dùng vị trí gần nhất nếu có hoặc báo lỗi theo EX06. | High |
+| TC-TRIP-004 | TS-TRIP-01 – Tìm tài xế | Không có Driver phù hợp | Không có Driver đáp ứng điều kiện. | 1. Matching.<br>2. Kiểm tra kết quả. | No driver | Hệ thống xử lý không tìm được tài xế theo BRULE05/EX01. | High |
+| TC-TRIP-005 | TS-TRIP-02 – Phân công tài xế | Gửi offer cho Driver | Trip đang tìm; Driver AVAILABLE. | 1. POST /trips/{tripId}/driver-offer.<br>2. Gửi driverId. | driverId: DRV001 | Driver nhận được yêu cầu chuyến. | High |
+| TC-TRIP-006 | TS-TRIP-02 – Phân công tài xế | Driver chấp nhận chuyến | Driver đã nhận offer; Trip chưa có Driver. | 1. POST /trips/{tripId}/accept.<br>2. Kiểm tra Trip. | tripId: TRIP001 | Driver được phân công. | High |
+| TC-TRIP-007 | TS-TRIP-02 – Phân công tài xế | Trip đã có Driver khác | Trip đã được phân công Driver A. | 1. Driver B gửi accept.<br>2. Kiểm tra Trip. | Driver B | Hệ thống từ chối; một Trip chỉ có một Driver theo BRULE03. | High |
+| TC-TRIP-008 | TS-TRIP-02 – Phân công tài xế | Driver từ chối chuyến | Driver đã nhận offer. | 1. POST /trips/{tripId}/reject.<br>2. Kiểm tra xử lý tiếp. | Driver A rejects | Hệ thống tìm Driver khác theo BRULE04/EX02. | High |
+| TC-TRIP-009 | TS-TRIP-02 – Phân công tài xế | Driver không phản hồi | Driver đã nhận offer nhưng không phản hồi. | 1. Chờ theo thời gian cấu hình.<br>2. POST matching/retry. | Timeout: theo cấu hình đã xác nhận | Hệ thống tìm Driver khác theo EX03. | High |
+| TC-TRIP-010 | TS-TRIP-02 – Phân công tài xế | Không còn Driver sau khi retry | Không còn Driver phù hợp. | 1. Retry matching.<br>2. Ghi nhận fail.<br>3. Kiểm tra notification. | No next driver | Khách hàng được thông báo theo BRULE05/EX01. | High |
+| TC-TRIP-011 | TS-TRIP-03 – Xem và theo dõi chuyến | Customer xem chuyến của mình | Customer là chủ Trip. | 1. GET /trips/{tripId}.<br>2. Kiểm tra trạng thái và Driver. | tripId: TRIP001 | Hiển thị đúng thông tin Trip. | High |
+| TC-TRIP-012 | TS-TRIP-03 – Xem và theo dõi chuyến | Customer xem chuyến người khác | Trip thuộc Customer B. | 1. Customer A GET Trip B.<br>2. Kiểm tra kết quả. | Token A | Hệ thống từ chối theo BRULE10/EX07. | High |
+| TC-TRIP-013 | TS-TRIP-03 – Xem và theo dõi chuyến | Theo dõi vị trí hiện tại | Trip có Driver và vị trí hiện tại. | 1. GET /trips/{tripId}/tracking.<br>2. Kiểm tra vị trí. | Current location available | Hiển thị vị trí Driver. | High |
+| TC-TRIP-014 | TS-TRIP-03 – Xem và theo dõi chuyến | Không có vị trí hiện tại | Không lấy được vị trí mới. | 1. GET tracking.<br>2. Kiểm tra xử lý. | Current location unavailable | Dùng vị trí gần nhất nếu có hoặc báo lỗi theo EX06. | High |
+| TC-TRIP-015 | TS-TRIP-04 – Cập nhật trạng thái chuyến | Chuyển DRIVER_ASSIGNED → DRIVER_ARRIVED | Trip đang DRIVER_ASSIGNED; Driver được phân công. | 1. PATCH /trips/{tripId}/status.<br>2. Gửi status mới.<br>3. Kiểm tra kết quả. | status: DRIVER_ARRIVED | Trạng thái được cập nhật thành DRIVER_ARRIVED. | High |
+| TC-TRIP-016 | TS-TRIP-04 – Cập nhật trạng thái chuyến | Chuyển DRIVER_ARRIVED → PASSENGER_PICKED_UP | Trip đang DRIVER_ARRIVED; Driver được phân công. | 1. PATCH /trips/{tripId}/status.<br>2. Gửi status mới.<br>3. Kiểm tra kết quả. | status: PASSENGER_PICKED_UP | Trạng thái được cập nhật thành PASSENGER_PICKED_UP. | High |
+| TC-TRIP-017 | TS-TRIP-04 – Cập nhật trạng thái chuyến | Chuyển PASSENGER_PICKED_UP → IN_PROGRESS | Trip đang PASSENGER_PICKED_UP; Driver được phân công. | 1. PATCH /trips/{tripId}/status.<br>2. Gửi status mới.<br>3. Kiểm tra kết quả. | status: IN_PROGRESS | Trạng thái được cập nhật thành IN_PROGRESS. | High |
+| TC-TRIP-018 | TS-TRIP-04 – Cập nhật trạng thái chuyến | Chuyển IN_PROGRESS → COMPLETED | Trip đang IN_PROGRESS; Driver được phân công. | 1. PATCH /trips/{tripId}/status.<br>2. Gửi status mới.<br>3. Kiểm tra kết quả. | status: COMPLETED | Trạng thái được cập nhật thành COMPLETED. | High |
+| TC-TRIP-019 | TS-TRIP-04 – Cập nhật trạng thái chuyến | Status rỗng | Driver được phân công. | 1. Gửi status rỗng.<br>2. Kiểm tra kết quả. | status: empty | Hệ thống báo dữ liệu không hợp lệ. | High |
+| TC-TRIP-020 | TS-TRIP-04 – Cập nhật trạng thái chuyến | Status ngoài enum | Driver được phân công. | 1. Gửi status không hợp lệ.<br>2. Kiểm tra kết quả. | status: FLYING | Hệ thống từ chối dữ liệu. | High |
+| TC-TRIP-021 | TS-TRIP-04 – Cập nhật trạng thái chuyến | Driver khác cập nhật chuyến | Trip thuộc Driver A; Driver B đăng nhập. | 1. Driver B PATCH status.<br>2. Kiểm tra kết quả. | status: IN_PROGRESS | Hệ thống từ chối theo BRULE10/EX07. | High |
+| TC-TRIP-022 | TS-TRIP-05 – Cập nhật vị trí tài xế | Gửi vị trí hợp lệ | Driver đã đăng nhập. | 1. POST /drivers/{driverId}/locations.<br>2. Gửi latitude và longitude. | latitude: 10.8223<br>longitude: 106.6872 | Vị trí được ghi nhận/cập nhật. | High |
+| TC-TRIP-023 | TS-TRIP-05 – Cập nhật vị trí tài xế | Latitude rỗng | Driver đã đăng nhập. | 1. Để latitude rỗng.<br>2. Gửi request. | latitude: null<br>longitude: 106.6872 | Hệ thống báo dữ liệu không hợp lệ. | High |
+| TC-TRIP-024 | TS-TRIP-05 – Cập nhật vị trí tài xế | Longitude sai kiểu | Driver đã đăng nhập. | 1. Gửi longitude dạng text.<br>2. Kiểm tra kết quả. | latitude: 10.8223<br>longitude: abc | Hệ thống từ chối dữ liệu. | High |
+| TC-TRIP-025 | TS-TRIP-05 – Cập nhật vị trí tài xế | Mất kết nối khi cập nhật vị trí | Driver đang hoạt động; mất mạng. | 1. Gửi vị trí.<br>2. Mô phỏng mất kết nối.<br>3. Gửi lại khi có mạng. | Location hợp lệ | Xử lý theo EX05; cập nhật lại khi có kết nối. | High |
