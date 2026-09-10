@@ -1,38 +1,22 @@
 # TEST CASE – DRIVER
 
-## 1. Thông tin chung
+> Bộ Test Case cơ bản cho người mới học. Chỉ giữ các case quan trọng để đủ độ phủ theo yêu cầu.
 
-**Module:** Driver / Vehicle  
-**Business Requirement:** BR03, BR04
-
----
-
-## 2. Test Cases
-
-| Test Case ID | Test Scenario | FR | Pre-condition | Test Data | Test Steps | Expected Result | Priority | Status |
-|---|---|---|---|---|---|---|---|---|
-| TC-DRIVER-01 | TS-DRIVER-01 – Tạo tài xế hợp lệ | FR03.03 | Operator/Admin đã đăng nhập | Driver hợp lệ | Nhập thông tin → tạo | Tài khoản tài xế được tạo | High | Not Run |
-| TC-DRIVER-02 | TS-DRIVER-02 – Thiếu dữ liệu | FR03.03 | Có quyền | phone=null | Gửi yêu cầu tạo | Hệ thống báo lỗi | High | Not Run |
-| TC-DRIVER-03 | TS-DRIVER-03 – Phone đã tồn tại | FR03.03 | Phone tồn tại | 0912345678 | Tạo tài xế | Hệ thống từ chối | High | Not Run |
-| TC-DRIVER-04 | TS-DRIVER-04 – Cập nhật hồ sơ | FR03.01 | Driver tồn tại | Tên mới | Sửa → lưu | Hồ sơ được cập nhật | Medium | Not Run |
-| TC-DRIVER-05 | TS-DRIVER-05 – Driver không tồn tại | FR03.01 | Không có DRV999 | DRV999 | Cập nhật | Hệ thống báo không tìm thấy | Medium | Not Run |
-| TC-DRIVER-06 | TS-DRIVER-06 – AVAILABLE | FR03.02 | Driver đã đăng nhập | AVAILABLE | Đổi trạng thái | status=AVAILABLE | High | Not Run |
-| TC-DRIVER-07 | TS-DRIVER-07 – BUSY | FR03.02 | Driver đã đăng nhập | BUSY | Đổi trạng thái | status=BUSY | Medium | Not Run |
-| TC-DRIVER-08 | TS-DRIVER-08 – OFFLINE | FR03.02 | Driver đã đăng nhập | OFFLINE | Đổi trạng thái | status=OFFLINE | Medium | Not Run |
-| TC-DRIVER-09 | TS-DRIVER-09 – Status không hợp lệ | FR03.02 | Driver tồn tại | ABC | Cập nhật | Hệ thống báo lỗi | Medium | Not Run |
-| TC-DRIVER-10 | TS-DRIVER-10 – Thêm phương tiện | FR04.01 | Driver tồn tại | 51A-123.45 | Thêm xe | Xe được lưu | High | Not Run |
-| TC-DRIVER-11 | TS-DRIVER-11 – Biển số trùng | FR04.01 | Biển số tồn tại | 51A-123.45 | Thêm xe | Hệ thống từ chối | High | Not Run |
-| TC-DRIVER-12 | TS-DRIVER-12 – Cập nhật phương tiện | FR04.02 | Vehicle tồn tại | Màu=Đen | Sửa → lưu | Xe được cập nhật | Medium | Not Run |
-| TC-DRIVER-13 | TS-DRIVER-13 – Vehicle không tồn tại | FR04.02 | VEH999 không tồn tại | VEH999 | Cập nhật | Báo không tìm thấy | Medium | Not Run |
-
----
-
-## 3. Traceability
-
-| FR | API |
-|---|---|
-| FR03.01 | PATCH /drivers/{driverId} |
-| FR03.02 | PATCH /drivers/{driverId}/availability |
-| FR03.03 | POST /drivers |
-| FR04.01 | POST /drivers/{driverId}/vehicles |
-| FR04.02 | PATCH /vehicles/{vehicleId} |
+| Test Case ID | Test Scenario | Test Case | Preconditions | Test Steps | Test Data | Expected Result | Priority |
+|---|---|---|---|---|---|---|---|
+| TC-DRIVER-001 | TS-DRIVER-01 – Quản lý hồ sơ tài xế | Tạo tài xế với dữ liệu hợp lệ | Admin/Operator có quyền. | 1. POST /drivers.<br>2. Nhập fullName và phone hợp lệ. | fullName: Nguyễn Văn B<br>phone: 0912345678<br>licenseNumber: GPLX123 | Tạo Driver thành công. | High |
+| TC-DRIVER-002 | TS-DRIVER-01 – Quản lý hồ sơ tài xế | Thiếu fullName | Admin/Operator có quyền. | 1. Để fullName rỗng.<br>2. Gửi request. | fullName: empty<br>phone: 0912345678 | Hệ thống báo lỗi. | High |
+| TC-DRIVER-003 | TS-DRIVER-01 – Quản lý hồ sơ tài xế | Thiếu phone | Admin/Operator có quyền. | 1. Để phone rỗng.<br>2. Gửi request. | phone: empty | Hệ thống báo lỗi. | High |
+| TC-DRIVER-004 | TS-DRIVER-01 – Quản lý hồ sơ tài xế | Cập nhật hồ sơ hợp lệ | Driver tồn tại; user có quyền. | 1. PATCH /drivers/{driverId}.<br>2. Sửa thông tin.<br>3. Kiểm tra dữ liệu. | driverId: DRV001<br>fullName: Nguyễn Văn Bình | Cập nhật thành công. | High |
+| TC-DRIVER-005 | TS-DRIVER-01 – Quản lý hồ sơ tài xế | Không có quyền quản lý Driver | Customer đã đăng nhập. | 1. Gửi yêu cầu quản lý Driver.<br>2. Kiểm tra kết quả. | Token Customer | Hệ thống từ chối theo BRULE10/EX07. | High |
+| TC-DRIVER-006 | TS-DRIVER-02 – Cập nhật trạng thái sẵn sàng | Cập nhật trạng thái AVAILABLE | Driver đã đăng nhập. | 1. PATCH /drivers/{driverId}/availability.<br>2. Gửi status.<br>3. Kiểm tra kết quả. | status: AVAILABLE | Cập nhật thành công; status=AVAILABLE. | High |
+| TC-DRIVER-007 | TS-DRIVER-02 – Cập nhật trạng thái sẵn sàng | Cập nhật trạng thái BUSY | Driver đã đăng nhập. | 1. PATCH /drivers/{driverId}/availability.<br>2. Gửi status.<br>3. Kiểm tra kết quả. | status: BUSY | Cập nhật thành công; status=BUSY. | High |
+| TC-DRIVER-008 | TS-DRIVER-02 – Cập nhật trạng thái sẵn sàng | Cập nhật trạng thái OFFLINE | Driver đã đăng nhập. | 1. PATCH /drivers/{driverId}/availability.<br>2. Gửi status.<br>3. Kiểm tra kết quả. | status: OFFLINE | Cập nhật thành công; status=OFFLINE. | High |
+| TC-DRIVER-009 | TS-DRIVER-02 – Cập nhật trạng thái sẵn sàng | Status rỗng | Driver đã đăng nhập. | 1. Gửi status rỗng.<br>2. Kiểm tra kết quả. | status: empty | Hệ thống báo dữ liệu không hợp lệ. | High |
+| TC-DRIVER-010 | TS-DRIVER-02 – Cập nhật trạng thái sẵn sàng | Status ngoài enum | Driver đã đăng nhập. | 1. Gửi status không hợp lệ.<br>2. Kiểm tra kết quả. | status: READY | Hệ thống từ chối dữ liệu. | High |
+| TC-DRIVER-011 | TS-DRIVER-02 – Cập nhật trạng thái sẵn sàng | Driver BUSY/OFFLINE không được tìm để nhận chuyến | Driver đang BUSY hoặc OFFLINE. | 1. Cập nhật BUSY/OFFLINE.<br>2. Thực hiện matching.<br>3. Kiểm tra Driver được chọn. | status: BUSY | Driver không được chọn theo BRULE02. | High |
+| TC-DRIVER-012 | TS-VEHICLE-01 – Quản lý phương tiện | Thêm phương tiện hợp lệ | Driver tồn tại; user có quyền. | 1. POST /drivers/{driverId}/vehicles.<br>2. Nhập vehicleType và licensePlate. | vehicleType: CAR_4_SEAT<br>licensePlate: 51A-123.45 | Tạo Vehicle thành công. | High |
+| TC-DRIVER-013 | TS-VEHICLE-01 – Quản lý phương tiện | Thiếu vehicleType | Driver tồn tại. | 1. Để vehicleType rỗng.<br>2. Gửi request. | vehicleType: empty | Hệ thống báo lỗi. | High |
+| TC-DRIVER-014 | TS-VEHICLE-01 – Quản lý phương tiện | Thiếu licensePlate | Driver tồn tại. | 1. Để licensePlate rỗng.<br>2. Gửi request. | licensePlate: empty | Hệ thống báo lỗi. | High |
+| TC-DRIVER-015 | TS-VEHICLE-01 – Quản lý phương tiện | Cập nhật phương tiện hợp lệ | Vehicle tồn tại; user có quyền. | 1. PATCH /vehicles/{vehicleId}.<br>2. Sửa thông tin.<br>3. Kiểm tra kết quả. | vehicleId: VEH001<br>brand: Toyota | Cập nhật thành công. | High |
+| TC-DRIVER-016 | TS-VEHICLE-01 – Quản lý phương tiện | Vehicle không tồn tại | User có quyền. | 1. PATCH vehicleId không tồn tại.<br>2. Kiểm tra kết quả. | vehicleId: VEH999 | Hệ thống báo không tìm thấy. | High |
