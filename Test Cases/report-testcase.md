@@ -1,7 +1,5 @@
 # TEST CASE – REPORT
 
-> Bộ Test Case cơ bản cho người mới học. Chỉ giữ các case quan trọng để đủ độ phủ theo yêu cầu.
-
 | Test Case ID | Test Scenario | Test Case | Preconditions | Test Steps | Test Data | Expected Result | Priority |
 |---|---|---|---|---|---|---|---|
 | TC-REPORT-001 | TS-REPORT-01 – Xem báo cáo hoạt động | Báo cáo số lượng chuyến | Người dùng có quyền; có dữ liệu thực tế. | 1. Gọi GET /reports/trips.<br>2. Đối chiếu dữ liệu. | Dữ liệu hệ thống đã biết | Hiển thị đúng số lượng chuyến. | High |
