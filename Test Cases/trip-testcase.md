@@ -1,7 +1,5 @@
 # TEST CASE – TRIP
 
-> Bộ Test Case cơ bản cho người mới học. Chỉ giữ các case quan trọng để đủ độ phủ theo yêu cầu.
-
 | Test Case ID | Test Scenario | Test Case | Preconditions | Test Steps | Test Data | Expected Result | Priority |
 |---|---|---|---|---|---|---|---|
 | TC-TRIP-001 | TS-TRIP-01 – Tìm tài xế | Có Driver AVAILABLE phù hợp | Trip đang tìm tài xế; có Driver AVAILABLE. | 1. POST /trips/{tripId}/matching.<br>2. Kiểm tra Driver được chọn. | Driver A: AVAILABLE | Hệ thống tìm được Driver phù hợp. | High |
