@@ -1,7 +1,5 @@
 # TEST CASE – PAYMENT
 
-> Bộ Test Case cơ bản cho người mới học. Chỉ giữ các case quan trọng để đủ độ phủ theo yêu cầu.
-
 | Test Case ID | Test Scenario | Test Case | Preconditions | Test Steps | Test Data | Expected Result | Priority |
 |---|---|---|---|---|---|---|---|
 | TC-PAY-001 | TS-PAY-01 – Tính và lưu cước | Tính cước cho chuyến hoàn thành | Trip tồn tại và COMPLETED. | 1. POST /trips/{tripId}/fare/calculate.<br>2. Kiểm tra kết quả. | tripId: TRIP001 | Hệ thống tính và lưu cước cuối cùng. | High |
