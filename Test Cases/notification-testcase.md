@@ -1,7 +1,5 @@
 # TEST CASE – NOTIFICATION
 
-> Bộ Test Case cơ bản cho người mới học. Chỉ giữ các case quan trọng để đủ độ phủ theo yêu cầu.
-
 | Test Case ID | Test Scenario | Test Case | Preconditions | Test Steps | Test Data | Expected Result | Priority |
 |---|---|---|---|---|---|---|---|
 | TC-NOTI-001 | TS-NOTI-01 – Gửi thông báo theo sự kiện | Gửi thông báo BOOKING_RECEIVED | Yêu cầu đặt xe được tiếp nhận | 1. POST /notifications.<br>2. Gửi đúng userId, type, message.<br>3. Kiểm tra thông báo. | userId: CUS001<br>type: BOOKING_RECEIVED<br>message: hợp lệ | Thông báo được gửi đúng sự kiện và đúng người nhận. | High |
