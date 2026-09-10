@@ -1,33 +1,14 @@
 # TEST CASE – NOTIFICATION
 
-## 1. Thông tin chung
+> Bộ Test Case cơ bản cho người mới học. Chỉ giữ các case quan trọng để đủ độ phủ theo yêu cầu.
 
-**Module:** Notification  
-**Business Requirement:** BR13 – Thông báo
-
----
-
-## 2. Test Cases
-
-| Test Case ID | Test Scenario | FR | Pre-condition | Test Data | Test Steps | Expected Result | Priority | Status |
-|---|---|---|---|---|---|---|---|---|
-| TC-NOTI-01 | TS-NOTI-01 – Thông báo đặt xe | FR13.01 | Booking được tiếp nhận | BOOKING_RECEIVED | Tạo chuyến | Customer nhận thông báo | High | Not Run |
-| TC-NOTI-02 | TS-NOTI-02 – Tài xế nhận chuyến | FR13.02 | Driver chấp nhận | DRIVER_ASSIGNED | Driver accept | Customer nhận thông báo | High | Not Run |
-| TC-NOTI-03 | TS-NOTI-03 – Tài xế đến | FR13.03 | Driver đã đến | DRIVER_ARRIVED | Cập nhật trạng thái | Customer nhận thông báo | High | Not Run |
-| TC-NOTI-04 | TS-NOTI-04 – Hoàn thành chuyến | FR13.04 | Trip đang chạy | COMPLETED | Hoàn thành chuyến | Customer nhận thông báo | High | Not Run |
-| TC-NOTI-05 | TS-NOTI-05 – Thanh toán thành công | FR13.05 | Payment SUCCESS | SUCCESS | Thanh toán | Nhận thông báo thành công | High | Not Run |
-| TC-NOTI-06 | TS-NOTI-06 – Thanh toán thất bại | FR13.05 | Payment FAILED | FAILED | Thanh toán | Nhận thông báo thất bại | High | Not Run |
-| TC-NOTI-07 | TS-NOTI-07 – Provider thông báo lỗi | FR13.01-FR13.05 | Notification Provider lỗi | Provider unavailable | Phát sinh sự kiện | Chức năng chính vẫn tiếp tục | High | Not Run |
-| TC-NOTI-08 | TS-NOTI-08 – Đúng người nhận | FR13.01-FR13.05 | Có nhiều người dùng | userId=CUS001 | Gửi thông báo | Chỉ đúng người dùng nhận | High | Not Run |
-
----
-
-## 3. Traceability
-
-| FR | API |
-|---|---|
-| FR13.01 | POST /notifications |
-| FR13.02 | POST /notifications |
-| FR13.03 | POST /notifications |
-| FR13.04 | POST /notifications |
-| FR13.05 | POST /notifications |
+| Test Case ID | Test Scenario | Test Case | Preconditions | Test Steps | Test Data | Expected Result | Priority |
+|---|---|---|---|---|---|---|---|
+| TC-NOTI-001 | TS-NOTI-01 – Gửi thông báo theo sự kiện | Gửi thông báo BOOKING_RECEIVED | Yêu cầu đặt xe được tiếp nhận | 1. POST /notifications.<br>2. Gửi đúng userId, type, message.<br>3. Kiểm tra thông báo. | userId: CUS001<br>type: BOOKING_RECEIVED<br>message: hợp lệ | Thông báo được gửi đúng sự kiện và đúng người nhận. | High |
+| TC-NOTI-002 | TS-NOTI-01 – Gửi thông báo theo sự kiện | Gửi thông báo DRIVER_ASSIGNED | Tài xế nhận chuyến | 1. POST /notifications.<br>2. Gửi đúng userId, type, message.<br>3. Kiểm tra thông báo. | userId: CUS001<br>type: DRIVER_ASSIGNED<br>message: hợp lệ | Thông báo được gửi đúng sự kiện và đúng người nhận. | High |
+| TC-NOTI-003 | TS-NOTI-01 – Gửi thông báo theo sự kiện | Gửi thông báo DRIVER_ARRIVED | Tài xế đến điểm đón | 1. POST /notifications.<br>2. Gửi đúng userId, type, message.<br>3. Kiểm tra thông báo. | userId: CUS001<br>type: DRIVER_ARRIVED<br>message: hợp lệ | Thông báo được gửi đúng sự kiện và đúng người nhận. | High |
+| TC-NOTI-004 | TS-NOTI-01 – Gửi thông báo theo sự kiện | Gửi thông báo TRIP_COMPLETED | Chuyến hoàn thành | 1. POST /notifications.<br>2. Gửi đúng userId, type, message.<br>3. Kiểm tra thông báo. | userId: CUS001<br>type: TRIP_COMPLETED<br>message: hợp lệ | Thông báo được gửi đúng sự kiện và đúng người nhận. | High |
+| TC-NOTI-005 | TS-NOTI-01 – Gửi thông báo theo sự kiện | Gửi thông báo PAYMENT_RESULT | Có kết quả thanh toán | 1. POST /notifications.<br>2. Gửi đúng userId, type, message.<br>3. Kiểm tra thông báo. | userId: CUS001<br>type: PAYMENT_RESULT<br>message: hợp lệ | Thông báo được gửi đúng sự kiện và đúng người nhận. | High |
+| TC-NOTI-006 | TS-NOTI-01 – Gửi thông báo theo sự kiện | Thiếu dữ liệu bắt buộc | API Notification hoạt động. | 1. Để userId hoặc type hoặc message rỗng.<br>2. Gửi request. | userId: empty | Hệ thống báo dữ liệu không hợp lệ. | High |
+| TC-NOTI-007 | TS-NOTI-01 – Gửi thông báo theo sự kiện | Type ngoài enum | API Notification hoạt động. | 1. Gửi type không hợp lệ.<br>2. Kiểm tra kết quả. | type: UNKNOWN | Hệ thống từ chối dữ liệu. | High |
+| TC-NOTI-008 | TS-NOTI-01 – Gửi thông báo theo sự kiện | Notification Provider mất kết nối | Có sự kiện cần gửi; provider lỗi. | 1. Phát sinh sự kiện.<br>2. Mô phỏng provider mất kết nối.<br>3. Kiểm tra chức năng chính. | Provider: unavailable | Xử lý theo EX05; chức năng chính không bị dừng. | High |
