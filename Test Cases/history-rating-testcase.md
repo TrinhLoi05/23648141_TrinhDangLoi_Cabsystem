@@ -1,7 +1,5 @@
 # TEST CASE – HISTORY-RATING
 
-> Bộ Test Case cơ bản cho người mới học. Chỉ giữ các case quan trọng để đủ độ phủ theo yêu cầu.
-
 | Test Case ID | Test Scenario | Test Case | Preconditions | Test Steps | Test Data | Expected Result | Priority |
 |---|---|---|---|---|---|---|---|
 | TC-RATE-001 | TS-RATE-01 – Đánh giá tài xế sau chuyến | Đánh giá hợp lệ | Trip đã COMPLETED; Customer là chủ chuyến. | 1. POST /trips/{tripId}/ratings.<br>2. Gửi score hợp lệ.<br>3. Kiểm tra dữ liệu. | score: 3<br>comment: Tài xế tốt | Lưu đánh giá thành công. | High |
