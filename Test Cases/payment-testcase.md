@@ -1,44 +1,21 @@
 # TEST CASE – PAYMENT
 
-## 1. Thông tin chung
+> Bộ Test Case cơ bản cho người mới học. Chỉ giữ các case quan trọng để đủ độ phủ theo yêu cầu.
 
-**Module:** Fare & Payment  
-**Business Requirement:** BR10, BR11, BR12
-
----
-
-## 2. Test Cases
-
-| Test Case ID | Test Scenario | FR | Pre-condition | Test Data | Test Steps | Expected Result | Priority | Status |
-|---|---|---|---|---|---|---|---|---|
-| TC-PAY-01 | TS-PAY-01 – Xác định dịch vụ | FR10.02 | Trip tồn tại | CAR_4_SEAT | Tính cước | Hệ thống xác định đúng dịch vụ | High | Not Run |
-| TC-PAY-02 | TS-PAY-02 – Tính cước | FR10.01 | Trip=COMPLETED | TRIP001 | Yêu cầu tính cước | Hệ thống trả số tiền | High | Not Run |
-| TC-PAY-03 | TS-PAY-03 – Lưu cước | FR10.03 | Đã tính cước | fare hợp lệ | Tính → lưu | Fare được lưu với Trip | High | Not Run |
-| TC-PAY-04 | TS-PAY-04 – Trip không hợp lệ | FR10.01 | Trip không hợp lệ | TRIP999 | Tính cước | Hệ thống từ chối | Medium | Not Run |
-| TC-PAY-05 | TS-PAY-05 – Chọn tiền mặt | FR11.01 | Có payment | CASH | Chọn phương thức | method=CASH | High | Not Run |
-| TC-PAY-06 | TS-PAY-06 – Thanh toán tiền mặt | FR11.02 | Trip hoàn thành | amount hợp lệ | Xác nhận CASH | Giao dịch được ghi nhận | High | Not Run |
-| TC-PAY-07 | TS-PAY-07 – Chọn điện tử | FR11.01 | Có payment | ELECTRONIC | Chọn phương thức | method=ELECTRONIC | High | Not Run |
-| TC-PAY-08 | TS-PAY-08 – Điện tử thành công | FR11.03 | Provider hoạt động | amount hợp lệ | Thanh toán | Provider xử lý thành công | High | Not Run |
-| TC-PAY-09 | TS-PAY-09 – Nhận kết quả | FR11.04 | Payment SUCCESS | PAY001 | Xem payment | status=PAID/SUCCESS | High | Not Run |
-| TC-PAY-10 | TS-PAY-10 – Giao dịch thất bại | FR12.01 | Provider trả FAILED | PAY001 | Nhận callback/kết quả | status=FAILED | High | Not Run |
-| TC-PAY-11 | TS-PAY-11 – Thông báo lỗi | FR12.02 | Payment FAILED | FAILED | Kiểm tra kết quả | Customer nhận thông báo | High | Not Run |
-| TC-PAY-12 | TS-PAY-12 – Thanh toán lại | FR12.03 | Payment FAILED | PAY001 | Chọn Retry | Hệ thống xử lý lần thanh toán lại | High | Not Run |
-| TC-PAY-13 | TS-PAY-13 – Provider mất kết nối | FR11.03 | Provider unavailable | Không | Thanh toán điện tử | Booking và Trip không bị dừng toàn hệ thống | High | Not Run |
-| TC-PAY-14 | TS-PAY-14 – Không lưu dữ liệu thẻ | FR11.03 | Thanh toán điện tử | Card data | Kiểm tra dữ liệu lưu | Không lưu thông tin thẻ nhạy cảm | High | Not Run |
-
----
-
-## 3. Traceability
-
-| FR | API |
-|---|---|
-| FR10.01 | POST /trips/{tripId}/fare/calculate |
-| FR10.02 | POST /trips/{tripId}/fare/calculate |
-| FR10.03 | POST /trips/{tripId}/fare/calculate |
-| FR11.01 | PATCH /payments/{paymentId}/method |
-| FR11.02 | POST /payments/cash |
-| FR11.03 | POST /payments/electronic |
-| FR11.04 | GET /payments/{paymentId} |
-| FR12.01 | PATCH /payments/{paymentId}/failed |
-| FR12.02 | PATCH /payments/{paymentId}/failed |
-| FR12.03 | POST /payments/{paymentId}/retry |
+| Test Case ID | Test Scenario | Test Case | Preconditions | Test Steps | Test Data | Expected Result | Priority |
+|---|---|---|---|---|---|---|---|
+| TC-PAY-001 | TS-PAY-01 – Tính và lưu cước | Tính cước cho chuyến hoàn thành | Trip tồn tại và COMPLETED. | 1. POST /trips/{tripId}/fare/calculate.<br>2. Kiểm tra kết quả. | tripId: TRIP001 | Hệ thống tính và lưu cước cuối cùng. | High |
+| TC-PAY-002 | TS-PAY-01 – Tính và lưu cước | Tính cước khi chuyến chưa hoàn thành | Trip đang IN_PROGRESS. | 1. Gửi yêu cầu tính cước cuối cùng.<br>2. Kiểm tra kết quả. | tripId: TRIP002 | Hệ thống từ chối theo BRULE06. | High |
+| TC-PAY-003 | TS-PAY-01 – Tính và lưu cước | Trip không tồn tại | User đã đăng nhập. | 1. Tính cước TRIP999.<br>2. Kiểm tra kết quả. | tripId: TRIP999 | Hệ thống báo không tìm thấy. | High |
+| TC-PAY-004 | TS-PAY-02 – Chọn phương thức và thanh toán | Chọn CASH | Payment tồn tại. | 1. PATCH /payments/{paymentId}/method.<br>2. Gửi CASH. | method: CASH | Hệ thống ghi nhận CASH theo BRULE07. | High |
+| TC-PAY-005 | TS-PAY-02 – Chọn phương thức và thanh toán | Chọn ELECTRONIC | Payment tồn tại. | 1. PATCH method.<br>2. Gửi ELECTRONIC. | method: ELECTRONIC | Hệ thống ghi nhận ELECTRONIC theo BRULE07. | High |
+| TC-PAY-006 | TS-PAY-02 – Chọn phương thức và thanh toán | Method rỗng | Payment tồn tại. | 1. Gửi method rỗng.<br>2. Kiểm tra kết quả. | method: empty | Hệ thống báo dữ liệu không hợp lệ. | High |
+| TC-PAY-007 | TS-PAY-02 – Chọn phương thức và thanh toán | Method ngoài enum | Payment tồn tại. | 1. Gửi method không hợp lệ.<br>2. Kiểm tra kết quả. | method: CRYPTO | Hệ thống từ chối; chỉ hỗ trợ CASH/ELECTRONIC. | High |
+| TC-PAY-008 | TS-PAY-02 – Chọn phương thức và thanh toán | Thanh toán tiền mặt hợp lệ | Trip đã hoàn thành; có số tiền cần thanh toán. | 1. POST /payments/cash.<br>2. Gửi tripId và amount hợp lệ. | tripId: TRIP001<br>amount: 50000 | Ghi nhận thanh toán tiền mặt. | High |
+| TC-PAY-009 | TS-PAY-02 – Chọn phương thức và thanh toán | Thanh toán điện tử hợp lệ | Trip đã hoàn thành; provider hoạt động. | 1. POST /payments/electronic.<br>2. Gửi tripId, amount.<br>3. Kiểm tra kết quả. | tripId: TRIP001<br>amount: 50000 | Gửi yêu cầu đến provider và nhận kết quả. | High |
+| TC-PAY-010 | TS-PAY-02 – Chọn phương thức và thanh toán | Amount rỗng | Trip tồn tại. | 1. Gửi payment nhưng bỏ amount.<br>2. Kiểm tra kết quả. | amount: null | Hệ thống báo dữ liệu không hợp lệ. | High |
+| TC-PAY-011 | TS-PAY-03 – Xử lý thanh toán thất bại và retry | Provider trả kết quả thất bại | Có thanh toán điện tử. | 1. Provider trả FAILED.<br>2. Ghi nhận lỗi.<br>3. Kiểm tra trạng thái. | result: FAILED | Giao dịch được ghi FAILED; không ghi đã thanh toán. | High |
+| TC-PAY-012 | TS-PAY-03 – Xử lý thanh toán thất bại và retry | Thông báo khi thanh toán thất bại | Payment đã FAILED. | 1. Ghi nhận failed.<br>2. Kiểm tra notification. | reason: Payment failed | Khách hàng nhận thông báo theo EX04. | High |
+| TC-PAY-013 | TS-PAY-03 – Xử lý thanh toán thất bại và retry | Retry thanh toán thất bại | Payment FAILED; chính sách cho phép xử lý lại. | 1. POST /payments/{paymentId}/retry.<br>2. Kiểm tra kết quả. | paymentId: PAY001 | Hệ thống cho phép xử lý lại theo EX04. | High |
+| TC-PAY-014 | TS-PAY-03 – Xử lý thanh toán thất bại và retry | Provider mất kết nối | Provider không phản hồi. | 1. Mô phỏng mất kết nối.<br>2. Thử thanh toán.<br>3. Kiểm tra hệ thống. | Provider: unavailable | Xử lý theo EX05; hệ thống chính vẫn hoạt động. | High |
+| TC-PAY-015 | TS-PAY-03 – Xử lý thanh toán thất bại và retry | Không lưu dữ liệu thanh toán nhạy cảm | Đã thanh toán điện tử. | 1. Kiểm tra dữ liệu Payment/log.<br>2. Kiểm tra thông tin nhạy cảm. | Dữ liệu thẻ/tài khoản thanh toán | CAB không lưu trực tiếp dữ liệu nhạy cảm theo BRULE08. | Medium |
