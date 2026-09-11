@@ -1,0 +1,21 @@
+﻿Test Case ID,Test Scenario,Test Case,Preconditions,Test Steps,Test Data,Expected Result,Priority
+TC-TRIP-02-01,TS-TRIP-02 – Cập nhật trạng thái chuyến,DRIVER_ASSIGNED → DRIVER_ARRIVED,Trip có Driver được phân công,1. PATCH status DRIVER_ARRIVED,status: DRIVER_ARRIVED,Cập nhật thành công,High
+TC-TRIP-02-02,TS-TRIP-02 – Cập nhật trạng thái chuyến,DRIVER_ARRIVED → PASSENGER_PICKED_UP,Driver đã đến điểm đón,1. PATCH status PASSENGER_PICKED_UP,status: PASSENGER_PICKED_UP,Cập nhật thành công,High
+TC-TRIP-02-03,TS-TRIP-02 – Cập nhật trạng thái chuyến,PASSENGER_PICKED_UP → IN_PROGRESS,Đã đón khách,1. PATCH IN_PROGRESS,status: IN_PROGRESS,Cập nhật thành công,High
+TC-TRIP-02-04,TS-TRIP-02 – Cập nhật trạng thái chuyến,IN_PROGRESS → COMPLETED,Trip đang di chuyển,1. PATCH COMPLETED,status: COMPLETED,Hoàn thành chuyến,High
+TC-TRIP-02-05,TS-TRIP-02 – Cập nhật trạng thái chuyến,Status rỗng,Driver được phân công,1. Gửi status rỗng,status: empty,Báo dữ liệu không hợp lệ,High
+TC-TRIP-02-06,TS-TRIP-02 – Cập nhật trạng thái chuyến,Thiếu status,Driver được phân công,1. Bỏ trường status,status: missing,Từ chối request,High
+TC-TRIP-02-07,TS-TRIP-02 – Cập nhật trạng thái chuyến,Status null,Driver được phân công,1. Gửi status=null,status: null,Từ chối dữ liệu,High
+TC-TRIP-02-08,TS-TRIP-02 – Cập nhật trạng thái chuyến,Status ngoài enum,Driver được phân công,1. Gửi FLYING,status: FLYING,Từ chối theo EX08,High
+TC-TRIP-02-09,TS-TRIP-02 – Cập nhật trạng thái chuyến,Status sai kiểu,Driver được phân công,1. Gửi status dạng số,status: 1,Từ chối dữ liệu,Medium
+TC-TRIP-02-10,TS-TRIP-02 – Cập nhật trạng thái chuyến,Nhảy DRIVER_ASSIGNED → COMPLETED,Trip mới được phân công,1. PATCH COMPLETED trực tiếp,status: COMPLETED,Từ chối chuyển trạng thái sai thứ tự,High
+TC-TRIP-02-11,TS-TRIP-02 – Cập nhật trạng thái chuyến,Nhảy DRIVER_ARRIVED → IN_PROGRESS,Driver đã đến nhưng chưa ghi đã đón khách,1. PATCH IN_PROGRESS,status: IN_PROGRESS,Từ chối nếu luồng yêu cầu PASSENGER_PICKED_UP trước,High
+TC-TRIP-02-12,TS-TRIP-02 – Cập nhật trạng thái chuyến,COMPLETED → IN_PROGRESS,Trip đã hoàn thành,1. PATCH IN_PROGRESS,status: IN_PROGRESS,Từ chối quay ngược trạng thái,High
+TC-TRIP-02-13,TS-TRIP-02 – Cập nhật trạng thái chuyến,Gửi COMPLETED lần hai,Trip đã COMPLETED,1. PATCH COMPLETED lần nữa,status: COMPLETED,Không tạo thay đổi sai/trùng dữ liệu,Medium
+TC-TRIP-02-14,TS-TRIP-02 – Cập nhật trạng thái chuyến,Driver khác cập nhật Trip,Trip thuộc Driver A; Driver B đăng nhập,1. Driver B PATCH status,Token Driver B,Từ chối theo BRULE10/EX07,High
+TC-TRIP-02-15,TS-TRIP-02 – Cập nhật trạng thái chuyến,Customer cập nhật trạng thái Trip,Customer đã đăng nhập,1. Customer PATCH status,Token Customer,Từ chối theo BRULE10,High
+TC-TRIP-02-16,TS-TRIP-02 – Cập nhật trạng thái chuyến,Không có token,Chưa đăng nhập,1. PATCH status không token,Authorization: missing,Từ chối xác thực,High
+TC-TRIP-02-17,TS-TRIP-02 – Cập nhật trạng thái chuyến,Token không hợp lệ,Có token sai,1. PATCH với token invalid,Authorization: invalid,Từ chối xác thực,High
+TC-TRIP-02-18,TS-TRIP-02 – Cập nhật trạng thái chuyến,TripId không tồn tại,Driver đã đăng nhập,1. PATCH TRIP999,tripId: TRIP999,Báo không tìm thấy,High
+TC-TRIP-02-19,TS-TRIP-02 – Cập nhật trạng thái chuyến,Body rỗng,Driver được phân công,1. PATCH body {},{},Từ chối request,High
+TC-TRIP-02-20,TS-TRIP-02 – Cập nhật trạng thái chuyến,Trip hoàn thành mới đủ điều kiện tính cước cuối cùng,Trip vừa chuyển COMPLETED,1. Cập nhật COMPLETED; 2. Gọi tính cước,status: COMPLETED,Trip đủ điều kiện tính cước cuối cùng theo BRULE06,Medium

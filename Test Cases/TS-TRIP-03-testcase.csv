@@ -1,0 +1,21 @@
+﻿Test Case ID,Test Scenario,Test Case,Preconditions,Test Steps,Test Data,Expected Result,Priority
+TC-TRIP-03-01,TS-TRIP-03 – Cập nhật và theo dõi vị trí tài xế,Gửi vị trí hợp lệ,Driver đã đăng nhập,1. POST location; 2. Kiểm tra dữ liệu,latitude: 10.8223; longitude: 106.6872,Vị trí được lưu,High
+TC-TRIP-03-02,TS-TRIP-03 – Cập nhật và theo dõi vị trí tài xế,Latitude biên dưới -90,Driver đã đăng nhập,1. Gửi latitude=-90,latitude: -90; longitude: 0,Chấp nhận giá trị biên hợp lệ,Medium
+TC-TRIP-03-03,TS-TRIP-03 – Cập nhật và theo dõi vị trí tài xế,Latitude biên trên 90,Driver đã đăng nhập,1. Gửi latitude=90,latitude: 90; longitude: 0,Chấp nhận giá trị biên hợp lệ,Medium
+TC-TRIP-03-04,TS-TRIP-03 – Cập nhật và theo dõi vị trí tài xế,Latitude nhỏ hơn -90,Driver đã đăng nhập,1. Gửi latitude=-90.1,latitude: -90.1,Từ chối tọa độ không hợp lệ,High
+TC-TRIP-03-05,TS-TRIP-03 – Cập nhật và theo dõi vị trí tài xế,Latitude lớn hơn 90,Driver đã đăng nhập,1. Gửi latitude=90.1,latitude: 90.1,Từ chối tọa độ không hợp lệ,High
+TC-TRIP-03-06,TS-TRIP-03 – Cập nhật và theo dõi vị trí tài xế,Longitude biên dưới -180,Driver đã đăng nhập,1. Gửi longitude=-180,latitude: 0; longitude: -180,Chấp nhận giá trị biên hợp lệ,Medium
+TC-TRIP-03-07,TS-TRIP-03 – Cập nhật và theo dõi vị trí tài xế,Longitude biên trên 180,Driver đã đăng nhập,1. Gửi longitude=180,latitude: 0; longitude: 180,Chấp nhận giá trị biên hợp lệ,Medium
+TC-TRIP-03-08,TS-TRIP-03 – Cập nhật và theo dõi vị trí tài xế,Longitude nhỏ hơn -180,Driver đã đăng nhập,1. Gửi longitude=-180.1,longitude: -180.1,Từ chối tọa độ không hợp lệ,High
+TC-TRIP-03-09,TS-TRIP-03 – Cập nhật và theo dõi vị trí tài xế,Longitude lớn hơn 180,Driver đã đăng nhập,1. Gửi longitude=180.1,longitude: 180.1,Từ chối tọa độ không hợp lệ,High
+TC-TRIP-03-10,TS-TRIP-03 – Cập nhật và theo dõi vị trí tài xế,Latitude rỗng,Driver đã đăng nhập,1. Để latitude rỗng,latitude: empty,Báo lỗi dữ liệu,High
+TC-TRIP-03-11,TS-TRIP-03 – Cập nhật và theo dõi vị trí tài xế,Longitude rỗng,Driver đã đăng nhập,1. Để longitude rỗng,longitude: empty,Báo lỗi dữ liệu,High
+TC-TRIP-03-12,TS-TRIP-03 – Cập nhật và theo dõi vị trí tài xế,Cả latitude và longitude rỗng,Driver đã đăng nhập,1. Gửi cả hai rỗng,latitude: empty; longitude: empty,Từ chối request,High
+TC-TRIP-03-13,TS-TRIP-03 – Cập nhật và theo dõi vị trí tài xế,Latitude null,Driver đã đăng nhập,1. Gửi latitude=null,latitude: null,Từ chối dữ liệu,High
+TC-TRIP-03-14,TS-TRIP-03 – Cập nhật và theo dõi vị trí tài xế,Longitude null,Driver đã đăng nhập,1. Gửi longitude=null,longitude: null,Từ chối dữ liệu,High
+TC-TRIP-03-15,TS-TRIP-03 – Cập nhật và theo dõi vị trí tài xế,Latitude sai kiểu,Driver đã đăng nhập,1. Gửi latitude bằng chữ,latitude: abc,Từ chối theo EX08,High
+TC-TRIP-03-16,TS-TRIP-03 – Cập nhật và theo dõi vị trí tài xế,Longitude sai kiểu,Driver đã đăng nhập,1. Gửi longitude bằng chữ,longitude: xyz,Từ chối theo EX08,High
+TC-TRIP-03-17,TS-TRIP-03 – Cập nhật và theo dõi vị trí tài xế,Tracking có vị trí hiện tại,Trip có Driver và current location,1. GET tracking,Current location available,Hiển thị vị trí hiện tại,High
+TC-TRIP-03-18,TS-TRIP-03 – Cập nhật và theo dõi vị trí tài xế,Không có vị trí mới nhưng có vị trí gần nhất,Current location không có; last location có,1. GET tracking,Last location available,Dùng vị trí gần nhất theo EX06,High
+TC-TRIP-03-19,TS-TRIP-03 – Cập nhật và theo dõi vị trí tài xế,Không có current và last location,Không có dữ liệu vị trí,1. GET tracking,No location,Báo trạng thái/lỗi phù hợp; không tạo tọa độ giả,High
+TC-TRIP-03-20,TS-TRIP-03 – Cập nhật và theo dõi vị trí tài xế,Mất kết nối khi gửi vị trí,Driver đang hoạt động; network lỗi,1. Gửi location; 2. Mất kết nối; 3. Gửi lại khi có mạng,Location hợp lệ,Xử lý lại khi có kết nối theo EX05,High

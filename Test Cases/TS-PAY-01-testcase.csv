@@ -1,0 +1,21 @@
+﻿Test Case ID,Test Scenario,Test Case,Preconditions,Test Steps,Test Data,Expected Result,Priority
+TC-PAY-01-01,TS-PAY-01 – Tính cước và thanh toán,Tính cước cho Trip COMPLETED,Trip đã hoàn thành,1. POST fare/calculate; 2. Kiểm tra kết quả,tripId: TRIP001,Tính và lưu cước cuối cùng,High
+TC-PAY-01-02,TS-PAY-01 – Tính cước và thanh toán,Tính cước khi Trip chưa hoàn thành,Trip IN_PROGRESS,1. POST fare/calculate,tripId: TRIP002,Từ chối theo BRULE06,High
+TC-PAY-01-03,TS-PAY-01 – Tính cước và thanh toán,Trip không tồn tại khi tính cước,User có quyền,1. Calculate TRIP999,tripId: TRIP999,Báo không tìm thấy,High
+TC-PAY-01-04,TS-PAY-01 – Tính cước và thanh toán,Chọn CASH,Payment tồn tại,1. PATCH payment method,method: CASH,Ghi nhận CASH,High
+TC-PAY-01-05,TS-PAY-01 – Tính cước và thanh toán,Chọn ELECTRONIC,Payment tồn tại,1. PATCH payment method,method: ELECTRONIC,Ghi nhận ELECTRONIC,High
+TC-PAY-01-06,TS-PAY-01 – Tính cước và thanh toán,Method rỗng,Payment tồn tại,1. Gửi method rỗng,method: empty,Báo dữ liệu không hợp lệ,High
+TC-PAY-01-07,TS-PAY-01 – Tính cước và thanh toán,Method không hỗ trợ,Payment tồn tại,1. Gửi method CRYPTO,method: CRYPTO,Từ chối; chỉ CASH/ELECTRONIC theo BRULE07,High
+TC-PAY-01-08,TS-PAY-01 – Tính cước và thanh toán,Thanh toán CASH hợp lệ,Trip COMPLETED; có cước,1. POST /payments/cash,tripId: TRIP001; amount: 50000,Ghi nhận thanh toán tiền mặt,High
+TC-PAY-01-09,TS-PAY-01 – Tính cước và thanh toán,Amount rỗng khi CASH,Trip tồn tại,1. POST cash với amount rỗng,amount: empty,Từ chối dữ liệu,High
+TC-PAY-01-10,TS-PAY-01 – Tính cước và thanh toán,Amount bằng 0,Trip tồn tại,1. POST payment amount=0,amount: 0,Không ghi nhận thanh toán hợp lệ,High
+TC-PAY-01-11,TS-PAY-01 – Tính cước và thanh toán,Amount âm,Trip tồn tại,1. POST payment amount âm,amount: -1,Từ chối dữ liệu,High
+TC-PAY-01-12,TS-PAY-01 – Tính cước và thanh toán,Thanh toán ELECTRONIC hợp lệ,Trip COMPLETED; provider hoạt động,1. POST /payments/electronic,tripId: TRIP001; amount: 50000,Gửi yêu cầu thanh toán và nhận kết quả,High
+TC-PAY-01-13,TS-PAY-01 – Tính cước và thanh toán,Amount null khi ELECTRONIC,Trip tồn tại,1. Gửi amount=null,amount: null,Từ chối dữ liệu,High
+TC-PAY-01-14,TS-PAY-01 – Tính cước và thanh toán,Provider trả SUCCESS,Đã gửi thanh toán điện tử,1. Provider trả thành công; 2. Kiểm tra Payment,result: SUCCESS,Cập nhật trạng thái đã thanh toán,High
+TC-PAY-01-15,TS-PAY-01 – Tính cước và thanh toán,Provider trả FAILED,Đã gửi thanh toán điện tử,1. Provider trả FAILED; 2. Kiểm tra Payment,result: FAILED,Ghi nhận giao dịch thất bại theo EX04,High
+TC-PAY-01-16,TS-PAY-01 – Tính cước và thanh toán,Payment FAILED không được ghi là PAID,Payment đã thất bại,1. GET payment; 2. Kiểm tra status,status: FAILED,Không hiển thị là đã thanh toán,High
+TC-PAY-01-17,TS-PAY-01 – Tính cước và thanh toán,Retry Payment FAILED,Payment FAILED; chính sách cho phép retry,1. POST /payments/{paymentId}/retry,paymentId: PAY001,Cho phép xử lý lại theo EX04,High
+TC-PAY-01-18,TS-PAY-01 – Tính cước và thanh toán,Provider mất kết nối,Provider unavailable,1. Gửi thanh toán; 2. Mô phỏng mất kết nối,Provider timeout,Xử lý theo EX05; hệ thống chính vẫn hoạt động,High
+TC-PAY-01-19,TS-PAY-01 – Tính cước và thanh toán,Không lưu dữ liệu thẻ nhạy cảm,Đã thực hiện thanh toán điện tử,1. Kiểm tra DB/log/response,Sensitive card/account data,Không lưu trực tiếp dữ liệu nhạy cảm theo BRULE08,Medium
+TC-PAY-01-20,TS-PAY-01 – Tính cước và thanh toán,PaymentId không tồn tại,User có quyền,1. GET PAY999,paymentId: PAY999,Báo không tìm thấy,High

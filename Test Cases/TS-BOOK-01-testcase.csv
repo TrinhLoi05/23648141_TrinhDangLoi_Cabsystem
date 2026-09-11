@@ -1,0 +1,21 @@
+﻿Test Case ID,Test Scenario,Test Case,Preconditions,Test Steps,Test Data,Expected Result,Priority
+TC-BOOK-01-01,TS-BOOK-01 – Tạo yêu cầu đặt chuyến,Đặt chuyến với dữ liệu hợp lệ,Customer đã đăng nhập,1. Validate dữ liệu; 2. POST /bookings; 3. Kiểm tra Trip,pickup: IUH; destination: Sân bay; vehicleType: CAR_4_SEAT,Tạo chuyến thành công,High
+TC-BOOK-01-02,TS-BOOK-01 – Tạo yêu cầu đặt chuyến,Điểm đón rỗng,Customer đã đăng nhập,1. Để pickup rỗng; 2. Validate,pickup: empty,Báo dữ liệu không hợp lệ,High
+TC-BOOK-01-03,TS-BOOK-01 – Tạo yêu cầu đặt chuyến,Thiếu điểm đón,Customer đã đăng nhập,1. Bỏ trường pickup; 2. Validate,pickup: missing,Từ chối request,High
+TC-BOOK-01-04,TS-BOOK-01 – Tạo yêu cầu đặt chuyến,Điểm đến rỗng,Customer đã đăng nhập,1. Để destination rỗng; 2. Validate,destination: empty,Báo lỗi,High
+TC-BOOK-01-05,TS-BOOK-01 – Tạo yêu cầu đặt chuyến,Thiếu điểm đến,Customer đã đăng nhập,1. Bỏ destination; 2. Validate,destination: missing,Từ chối request,High
+TC-BOOK-01-06,TS-BOOK-01 – Tạo yêu cầu đặt chuyến,Loại xe rỗng,Customer đã đăng nhập,1. Để vehicleType rỗng; 2. Validate,vehicleType: empty,Báo lỗi,High
+TC-BOOK-01-07,TS-BOOK-01 – Tạo yêu cầu đặt chuyến,Thiếu loại xe,Customer đã đăng nhập,1. Bỏ vehicleType; 2. Validate,vehicleType: missing,Từ chối request,High
+TC-BOOK-01-08,TS-BOOK-01 – Tạo yêu cầu đặt chuyến,Loại xe không hợp lệ,Customer đã đăng nhập,1. Gửi loại xe ngoài danh sách; 2. Validate,vehicleType: PLANE,Từ chối dữ liệu theo EX08,High
+TC-BOOK-01-09,TS-BOOK-01 – Tạo yêu cầu đặt chuyến,Body rỗng,Customer đã đăng nhập,1. Gửi body {}; 2. Validate,{},Từ chối request,High
+TC-BOOK-01-10,TS-BOOK-01 – Tạo yêu cầu đặt chuyến,Pickup null,Customer đã đăng nhập,1. Gửi pickup=null; 2. Validate,pickup: null,Từ chối dữ liệu,High
+TC-BOOK-01-11,TS-BOOK-01 – Tạo yêu cầu đặt chuyến,Destination null,Customer đã đăng nhập,1. Gửi destination=null; 2. Validate,destination: null,Từ chối dữ liệu,High
+TC-BOOK-01-12,TS-BOOK-01 – Tạo yêu cầu đặt chuyến,VehicleType null,Customer đã đăng nhập,1. Gửi vehicleType=null; 2. Validate,vehicleType: null,Từ chối dữ liệu,High
+TC-BOOK-01-13,TS-BOOK-01 – Tạo yêu cầu đặt chuyến,Pickup sai kiểu dữ liệu,Customer đã đăng nhập,1. Gửi pickup sai kiểu; 2. Validate,pickup: true,Từ chối dữ liệu,Medium
+TC-BOOK-01-14,TS-BOOK-01 – Tạo yêu cầu đặt chuyến,Destination sai kiểu dữ liệu,Customer đã đăng nhập,1. Gửi destination sai kiểu; 2. Validate,destination: 12345,Từ chối dữ liệu,Medium
+TC-BOOK-01-15,TS-BOOK-01 – Tạo yêu cầu đặt chuyến,VehicleType sai kiểu dữ liệu,Customer đã đăng nhập,1. Gửi vehicleType sai kiểu; 2. Validate,vehicleType: 4,Từ chối dữ liệu,Medium
+TC-BOOK-01-16,TS-BOOK-01 – Tạo yêu cầu đặt chuyến,Pickup chỉ có khoảng trắng,Customer đã đăng nhập,1. Nhập pickup khoảng trắng; 2. Validate,pickup: '   ',Từ chối dữ liệu rỗng,Medium
+TC-BOOK-01-17,TS-BOOK-01 – Tạo yêu cầu đặt chuyến,Destination chỉ có khoảng trắng,Customer đã đăng nhập,1. Nhập destination khoảng trắng; 2. Validate,destination: '   ',Từ chối dữ liệu rỗng,Medium
+TC-BOOK-01-18,TS-BOOK-01 – Tạo yêu cầu đặt chuyến,Chưa đăng nhập,Không có token,1. POST /bookings không token; 2. Kiểm tra kết quả,Authorization: missing,Từ chối theo BRULE01,High
+TC-BOOK-01-19,TS-BOOK-01 – Tạo yêu cầu đặt chuyến,Token không hợp lệ,Customer gửi token sai,1. POST /bookings với token invalid,Authorization: invalid,Từ chối xác thực,High
+TC-BOOK-01-20,TS-BOOK-01 – Tạo yêu cầu đặt chuyến,Kiểm tra trạng thái chuyến mới,Customer đã đặt chuyến hợp lệ,1. Tạo chuyến; 2. Kiểm tra status ban đầu,Dữ liệu booking hợp lệ,Chuyến được tạo và bắt đầu quá trình tìm tài xế,High

@@ -1,0 +1,21 @@
+﻿Test Case ID,Test Scenario,Test Case,Preconditions,Test Steps,Test Data,Expected Result,Priority
+TC-TRIP-01-01,TS-TRIP-01 – Tìm và phân công tài xế,Có một Driver AVAILABLE phù hợp,Trip đang tìm tài xế,1. Matching; 2. Kiểm tra Driver,Driver A AVAILABLE; đúng loại xe,Tìm được Driver phù hợp,High
+TC-TRIP-01-02,TS-TRIP-01 – Tìm và phân công tài xế,Không có Driver AVAILABLE,Không có tài xế sẵn sàng,1. Matching; 2. Kiểm tra kết quả,0 Driver AVAILABLE,Không tìm được Driver,High
+TC-TRIP-01-03,TS-TRIP-01 – Tìm và phân công tài xế,Driver BUSY không được chọn,Có Driver BUSY,1. Matching,Driver A BUSY,Không chọn Driver A theo BRULE02,High
+TC-TRIP-01-04,TS-TRIP-01 – Tìm và phân công tài xế,Driver OFFLINE không được chọn,Có Driver OFFLINE,1. Matching,Driver A OFFLINE,Không chọn Driver A theo BRULE02,High
+TC-TRIP-01-05,TS-TRIP-01 – Tìm và phân công tài xế,Driver AVAILABLE nhưng loại xe không phù hợp,Có Driver sẵn sàng nhưng xe không đúng yêu cầu,1. Matching; 2. Kiểm tra lọc,Booking: CAR_4_SEAT; Driver: MOTORBIKE,Không chọn Driver không phù hợp,High
+TC-TRIP-01-06,TS-TRIP-01 – Tìm và phân công tài xế,Có nhiều Driver phù hợp,Có từ 2 Driver AVAILABLE phù hợp,1. Matching; 2. Kiểm tra kết quả,"Driver A, B đều phù hợp",Chọn một Driver theo tiêu chí ưu tiên đã cấu hình,Medium
+TC-TRIP-01-07,TS-TRIP-01 – Tìm và phân công tài xế,Driver không có vị trí mới nhưng có vị trí gần nhất,Driver AVAILABLE; current location lỗi; có last location,1. Matching; 2. Kiểm tra xử lý location,Current location unavailable,Dùng vị trí gần nhất theo EX06,Medium
+TC-TRIP-01-08,TS-TRIP-01 – Tìm và phân công tài xế,Driver không có bất kỳ vị trí nào,Driver AVAILABLE nhưng không có location,1. Matching; 2. Kiểm tra kết quả,No location data,Không dùng tọa độ giả; báo/xử lý lỗi phù hợp,Medium
+TC-TRIP-01-09,TS-TRIP-01 – Tìm và phân công tài xế,Gửi offer cho Driver AVAILABLE,Trip đang tìm; Driver hợp lệ,1. POST driver-offer,driverId: DRV001,Driver nhận được yêu cầu chuyến,High
+TC-TRIP-01-10,TS-TRIP-01 – Tìm và phân công tài xế,Gửi offer cho Driver BUSY,Driver BUSY,1. POST driver-offer,driverId: DRV002; status: BUSY,Không gửi/không phân công Driver BUSY,High
+TC-TRIP-01-11,TS-TRIP-01 – Tìm và phân công tài xế,driverId rỗng khi gửi offer,Trip tồn tại,1. Gửi driverId rỗng,driverId: empty,Từ chối dữ liệu,High
+TC-TRIP-01-12,TS-TRIP-01 – Tìm và phân công tài xế,Driver chấp nhận offer,Driver đã nhận offer,1. POST accept,tripId: TRIP001,Driver được phân công,High
+TC-TRIP-01-13,TS-TRIP-01 – Tìm và phân công tài xế,Driver khác cố accept,Offer thuộc Driver A,1. Driver B POST accept,Token Driver B,Từ chối thao tác,High
+TC-TRIP-01-14,TS-TRIP-01 – Tìm và phân công tài xế,"Trip đã có Driver A, Driver B cố accept",Trip đã assigned Driver A,1. Driver B accept,Driver B,Từ chối; giữ đúng một Driver theo BRULE03,High
+TC-TRIP-01-15,TS-TRIP-01 – Tìm và phân công tài xế,Driver từ chối offer,Driver đã nhận offer,1. POST reject,Driver A rejects,Ghi nhận từ chối và tìm Driver khác theo BRULE04/EX02,High
+TC-TRIP-01-16,TS-TRIP-01 – Tìm và phân công tài xế,Driver không phản hồi,Driver đã nhận offer,1. Chờ theo thời gian cấu hình; 2. Matching retry,Timeout theo cấu hình,Tìm Driver khác theo EX03,High
+TC-TRIP-01-17,TS-TRIP-01 – Tìm và phân công tài xế,Retry tìm được Driver khác,Driver A đã reject/timeout; Driver B AVAILABLE,1. POST matching/retry,Driver B AVAILABLE,Hệ thống tiếp tục với Driver B,High
+TC-TRIP-01-18,TS-TRIP-01 – Tìm và phân công tài xế,Retry nhưng không còn Driver,Không còn tài xế phù hợp,1. Retry; 2. Ghi nhận matching fail,No next driver,Ghi nhận không tìm được Driver,High
+TC-TRIP-01-19,TS-TRIP-01 – Tìm và phân công tài xế,Thông báo khách hàng khi không tìm được Driver,Matching đã thất bại,1. Matching fail; 2. Kiểm tra notification,No driver found,Khách hàng được thông báo theo BRULE05/EX01,High
+TC-TRIP-01-20,TS-TRIP-01 – Tìm và phân công tài xế,TripId không tồn tại,User có quyền,1. Matching với TRIP999,tripId: TRIP999,Báo không tìm thấy,High

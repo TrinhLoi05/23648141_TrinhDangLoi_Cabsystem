@@ -1,0 +1,21 @@
+﻿Test Case ID,Test Scenario,Test Case,Preconditions,Test Steps,Test Data,Expected Result,Priority
+TC-AUTH-01-01,TS-AUTH-01 – Đăng ký tài khoản khách hàng,Đăng ký với dữ liệu hợp lệ,Khách hàng chưa có tài khoản,1. Gửi POST /auth/register; 2. Nhập đầy đủ dữ liệu hợp lệ; 3. Kiểm tra kết quả,fullName: Nguyễn Văn A; phone: 0901234567; email: a@gmail.com; password: 123456,Tạo tài khoản thành công,High
+TC-AUTH-01-02,TS-AUTH-01 – Đăng ký tài khoản khách hàng,Đăng ký một khách hàng hợp lệ khác,Khách hàng chưa có tài khoản,1. Gửi POST /auth/register; 2. Dùng dữ liệu khác nhưng hợp lệ; 3. Kiểm tra kết quả,fullName: Trần Văn B; phone: 0912345678; email: b@gmail.com; password: abc123,Tạo tài khoản thành công,High
+TC-AUTH-01-03,TS-AUTH-01 – Đăng ký tài khoản khách hàng,fullName rỗng,Khách hàng chưa có tài khoản,1. Để fullName rỗng; 2. Gửi đăng ký,fullName: empty,Báo dữ liệu không hợp lệ; không tạo tài khoản,High
+TC-AUTH-01-04,TS-AUTH-01 – Đăng ký tài khoản khách hàng,Thiếu trường fullName,Khách hàng chưa có tài khoản,1. Bỏ trường fullName khỏi body; 2. Gửi đăng ký,fullName: missing,Từ chối request; không tạo tài khoản,High
+TC-AUTH-01-05,TS-AUTH-01 – Đăng ký tài khoản khách hàng,phone rỗng,Khách hàng chưa có tài khoản,1. Để phone rỗng; 2. Gửi đăng ký,phone: empty,Báo dữ liệu không hợp lệ,High
+TC-AUTH-01-06,TS-AUTH-01 – Đăng ký tài khoản khách hàng,Thiếu trường phone,Khách hàng chưa có tài khoản,1. Bỏ trường phone; 2. Gửi đăng ký,phone: missing,Từ chối request,High
+TC-AUTH-01-07,TS-AUTH-01 – Đăng ký tài khoản khách hàng,email rỗng,Khách hàng chưa có tài khoản,1. Để email rỗng; 2. Gửi đăng ký,email: empty,Báo dữ liệu không hợp lệ,High
+TC-AUTH-01-08,TS-AUTH-01 – Đăng ký tài khoản khách hàng,Thiếu trường email,Khách hàng chưa có tài khoản,1. Bỏ trường email; 2. Gửi đăng ký,email: missing,Từ chối request,High
+TC-AUTH-01-09,TS-AUTH-01 – Đăng ký tài khoản khách hàng,Email sai định dạng,Khách hàng chưa có tài khoản,1. Nhập email sai định dạng; 2. Gửi đăng ký,email: agmail.com,Từ chối dữ liệu theo EX08,Medium
+TC-AUTH-01-10,TS-AUTH-01 – Đăng ký tài khoản khách hàng,password rỗng,Khách hàng chưa có tài khoản,1. Để password rỗng; 2. Gửi đăng ký,password: empty,Báo dữ liệu không hợp lệ,High
+TC-AUTH-01-11,TS-AUTH-01 – Đăng ký tài khoản khách hàng,Thiếu trường password,Khách hàng chưa có tài khoản,1. Bỏ trường password; 2. Gửi đăng ký,password: missing,Từ chối request,High
+TC-AUTH-01-12,TS-AUTH-01 – Đăng ký tài khoản khách hàng,Body rỗng,API đăng ký hoạt động,1. Gửi POST /auth/register với body rỗng; 2. Kiểm tra kết quả,{},Từ chối request; không tạo tài khoản,High
+TC-AUTH-01-13,TS-AUTH-01 – Đăng ký tài khoản khách hàng,Phone đã tồn tại,Phone đã có trong hệ thống,1. Dùng phone trùng; 2. Gửi đăng ký,phone: 0901234567,Không tạo tài khoản trùng,High
+TC-AUTH-01-14,TS-AUTH-01 – Đăng ký tài khoản khách hàng,Email đã tồn tại,Email đã có trong hệ thống,1. Dùng email trùng; 2. Gửi đăng ký,email: a@gmail.com,Không tạo tài khoản trùng,High
+TC-AUTH-01-15,TS-AUTH-01 – Đăng ký tài khoản khách hàng,fullName chỉ có khoảng trắng,Khách hàng chưa có tài khoản,1. Nhập fullName chỉ gồm khoảng trắng; 2. Gửi đăng ký,fullName: '   ',Từ chối dữ liệu rỗng không hợp lệ,Medium
+TC-AUTH-01-16,TS-AUTH-01 – Đăng ký tài khoản khách hàng,Phone chứa chữ,Khách hàng chưa có tài khoản,1. Nhập phone có chữ; 2. Gửi đăng ký,phone: 09ABC45678,Từ chối dữ liệu không hợp lệ,Medium
+TC-AUTH-01-17,TS-AUTH-01 – Đăng ký tài khoản khách hàng,Phone sai kiểu dữ liệu,Khách hàng chưa có tài khoản,1. Gửi phone không đúng kiểu dữ liệu theo API; 2. Kiểm tra kết quả,phone: number thay vì string,Từ chối dữ liệu theo EX08,Medium
+TC-AUTH-01-18,TS-AUTH-01 – Đăng ký tài khoản khách hàng,Email sai kiểu dữ liệu,Khách hàng chưa có tài khoản,1. Gửi email không đúng kiểu dữ liệu; 2. Kiểm tra kết quả,email: true,Từ chối dữ liệu theo EX08,Medium
+TC-AUTH-01-19,TS-AUTH-01 – Đăng ký tài khoản khách hàng,Password sai kiểu dữ liệu,Khách hàng chưa có tài khoản,1. Gửi password không đúng kiểu dữ liệu; 2. Kiểm tra kết quả,password: 123456 dạng number,Từ chối dữ liệu theo EX08,Medium
+TC-AUTH-01-20,TS-AUTH-01 – Đăng ký tài khoản khách hàng,Các trường bắt buộc đều null,Khách hàng chưa có tài khoản,1. Gửi các trường bắt buộc bằng null; 2. Kiểm tra kết quả,fullName: null; phone: null; email: null; password: null,Từ chối request; không tạo tài khoản,High

@@ -1,0 +1,21 @@
+﻿Test Case ID,Test Scenario,Test Case,Preconditions,Test Steps,Test Data,Expected Result,Priority
+TC-RATE-01-01,TS-RATE-01 – Đánh giá tài xế sau chuyến,Score hợp lệ 3,Trip COMPLETED; Customer là chủ chuyến,1. POST rating,score: 3,Lưu đánh giá thành công,High
+TC-RATE-01-02,TS-RATE-01 – Đánh giá tài xế sau chuyến,Score hợp lệ 4,Trip COMPLETED,1. POST rating,score: 4,Lưu đánh giá thành công,High
+TC-RATE-01-03,TS-RATE-01 – Đánh giá tài xế sau chuyến,Biên dưới score=1,Trip COMPLETED,1. POST score=1,score: 1,Chấp nhận,High
+TC-RATE-01-04,TS-RATE-01 – Đánh giá tài xế sau chuyến,Biên trên score=5,Trip COMPLETED,1. POST score=5,score: 5,Chấp nhận,High
+TC-RATE-01-05,TS-RATE-01 – Đánh giá tài xế sau chuyến,Dưới biên score=0,Trip COMPLETED,1. POST score=0,score: 0,Từ chối dữ liệu,High
+TC-RATE-01-06,TS-RATE-01 – Đánh giá tài xế sau chuyến,Trên biên score=6,Trip COMPLETED,1. POST score=6,score: 6,Từ chối dữ liệu,High
+TC-RATE-01-07,TS-RATE-01 – Đánh giá tài xế sau chuyến,Score âm,Trip COMPLETED,1. POST score âm,score: -1,Từ chối dữ liệu,High
+TC-RATE-01-08,TS-RATE-01 – Đánh giá tài xế sau chuyến,Score rất lớn,Trip COMPLETED,1. POST score=100,score: 100,Từ chối dữ liệu,Medium
+TC-RATE-01-09,TS-RATE-01 – Đánh giá tài xế sau chuyến,Score rỗng,Trip COMPLETED,1. Gửi score rỗng,score: empty,Báo lỗi,High
+TC-RATE-01-10,TS-RATE-01 – Đánh giá tài xế sau chuyến,Thiếu trường score,Trip COMPLETED,1. Bỏ trường score,score: missing,Từ chối request,High
+TC-RATE-01-11,TS-RATE-01 – Đánh giá tài xế sau chuyến,Score null,Trip COMPLETED,1. Gửi score=null,score: null,Từ chối dữ liệu,High
+TC-RATE-01-12,TS-RATE-01 – Đánh giá tài xế sau chuyến,Score dạng chữ,Trip COMPLETED,1. Gửi score='five',score: five,Từ chối dữ liệu,High
+TC-RATE-01-13,TS-RATE-01 – Đánh giá tài xế sau chuyến,Score dạng số thập phân,Trip COMPLETED,1. Gửi score=3.5,score: 3.5,Từ chối nếu API yêu cầu số nguyên 1-5,Medium
+TC-RATE-01-14,TS-RATE-01 – Đánh giá tài xế sau chuyến,Body rỗng,Trip COMPLETED,1. POST body {},{},Từ chối request,High
+TC-RATE-01-15,TS-RATE-01 – Đánh giá tài xế sau chuyến,Trip chưa hoàn thành,Trip IN_PROGRESS,1. POST rating,score: 5,Từ chối theo BRULE09,High
+TC-RATE-01-16,TS-RATE-01 – Đánh giá tài xế sau chuyến,Trip mới được phân công,Trip DRIVER_ASSIGNED,1. POST rating,score: 5,Từ chối theo BRULE09,High
+TC-RATE-01-17,TS-RATE-01 – Đánh giá tài xế sau chuyến,Customer khác đánh giá Trip,Trip thuộc Customer B; A đăng nhập,1. A POST rating Trip B,score: 5,Từ chối theo BRULE10/EX07,High
+TC-RATE-01-18,TS-RATE-01 – Đánh giá tài xế sau chuyến,Không có token,Chưa đăng nhập,1. POST rating không token,Authorization: missing,Từ chối theo EX07,High
+TC-RATE-01-19,TS-RATE-01 – Đánh giá tài xế sau chuyến,TripId không tồn tại,Customer đã đăng nhập,1. POST rating TRIP999,tripId: TRIP999; score: 5,Báo không tìm thấy,High
+TC-RATE-01-20,TS-RATE-01 – Đánh giá tài xế sau chuyến,Đánh giá lần hai cùng Trip,Trip đã có Rating,1. POST rating lần hai,tripId: TRIP001; score: 4,Xử lý theo chính sách đã xác nhận; không tạo dữ liệu không kiểm soát,Medium

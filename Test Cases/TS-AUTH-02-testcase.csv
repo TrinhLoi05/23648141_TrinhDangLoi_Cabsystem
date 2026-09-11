@@ -1,0 +1,21 @@
+﻿Test Case ID,Test Scenario,Test Case,Preconditions,Test Steps,Test Data,Expected Result,Priority
+TC-AUTH-02-01,TS-AUTH-02 – Đăng nhập khách hàng,Đăng nhập với thông tin đúng,Tài khoản tồn tại,1. Gửi POST /auth/login; 2. Nhập identifier và password đúng,identifier: 0901234567; password: 123456,Đăng nhập thành công; trả token,High
+TC-AUTH-02-02,TS-AUTH-02 – Đăng nhập khách hàng,Đăng nhập bằng email đúng,Tài khoản có email đăng nhập hợp lệ,1. Nhập email; 2. Nhập password đúng; 3. Login,identifier: a@gmail.com; password: 123456,Đăng nhập thành công nếu API hỗ trợ email trong identifier,Medium
+TC-AUTH-02-03,TS-AUTH-02 – Đăng nhập khách hàng,Identifier rỗng,Tài khoản tồn tại,1. Để identifier rỗng; 2. Login,identifier: empty; password: 123456,Không đăng nhập; báo lỗi,High
+TC-AUTH-02-04,TS-AUTH-02 – Đăng nhập khách hàng,Thiếu identifier,API login hoạt động,1. Bỏ trường identifier; 2. Gửi Login,identifier: missing,Từ chối request,High
+TC-AUTH-02-05,TS-AUTH-02 – Đăng nhập khách hàng,Password rỗng,Tài khoản tồn tại,1. Nhập identifier; 2. Để password rỗng; 3. Login,identifier: 0901234567; password: empty,Không đăng nhập; báo lỗi,High
+TC-AUTH-02-06,TS-AUTH-02 – Đăng nhập khách hàng,Thiếu password,API login hoạt động,1. Bỏ trường password; 2. Gửi Login,password: missing,Từ chối request,High
+TC-AUTH-02-07,TS-AUTH-02 – Đăng nhập khách hàng,Identifier và password đều rỗng,API login hoạt động,1. Để cả hai trường rỗng; 2. Login,identifier: empty; password: empty,Không đăng nhập; báo lỗi,High
+TC-AUTH-02-08,TS-AUTH-02 – Đăng nhập khách hàng,Body rỗng,API login hoạt động,1. Gửi body {}; 2. Kiểm tra kết quả,{},Từ chối request,High
+TC-AUTH-02-09,TS-AUTH-02 – Đăng nhập khách hàng,Sai password,Tài khoản tồn tại,1. Nhập identifier đúng; 2. Nhập password sai,identifier: 0901234567; password: wrong,Đăng nhập thất bại; không tạo token,High
+TC-AUTH-02-10,TS-AUTH-02 – Đăng nhập khách hàng,Tài khoản không tồn tại,Identifier chưa tồn tại,1. Nhập identifier không tồn tại; 2. Login,identifier: 0999999999; password: 123456,Đăng nhập thất bại,High
+TC-AUTH-02-11,TS-AUTH-02 – Đăng nhập khách hàng,Identifier null,API login hoạt động,1. Gửi identifier null; 2. Kiểm tra kết quả,identifier: null,Từ chối dữ liệu,High
+TC-AUTH-02-12,TS-AUTH-02 – Đăng nhập khách hàng,Password null,API login hoạt động,1. Gửi password null; 2. Kiểm tra kết quả,password: null,Từ chối dữ liệu,High
+TC-AUTH-02-13,TS-AUTH-02 – Đăng nhập khách hàng,Identifier sai kiểu,API login hoạt động,1. Gửi identifier sai kiểu; 2. Kiểm tra kết quả,identifier: true,Từ chối dữ liệu,Medium
+TC-AUTH-02-14,TS-AUTH-02 – Đăng nhập khách hàng,Password sai kiểu,API login hoạt động,1. Gửi password sai kiểu; 2. Kiểm tra kết quả,password: 123456 dạng number,Từ chối dữ liệu,Medium
+TC-AUTH-02-15,TS-AUTH-02 – Đăng nhập khách hàng,Identifier chỉ có khoảng trắng,API login hoạt động,1. Gửi identifier chỉ có khoảng trắng; 2. Login,identifier: '   ',Không đăng nhập,Medium
+TC-AUTH-02-16,TS-AUTH-02 – Đăng nhập khách hàng,Password chỉ có khoảng trắng,Tài khoản tồn tại,1. Gửi password chỉ có khoảng trắng; 2. Login,password: '   ',Không đăng nhập,Medium
+TC-AUTH-02-17,TS-AUTH-02 – Đăng nhập khách hàng,Email identifier sai định dạng,API hỗ trợ identifier dạng email,1. Nhập email sai; 2. Login,identifier: agmail.com; password: 123456,Không đăng nhập,Medium
+TC-AUTH-02-18,TS-AUTH-02 – Đăng nhập khách hàng,Phone identifier chứa chữ,API hỗ trợ identifier dạng phone,1. Nhập phone chứa chữ; 2. Login,identifier: 09ABC45678,Không đăng nhập,Medium
+TC-AUTH-02-19,TS-AUTH-02 – Đăng nhập khách hàng,Password khác chữ hoa/thường,Tài khoản tồn tại,1. Nhập identifier đúng; 2. Nhập password khác chữ hoa/thường,password: Abc123 khác abc123,Đăng nhập thất bại nếu password không khớp chính xác,Medium
+TC-AUTH-02-20,TS-AUTH-02 – Đăng nhập khách hàng,Đăng nhập lại sau một lần sai password,Tài khoản tồn tại,1. Login sai password; 2. Login lại bằng password đúng,Lần 1: wrong; Lần 2: correct,Lần đúng đăng nhập thành công nếu tài khoản vẫn hoạt động,Medium

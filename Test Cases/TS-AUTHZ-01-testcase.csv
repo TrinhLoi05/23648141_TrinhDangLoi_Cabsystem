@@ -1,0 +1,21 @@
+﻿Test Case ID,Test Scenario,Test Case,Preconditions,Test Steps,Test Data,Expected Result,Priority
+TC-AUTHZ-01-01,"TS-AUTHZ-01 – Xác thực, phân quyền và Audit Log",Verify token hợp lệ,User đã đăng nhập,1. POST /authorization/verify,token: valid,Xác thực thành công,High
+TC-AUTHZ-01-02,"TS-AUTHZ-01 – Xác thực, phân quyền và Audit Log",Không có token,Chưa đăng nhập,1. Verify không token,token: missing,Từ chối theo BRULE01/EX07,High
+TC-AUTHZ-01-03,"TS-AUTHZ-01 – Xác thực, phân quyền và Audit Log",Token không hợp lệ,Có token sai,1. Verify token invalid,token: invalid,Từ chối xác thực,High
+TC-AUTHZ-01-04,"TS-AUTHZ-01 – Xác thực, phân quyền và Audit Log",Token hết hạn,Token đã hết hạn,1. Verify expired token,token: expired,Từ chối xác thực,High
+TC-AUTHZ-01-05,"TS-AUTHZ-01 – Xác thực, phân quyền và Audit Log",Admin gán role DRIVER,Admin đã đăng nhập; user tồn tại,1. PUT role DRIVER,role: DRIVER,Cập nhật role thành công,High
+TC-AUTHZ-01-06,"TS-AUTHZ-01 – Xác thực, phân quyền và Audit Log",Admin gán role CUSTOMER,Admin đã đăng nhập; user tồn tại,1. PUT role CUSTOMER,role: CUSTOMER,Cập nhật role thành công,Medium
+TC-AUTHZ-01-07,"TS-AUTHZ-01 – Xác thực, phân quyền và Audit Log",Admin gán role OPERATOR,Admin đã đăng nhập; user tồn tại,1. PUT role OPERATOR,role: OPERATOR,Cập nhật role thành công,High
+TC-AUTHZ-01-08,"TS-AUTHZ-01 – Xác thực, phân quyền và Audit Log",Admin gán role ADMIN,Admin đã đăng nhập; user tồn tại,1. PUT role ADMIN,role: ADMIN,Cập nhật role thành công,High
+TC-AUTHZ-01-09,"TS-AUTHZ-01 – Xác thực, phân quyền và Audit Log",Role rỗng,Admin đã đăng nhập,1. PUT role rỗng,role: empty,Báo dữ liệu không hợp lệ,High
+TC-AUTHZ-01-10,"TS-AUTHZ-01 – Xác thực, phân quyền và Audit Log",Role null,Admin đã đăng nhập,1. PUT role=null,role: null,Từ chối dữ liệu,High
+TC-AUTHZ-01-11,"TS-AUTHZ-01 – Xác thực, phân quyền và Audit Log",Role không hợp lệ,Admin đã đăng nhập,1. PUT role SUPERUSER,role: SUPERUSER,Từ chối theo EX08,High
+TC-AUTHZ-01-12,"TS-AUTHZ-01 – Xác thực, phân quyền và Audit Log",UserId không tồn tại,Admin đã đăng nhập,1. PUT role cho USR999,userId: USR999,Báo không tìm thấy,High
+TC-AUTHZ-01-13,"TS-AUTHZ-01 – Xác thực, phân quyền và Audit Log",Customer tự đổi role,Customer đã đăng nhập,1. Customer PUT role ADMIN,role: ADMIN,Từ chối theo BRULE10/EX07,High
+TC-AUTHZ-01-14,"TS-AUTHZ-01 – Xác thực, phân quyền và Audit Log",Check quyền được phép,User có quyền,1. POST /authorization/check,resource: DRIVER; action: UPDATE,Cho phép thao tác,High
+TC-AUTHZ-01-15,"TS-AUTHZ-01 – Xác thực, phân quyền và Audit Log",Check quyền không được phép,User không có quyền,1. POST /authorization/check,resource: AUDIT_LOG; action: READ,Từ chối theo BRULE10/EX07,High
+TC-AUTHZ-01-16,"TS-AUTHZ-01 – Xác thực, phân quyền và Audit Log",Resource rỗng,User đã đăng nhập,1. Gửi resource rỗng,resource: empty,Báo dữ liệu không hợp lệ,High
+TC-AUTHZ-01-17,"TS-AUTHZ-01 – Xác thực, phân quyền và Audit Log",Action rỗng,User đã đăng nhập,1. Gửi action rỗng,action: empty,Báo dữ liệu không hợp lệ,High
+TC-AUTHZ-01-18,"TS-AUTHZ-01 – Xác thực, phân quyền và Audit Log",Thay đổi role phải ghi Audit Log,Admin đổi role thành công,1. Đổi role; 2. GET audit log,action: UPDATE_ROLE,Có Audit Log theo BRULE11,High
+TC-AUTHZ-01-19,"TS-AUTHZ-01 – Xác thực, phân quyền và Audit Log",Xử lý sự cố quản trị phải ghi log,Operator xử lý incident thành công,1. Xử lý incident; 2. GET audit log,action: HANDLE_INCIDENT,Có Audit Log theo BRULE11,Medium
+TC-AUTHZ-01-20,"TS-AUTHZ-01 – Xác thực, phân quyền và Audit Log",Customer không được xem Audit Log,Customer đã đăng nhập,1. GET /audit-logs,Token Customer,Từ chối theo BRULE10/EX07,High

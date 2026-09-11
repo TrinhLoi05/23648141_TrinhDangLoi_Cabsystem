@@ -1,0 +1,21 @@
+﻿Test Case ID,Test Scenario,Test Case,Preconditions,Test Steps,Test Data,Expected Result,Priority
+TC-DRIVER-01-01,TS-DRIVER-01 – Cập nhật trạng thái sẵn sàng của tài xế,Cập nhật AVAILABLE,Driver đã đăng nhập,1. PATCH availability; 2. Gửi AVAILABLE,status: AVAILABLE,Cập nhật thành công,High
+TC-DRIVER-01-02,TS-DRIVER-01 – Cập nhật trạng thái sẵn sàng của tài xế,Cập nhật BUSY,Driver đã đăng nhập,1. PATCH availability; 2. Gửi BUSY,status: BUSY,Cập nhật thành công,High
+TC-DRIVER-01-03,TS-DRIVER-01 – Cập nhật trạng thái sẵn sàng của tài xế,Cập nhật OFFLINE,Driver đã đăng nhập,1. PATCH availability; 2. Gửi OFFLINE,status: OFFLINE,Cập nhật thành công,High
+TC-DRIVER-01-04,TS-DRIVER-01 – Cập nhật trạng thái sẵn sàng của tài xế,Status rỗng,Driver đã đăng nhập,1. Gửi status rỗng,status: empty,Báo dữ liệu không hợp lệ,High
+TC-DRIVER-01-05,TS-DRIVER-01 – Cập nhật trạng thái sẵn sàng của tài xế,Thiếu status,Driver đã đăng nhập,1. Bỏ trường status; 2. Gửi request,status: missing,Từ chối request,High
+TC-DRIVER-01-06,TS-DRIVER-01 – Cập nhật trạng thái sẵn sàng của tài xế,Status null,Driver đã đăng nhập,1. Gửi status=null,status: null,Từ chối dữ liệu,High
+TC-DRIVER-01-07,TS-DRIVER-01 – Cập nhật trạng thái sẵn sàng của tài xế,Status ngoài enum,Driver đã đăng nhập,1. Gửi READY,status: READY,Từ chối dữ liệu,High
+TC-DRIVER-01-08,TS-DRIVER-01 – Cập nhật trạng thái sẵn sàng của tài xế,Status chữ thường,Driver đã đăng nhập,1. Gửi available thay AVAILABLE,status: available,Từ chối nếu enum yêu cầu đúng giá trị,Medium
+TC-DRIVER-01-09,TS-DRIVER-01 – Cập nhật trạng thái sẵn sàng của tài xế,Status sai kiểu,Driver đã đăng nhập,1. Gửi status dạng số,status: 1,Từ chối dữ liệu,Medium
+TC-DRIVER-01-10,TS-DRIVER-01 – Cập nhật trạng thái sẵn sàng của tài xế,Body rỗng,Driver đã đăng nhập,1. Gửi body {},{},Từ chối request,High
+TC-DRIVER-01-11,TS-DRIVER-01 – Cập nhật trạng thái sẵn sàng của tài xế,DriverId không tồn tại,Driver/User có quyền,1. PATCH DRV999,driverId: DRV999; status: AVAILABLE,Báo không tìm thấy,High
+TC-DRIVER-01-12,TS-DRIVER-01 – Cập nhật trạng thái sẵn sàng của tài xế,Không có token,Chưa đăng nhập,1. PATCH không token,Authorization: missing,Từ chối theo EX07,High
+TC-DRIVER-01-13,TS-DRIVER-01 – Cập nhật trạng thái sẵn sàng của tài xế,Token không hợp lệ,Có token sai,1. PATCH với token invalid,Authorization: invalid,Từ chối xác thực,High
+TC-DRIVER-01-14,TS-DRIVER-01 – Cập nhật trạng thái sẵn sàng của tài xế,Customer cập nhật trạng thái Driver,Customer đã đăng nhập,1. Customer PATCH availability,status: AVAILABLE,Từ chối theo BRULE10/EX07,High
+TC-DRIVER-01-15,TS-DRIVER-01 – Cập nhật trạng thái sẵn sàng của tài xế,Driver A cập nhật Driver B,Driver A đã đăng nhập,1. A PATCH driverId của B,driverId: DRV-B,Từ chối nếu A không có quyền,High
+TC-DRIVER-01-16,TS-DRIVER-01 – Cập nhật trạng thái sẵn sàng của tài xế,Cập nhật lại cùng trạng thái AVAILABLE,Driver đang AVAILABLE,1. PATCH AVAILABLE lần nữa,status: AVAILABLE,Hệ thống giữ trạng thái AVAILABLE; không lỗi,Medium
+TC-DRIVER-01-17,TS-DRIVER-01 – Cập nhật trạng thái sẵn sàng của tài xế,AVAILABLE được tham gia matching,Driver đã AVAILABLE,1. Cập nhật AVAILABLE; 2. Matching chuyến,status: AVAILABLE,Driver có thể được xét để nhận chuyến theo BRULE02,High
+TC-DRIVER-01-18,TS-DRIVER-01 – Cập nhật trạng thái sẵn sàng của tài xế,BUSY không được matching,Driver đang BUSY,1. Matching chuyến,status: BUSY,Driver không được chọn theo BRULE02,High
+TC-DRIVER-01-19,TS-DRIVER-01 – Cập nhật trạng thái sẵn sàng của tài xế,OFFLINE không được matching,Driver đang OFFLINE,1. Matching chuyến,status: OFFLINE,Driver không được chọn theo BRULE02,High
+TC-DRIVER-01-20,TS-DRIVER-01 – Cập nhật trạng thái sẵn sàng của tài xế,AVAILABLE sau OFFLINE,Driver đang OFFLINE,1. PATCH AVAILABLE; 2. Kiểm tra; 3. Matching,OFFLINE -> AVAILABLE,Driver chuyển AVAILABLE và có thể được xét nhận chuyến,Medium
