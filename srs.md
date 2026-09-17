@@ -196,7 +196,7 @@ Hệ thống cho phép khách hàng:
 | 14 | Quản lý vận hành |
 | 15 | Tra cứu giao dịch |
 | 16 | Báo cáo |
-| 17 | Phân quyền |
+| 17 | Phân quyền và quản lý tài khoản |
 | 18 | Ghi nhận thao tác |
 
 ## 4.2. Ngoài phạm vi
@@ -246,7 +246,7 @@ Business Requirement mô tả những nghiệp vụ hệ thống cần hỗ tr�
 | BR15 | Quản lý vận hành | Nhân viên quản lý hoạt động hệ thống. |
 | BR16 | Xử lý sự cố | Xử lý các chuyến gặp vấn đề. |
 | BR17 | Quản lý giao dịch | Tra cứu lịch sử giao dịch. |
-| BR18 | Phân quyền | Kiểm soát quyền người dùng. |
+| BR18 | Phân quyền và quản lý tài khoản | Quản lý tài khoản và kiểm soát quyền người dùng. |
 | BR19 | Báo cáo | Cung cấp báo cáo hoạt động. |
 | BR20 | Ghi nhận thao tác | Lưu các thao tác quan trọng. |
 
@@ -1522,11 +1522,11 @@ Hệ thống phải:
 
 # 13.5. Acceptance Criteria cho theo dõi chuyến
 
-## AC09 – Khách hàng theo dõi trạng thái chuyến
+## AC09 – Theo dõi và xem lịch sử chuyến
 
 **Mã:** AC09  
-**Chức năng:** Theo dõi chuyến  
-**Liên quan:** BR07
+**Chức năng:** Theo dõi và xem lịch sử chuyến  
+**Liên quan:** BR07, FR07.01 – FR07.04
 
 ### Tiêu chí chấp nhận
 
@@ -1535,6 +1535,7 @@ Hệ thống phải:
 - Hệ thống hiển thị trạng thái hiện tại của chuyến.
 - Khi tài xế cập nhật trạng thái, hệ thống phải cập nhật thông tin chuyến.
 - Khách hàng có thể xem thông tin tài xế đã nhận chuyến.
+- Khách hàng có thể xem danh sách các chuyến đã thực hiện của mình.
 
 ---
 
@@ -1645,19 +1646,20 @@ Thông báo phải được gửi đến đúng người nhận.
 
 ---
 
-## AC16 – Phân quyền nhân viên
+## AC16 – Phân quyền và quản lý tài khoản
 
 **Mã:** AC16  
-**Chức năng:** Phân quyền  
-**Liên quan:** BR18
+**Chức năng:** Phân quyền và quản lý tài khoản  
+**Liên quan:** BR18, FR18.01 – FR18.04
 
 ### Tiêu chí chấp nhận
 
 - Người dùng phải được xác thực trước khi sử dụng chức năng yêu cầu tài khoản.
 - Mỗi người dùng phải có vai trò phù hợp.
 - Người dùng chỉ được thực hiện các chức năng mà vai trò của mình được cấp quyền.
-- Nhân viên không có quyền không được thực hiện các thao tác nhạy cảm.
+- Người dùng không có quyền không được thực hiện các thao tác nhạy cảm.
 - Hệ thống phải từ chối truy cập trái phép.
+- Admin có thể thực hiện chức năng quản lý tài khoản người dùng theo quyền được cấp.
 
 ---
 
@@ -1725,14 +1727,14 @@ Thông tin log tối thiểu gồm:
 | AC06 | Không tìm được tài xế | BR06 | Thông báo khách hàng |
 | AC07 | Trạng thái tài xế | BR03 | Tài xế chuyển được trạng thái |
 | AC08 | Cập nhật chuyến | BR08 | Trạng thái chuyến được cập nhật |
-| AC09 | Theo dõi chuyến | BR07 | Khách hàng xem được trạng thái |
+| AC09 | Theo dõi và xem lịch sử chuyến | BR07 | Khách hàng xem được trạng thái và lịch sử chuyến |
 | AC10 | Thanh toán tiền mặt | BR11 | Ghi nhận thanh toán tiền mặt |
 | AC11 | Thanh toán điện tử | BR11 | Ghi nhận kết quả giao dịch |
 | AC12 | Thanh toán thất bại | BR12 | Thông báo và cho phép xử lý lại |
 | AC13 | Thông báo | BR13 | Gửi thông báo đúng sự kiện |
 | AC14 | Đánh giá | BR14 | Khách hàng đánh giá sau chuyến |
 | AC15 | Quản lý vận hành | BR15 | Nhân viên xem được chuyến |
-| AC16 | Phân quyền | BR18 | Chặn truy cập trái phép |
+| AC16 | Phân quyền và quản lý tài khoản | BR18 | Kiểm soát quyền và quản lý tài khoản |
 | AC17 | Báo cáo | BR19 | Hiển thị số liệu hoạt động |
 | AC18 | Ghi log | BR20 | Lưu được thao tác quan trọng |
 
