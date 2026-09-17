@@ -30,7 +30,7 @@ tags:
 x-functional-requirements:
 
   # -------------------------------------------------------
-  # BR18 - PHÂN QUYỀN
+  # BR18 - PHÂN QUYỀN VÀ QUẢN LÝ TÀI KHOẢN
   # -------------------------------------------------------
 
   - id: FR18.01
@@ -56,6 +56,14 @@ x-functional-requirements:
     api:
       method: POST
       path: /authorization/check
+
+  - id: FR18.04
+    business_requirement: BR18
+    name: Quản lý tài khoản
+    description: Admin quản lý tài khoản người dùng theo quyền được cấp.
+    api:
+      method: PATCH
+      path: /authorization/users/{userId}
 
   # -------------------------------------------------------
   # BR20 - GHI NHẬN THAO TÁC
@@ -335,6 +343,84 @@ paths:
               example:
                 success: false
                 message: Bạn không có quyền thực hiện thao tác này
+
+
+  # =======================================================
+  # FR18.04 - QUẢN LÝ TÀI KHOẢN
+  # =======================================================
+
+  /authorization/users/{userId}:
+    patch:
+      tags:
+        - Authorization
+
+      summary: Quản lý tài khoản người dùng
+
+      description: >
+        Cho phép Admin cập nhật trạng thái tài khoản
+        của người dùng theo quyền được cấp.
+
+      operationId: updateUserAccount
+
+      x-fr-id: FR18.04
+
+      security:
+        - bearerAuth: []
+
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: Mã người dùng
+          schema:
+            type: string
+          example: USR001
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateAccountRequest'
+
+            example:
+              status: ACTIVE
+
+      responses:
+        '200':
+          description: Cập nhật tài khoản thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountResponse'
+
+        '400':
+          description: Dữ liệu không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '401':
+          description: Chưa đăng nhập
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '403':
+          description: Không có quyền quản lý tài khoản
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '404':
+          description: Không tìm thấy người dùng
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 
 
   # =======================================================
@@ -671,6 +757,39 @@ components:
                 - ADMIN
               example: DRIVER
 
+
+    # -----------------------------------------------------
+    # FR18.04
+    # -----------------------------------------------------
+
+    UpdateAccountRequest:
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          type: string
+          description: Trạng thái tài khoản
+          example: ACTIVE
+
+    AccountResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: Cập nhật tài khoản thành công
+        data:
+          type: object
+          properties:
+            userId:
+              type: string
+              example: USR001
+            status:
+              type: string
+              example: ACTIVE
 
     # -----------------------------------------------------
     # FR18.03
