@@ -2,14 +2,21 @@ openapi: 3.0.3
 info:
   title: CAB System - History & Rating API
   version: 1.0.0
-  description: API đánh giá tài xế sau khi chuyến hoàn thành.
+  description: API xem lịch sử chuyến và đánh giá tài xế sau khi chuyến hoàn thành.
 servers:
 - url: http://localhost:3000/api
   description: Local development server
 tags:
 - name: HistoryRating
-  description: API đánh giá tài xế sau khi chuyến hoàn thành.
+  description: API xem lịch sử chuyến và đánh giá tài xế sau khi chuyến hoàn thành.
 x-functional-requirements:
+- id: FR07.04
+  business_requirement: BR07
+  name: Xem lịch sử chuyến
+  description: Khách hàng xem danh sách các chuyến đã thực hiện.
+  api:
+    method: GET
+    path: /customers/{customerId}/trips
 - id: FR14.01
   business_requirement: BR14
   name: Đánh giá tài xế
@@ -25,6 +32,41 @@ x-functional-requirements:
     method: POST
     path: /trips/{tripId}/ratings
 paths:
+  /customers/{customerId}/trips:
+    get:
+      tags:
+      - HistoryRating
+      summary: Xem lịch sử chuyến của khách hàng
+      x-fr-ids:
+      - FR07.04
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: customerId
+        in: path
+        required: true
+        description: Mã khách hàng
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Lấy lịch sử chuyến thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TripHistoryResponse'
+        '401':
+          description: Khách hàng chưa đăng nhập
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Không tìm thấy khách hàng
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
   /trips/{tripId}/ratings:
     post:
       tags:
@@ -86,6 +128,43 @@ components:
         message:
           type: string
           example: Dữ liệu không hợp lệ
+    TripHistoryResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: Lấy lịch sử chuyến thành công
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/TripHistoryItem'
+
+    TripHistoryItem:
+      type: object
+      properties:
+        tripId:
+          type: string
+          example: TRIP001
+        pickupLocation:
+          type: string
+          example: 12 Nguyễn Văn Bảo, Gò Vấp, TP.HCM
+        destination:
+          type: string
+          example: Sân bay Tân Sơn Nhất, TP.HCM
+        status:
+          type: string
+          example: COMPLETED
+        fare:
+          type: number
+          format: double
+          example: 85000
+        completedAt:
+          type: string
+          format: date-time
+
     RatingRequest:
       type: object
       required:
@@ -123,4 +202,3 @@ components:
         createdAt:
           type: string
           format: date-time
-x-note: SRS hiện tại chưa có FR riêng cho chức năng xem lịch sử chuyến.
