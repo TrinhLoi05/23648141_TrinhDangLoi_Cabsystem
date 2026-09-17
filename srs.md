@@ -411,6 +411,7 @@ Functional Requirement là các chức năng cụ thể mà hệ thống phải 
 | FR07.01 | Xem trạng thái | Xem trạng thái chuyến. |
 | FR07.02 | Xem tài xế | Xem thông tin tài xế. |
 | FR07.03 | Theo dõi vị trí | Theo dõi vị trí tài xế. |
+| FR07.04 | Xem lịch sử chuyến | Khách hàng xem danh sách các chuyến đã thực hiện. |
 
 ## 7.8. BR08 – Thực hiện chuyến
 
@@ -493,13 +494,14 @@ Functional Requirement là các chức năng cụ thể mà hệ thống phải 
 | FR17.01 | Tra cứu giao dịch | Tra cứu giao dịch. |
 | FR17.02 | Xem trạng thái | Xem trạng thái giao dịch. |
 
-## 7.18. BR18 – Phân quyền
+## 7.18. BR18 – Phân quyền và quản lý tài khoản
 
 | Mã | Tên | Diễn giải |
 |---|---|---|
 | FR18.01 | Xác thực | Xác thực người dùng. |
 | FR18.02 | Phân quyền | Kiểm soát quyền theo vai trò. |
 | FR18.03 | Kiểm soát quản trị | Hạn chế thao tác nhạy cảm. |
+| FR18.04 | Quản lý tài khoản | Admin quản lý tài khoản người dùng theo quyền được cấp. |
 
 ## 7.19. BR19 – Báo cáo
 
@@ -1830,7 +1832,7 @@ Trong dự án CAB System, sử dụng các cột:
 
 | BP | BR | FR | UC | AC |
 |---|---|---|---|---|
-| BP02 – Đặt chuyến | BR01 – Đặt chuyến xe | FR01.01 – Nhập điểm đón | UC01 – Đặt chuyến | AC01 – Đặt chuyến thành công |
+| BP02 – Đặt chuyến | BR01 – Đặt chuyến xe | FR01.01 – Nhập điểm đón | UC04 – Đặt chuyến xe | AC01 – Đặt chuyến thành công |
 | BP02 – Đặt chuyến | BR01 – Đặt chuyến xe | FR01.02 – Nhập điểm đến | UC01 – Đặt chuyến | AC01 – Đặt chuyến thành công |
 | BP02 – Đặt chuyến | BR01 – Đặt chuyến xe | FR01.03 – Chọn loại xe | UC01 – Đặt chuyến | AC01 – Đặt chuyến thành công |
 | BP02 – Đặt chuyến | BR01 – Đặt chuyến xe | FR01.04 – Gửi yêu cầu | UC01 – Đặt chuyến | AC01 – Đặt chuyến thành công |
@@ -1853,7 +1855,7 @@ Trong dự án CAB System, sử dụng các cột:
 | BP05 – Thực hiện chuyến | BR07 – Theo dõi chuyến | FR07.01 – Xem trạng thái | UC05 – Theo dõi chuyến | AC09 – Theo dõi chuyến |
 | BP05 – Thực hiện chuyến | BR07 – Theo dõi chuyến | FR07.02 – Xem tài xế | UC05 – Theo dõi chuyến | AC09 – Theo dõi chuyến |
 | BP05 – Thực hiện chuyến | BR07 – Theo dõi chuyến | FR07.03 – Theo dõi vị trí | UC05 – Theo dõi chuyến | AC09 – Theo dõi chuyến |
-| BP06 – Tính cước | BR10 – Tính cước | FR10.01 – Tính cước | UC06 – Tính cước | AC10 – Thanh toán |
+| BP06 – Tính cước | BR10 – Tính cước | FR10.01 – Tính cước | UC07 – Thanh toán chuyến | AC10 – Thanh toán |
 | BP06 – Tính cước | BR10 – Tính cước | FR10.02 – Xác định dịch vụ | UC06 – Tính cước | AC10 – Thanh toán |
 | BP06 – Tính cước | BR10 – Tính cước | FR10.03 – Lưu cước | UC06 – Tính cước | AC10 – Thanh toán |
 | BP07 – Thanh toán | BR11 – Thanh toán | FR11.01 – Chọn phương thức | UC07 – Thanh toán | AC10 – Tiền mặt |
