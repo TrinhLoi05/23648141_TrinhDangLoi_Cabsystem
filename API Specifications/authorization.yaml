@@ -222,20 +222,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
 
-              example:
-                success: false
-                message: Vai trò không hợp lệ
-
         '401':
           description: Người dùng chưa được xác thực
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-
-              example:
-                success: false
-                message: Bạn chưa đăng nhập
 
         '403':
           description: Không có quyền phân quyền
@@ -244,10 +236,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
 
-              example:
-                success: false
-                message: Bạn không có quyền thực hiện chức năng này
-
         '404':
           description: Không tìm thấy người dùng
           content:
@@ -255,13 +243,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
 
-              example:
-                success: false
-                message: Không tìm thấy người dùng
-
 
   # =======================================================
-  # FR18.03 - KIỂM SOÁT THAO TÁC QUẢN TRỊ
+  # FR18.03 - KIỂM TRA QUYỀN
   # =======================================================
 
   /authorization/check:
@@ -303,24 +287,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/PermissionCheckResponse'
 
-              example:
-                success: true
-                message: Kiểm tra quyền thành công
-                data:
-                  resource: DRIVER
-                  action: UPDATE
-                  allowed: true
-
         '400':
           description: Resource hoặc action không hợp lệ
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-
-              example:
-                success: false
-                message: Thông tin kiểm tra quyền không hợp lệ
 
         '401':
           description: Chưa xác thực
@@ -329,20 +301,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
 
-              example:
-                success: false
-                message: Người dùng chưa được xác thực
-
         '403':
           description: Không có quyền thực hiện
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-
-              example:
-                success: false
-                message: Bạn không có quyền thực hiện thao tác này
 
 
   # =======================================================
@@ -368,6 +332,7 @@ paths:
         - bearerAuth: []
 
       parameters:
+
         - name: userId
           in: path
           required: true
@@ -378,6 +343,7 @@ paths:
 
       requestBody:
         required: true
+
         content:
           application/json:
             schema:
@@ -387,6 +353,7 @@ paths:
               status: ACTIVE
 
       responses:
+
         '200':
           description: Cập nhật tài khoản thành công
           content:
@@ -424,10 +391,11 @@ paths:
 
 
   # =======================================================
-  # FR20.01 - GHI AUDIT LOG
+  # FR20.01 + FR20.02 - AUDIT LOG
   # =======================================================
 
   /audit-logs:
+
     post:
       tags:
         - AuditLog
@@ -469,28 +437,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/AuditLogResponse'
 
-              example:
-                success: true
-                message: Ghi nhận Audit Log thành công
-                data:
-                  logId: LOG001
-                  userId: USR001
-                  action: UPDATE_DRIVER
-                  resource: DRIVER
-                  resourceId: DRV001
-                  result: SUCCESS
-                  createdAt: "2026-09-09T20:00:00+07:00"
-
         '400':
           description: Dữ liệu log không hợp lệ
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-
-              example:
-                success: false
-                message: Dữ liệu Audit Log không hợp lệ
 
         '401':
           description: Người dùng chưa được xác thực
@@ -499,10 +451,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
 
-
-    # =====================================================
-    # FR20.02 - TRA CỨU AUDIT LOG
-    # =====================================================
 
     get:
       tags:
@@ -526,31 +474,24 @@ paths:
         - name: userId
           in: query
           required: false
-          description: Lọc theo mã người dùng
           schema:
             type: string
-          example: USR001
 
         - name: action
           in: query
           required: false
-          description: Lọc theo hành động
           schema:
             type: string
-          example: UPDATE_DRIVER
 
         - name: resource
           in: query
           required: false
-          description: Lọc theo đối tượng
           schema:
             type: string
-          example: DRIVER
 
         - name: result
           in: query
           required: false
-          description: Lọc theo kết quả
           schema:
             type: string
             enum:
@@ -560,7 +501,6 @@ paths:
         - name: fromDate
           in: query
           required: false
-          description: Thời gian bắt đầu
           schema:
             type: string
             format: date-time
@@ -568,7 +508,6 @@ paths:
         - name: toDate
           in: query
           required: false
-          description: Thời gian kết thúc
           schema:
             type: string
             format: date-time
@@ -576,7 +515,6 @@ paths:
         - name: page
           in: query
           required: false
-          description: Trang hiện tại
           schema:
             type: integer
             minimum: 1
@@ -585,7 +523,6 @@ paths:
         - name: limit
           in: query
           required: false
-          description: Số bản ghi trên một trang
           schema:
             type: integer
             minimum: 1
@@ -599,18 +536,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AuditLogListResponse'
-
-              example:
-                success: true
-                message: Tra cứu Audit Log thành công
-                data:
-                  - logId: LOG001
-                    userId: USR001
-                    action: UPDATE_DRIVER
-                    resource: DRIVER
-                    resourceId: DRV001
-                    result: SUCCESS
-                    createdAt: "2026-09-09T20:00:00+07:00"
 
         '401':
           description: Người dùng chưa được xác thực
@@ -626,20 +551,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
 
-              example:
-                success: false
-                message: Bạn không có quyền xem Audit Log
-
 
 # =========================================================
 # COMPONENTS
 # =========================================================
 
 components:
-
-  # =======================================================
-  # SECURITY
-  # =======================================================
 
   securitySchemes:
 
@@ -649,15 +566,11 @@ components:
       bearerFormat: JWT
 
 
-  # =======================================================
-  # SCHEMAS
-  # =======================================================
-
   schemas:
 
-    # -----------------------------------------------------
-    # FR18.01
-    # -----------------------------------------------------
+    # =====================================================
+    # VERIFY USER
+    # =====================================================
 
     VerifyResponse:
       type: object
@@ -703,9 +616,9 @@ components:
               example: ACTIVE
 
 
-    # -----------------------------------------------------
-    # FR18.02
-    # -----------------------------------------------------
+    # =====================================================
+    # ROLE
+    # =====================================================
 
     UpdateRoleRequest:
       type: object
@@ -717,12 +630,13 @@ components:
 
         role:
           type: string
-          description: Vai trò mới của người dùng
+
           enum:
             - CUSTOMER
             - DRIVER
             - OPERATOR
             - ADMIN
+
           example: DRIVER
 
 
@@ -750,50 +664,76 @@ components:
 
             role:
               type: string
+
               enum:
                 - CUSTOMER
                 - DRIVER
                 - OPERATOR
                 - ADMIN
+
               example: DRIVER
 
 
-    # -----------------------------------------------------
-    # FR18.04
-    # -----------------------------------------------------
+    # =====================================================
+    # ACCOUNT
+    # =====================================================
 
     UpdateAccountRequest:
       type: object
+
       required:
         - status
+
       properties:
+
         status:
           type: string
           description: Trạng thái tài khoản
+
+          enum:
+            - ACTIVE
+            - LOCKED
+            - DISABLED
+
           example: ACTIVE
+
 
     AccountResponse:
       type: object
+
       properties:
+
         success:
           type: boolean
           example: true
+
         message:
           type: string
           example: Cập nhật tài khoản thành công
+
         data:
           type: object
+
           properties:
+
             userId:
               type: string
               example: USR001
+
             status:
               type: string
+
+              enum:
+                - ACTIVE
+                - LOCKED
+                - DISABLED
+
               example: ACTIVE
 
-    # -----------------------------------------------------
-    # FR18.03
-    # -----------------------------------------------------
+
+    # =====================================================
+    # PERMISSION
+    # =====================================================
 
     PermissionCheckRequest:
       type: object
@@ -806,12 +746,10 @@ components:
 
         resource:
           type: string
-          description: Đối tượng cần kiểm tra quyền
           example: DRIVER
 
         action:
           type: string
-          description: Hành động cần thực hiện
           example: UPDATE
 
 
@@ -846,9 +784,9 @@ components:
               example: true
 
 
-    # -----------------------------------------------------
-    # FR20.01
-    # -----------------------------------------------------
+    # =====================================================
+    # AUDIT LOG
+    # =====================================================
 
     CreateAuditLogRequest:
       type: object
@@ -862,30 +800,27 @@ components:
 
         action:
           type: string
-          description: Hành động được thực hiện
           example: UPDATE_DRIVER
 
         resource:
           type: string
-          description: Đối tượng bị tác động
           example: DRIVER
 
         resourceId:
           type: string
-          description: Mã đối tượng
           example: DRV001
 
         description:
           type: string
-          description: Nội dung chi tiết
           example: Cập nhật trạng thái tài xế
 
         result:
           type: string
-          description: Kết quả thao tác
+
           enum:
             - SUCCESS
             - FAILED
+
           example: SUCCESS
 
 
@@ -920,9 +855,11 @@ components:
 
         result:
           type: string
+
           enum:
             - SUCCESS
             - FAILED
+
           example: SUCCESS
 
         createdAt:
@@ -948,10 +885,6 @@ components:
           $ref: '#/components/schemas/AuditLog'
 
 
-    # -----------------------------------------------------
-    # FR20.02
-    # -----------------------------------------------------
-
     AuditLogListResponse:
       type: object
 
@@ -972,9 +905,9 @@ components:
             $ref: '#/components/schemas/AuditLog'
 
 
-    # -----------------------------------------------------
+    # =====================================================
     # ERROR
-    # -----------------------------------------------------
+    # =====================================================
 
     ErrorResponse:
       type: object
@@ -987,4 +920,4 @@ components:
 
         message:
           type: string
-          example: Bạn không có quyền thực hiện thao tác này
+          example: Dữ liệu không hợp lệ
