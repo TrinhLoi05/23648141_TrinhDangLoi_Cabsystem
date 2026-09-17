@@ -3,13 +3,17 @@ info:
   title: CAB System - Report API
   version: 1.0.0
   description: API cung cấp các báo cáo hoạt động cơ bản của CAB System.
+
 servers:
 - url: http://localhost:3000/api
   description: Local development server
+
 tags:
 - name: Report
   description: API cung cấp các báo cáo hoạt động cơ bản của CAB System.
+
 x-functional-requirements:
+
 - id: FR19.01
   business_requirement: BR19
   name: Báo cáo chuyến
@@ -17,6 +21,7 @@ x-functional-requirements:
   api:
     method: GET
     path: /reports/trips
+
 - id: FR19.02
   business_requirement: BR19
   name: Báo cáo doanh thu
@@ -24,6 +29,7 @@ x-functional-requirements:
   api:
     method: GET
     path: /reports/revenue
+
 - id: FR19.03
   business_requirement: BR19
   name: Báo cáo hoàn thành
@@ -31,6 +37,7 @@ x-functional-requirements:
   api:
     method: GET
     path: /reports/completion-rate
+
 - id: FR19.04
   business_requirement: BR19
   name: Báo cáo hủy
@@ -38,6 +45,7 @@ x-functional-requirements:
   api:
     method: GET
     path: /reports/cancellation-rate
+
 - id: FR19.05
   business_requirement: BR19
   name: Báo cáo tài xế
@@ -45,7 +53,9 @@ x-functional-requirements:
   api:
     method: GET
     path: /reports/drivers
+
 paths:
+
   /reports/trips:
     get:
       tags:
@@ -53,6 +63,24 @@ paths:
       summary: Báo cáo số lượng chuyến
       x-fr-ids:
       - FR19.01
+
+      parameters:
+      - name: fromDate
+        in: query
+        required: true
+        description: Ngày bắt đầu
+        schema:
+          type: string
+          format: date
+
+      - name: toDate
+        in: query
+        required: true
+        description: Ngày kết thúc
+        schema:
+          type: string
+          format: date
+
       responses:
         '200':
           description: Thành công
@@ -60,14 +88,17 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/MessageResponse'
+
         '400':
           description: Yêu cầu không hợp lệ
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+
       security:
       - bearerAuth: []
+
   /reports/revenue:
     get:
       tags:
@@ -75,6 +106,24 @@ paths:
       summary: Báo cáo doanh thu
       x-fr-ids:
       - FR19.02
+
+      parameters:
+      - name: fromDate
+        in: query
+        required: true
+        description: Ngày bắt đầu
+        schema:
+          type: string
+          format: date
+
+      - name: toDate
+        in: query
+        required: true
+        description: Ngày kết thúc
+        schema:
+          type: string
+          format: date
+
       responses:
         '200':
           description: Thành công
@@ -82,14 +131,17 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/MessageResponse'
+
         '400':
           description: Yêu cầu không hợp lệ
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+
       security:
       - bearerAuth: []
+
   /reports/completion-rate:
     get:
       tags:
@@ -97,6 +149,24 @@ paths:
       summary: Báo cáo tỷ lệ hoàn thành
       x-fr-ids:
       - FR19.03
+
+      parameters:
+      - name: fromDate
+        in: query
+        required: true
+        description: Ngày bắt đầu
+        schema:
+          type: string
+          format: date
+
+      - name: toDate
+        in: query
+        required: true
+        description: Ngày kết thúc
+        schema:
+          type: string
+          format: date
+
       responses:
         '200':
           description: Thành công
@@ -104,14 +174,17 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/MessageResponse'
+
         '400':
           description: Yêu cầu không hợp lệ
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+
       security:
       - bearerAuth: []
+
   /reports/cancellation-rate:
     get:
       tags:
@@ -119,6 +192,24 @@ paths:
       summary: Báo cáo tỷ lệ hủy
       x-fr-ids:
       - FR19.04
+
+      parameters:
+      - name: fromDate
+        in: query
+        required: true
+        description: Ngày bắt đầu
+        schema:
+          type: string
+          format: date
+
+      - name: toDate
+        in: query
+        required: true
+        description: Ngày kết thúc
+        schema:
+          type: string
+          format: date
+
       responses:
         '200':
           description: Thành công
@@ -126,14 +217,17 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/MessageResponse'
+
         '400':
           description: Yêu cầu không hợp lệ
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+
       security:
       - bearerAuth: []
+
   /reports/drivers:
     get:
       tags:
@@ -141,6 +235,24 @@ paths:
       summary: Báo cáo hiệu quả tài xế
       x-fr-ids:
       - FR19.05
+
+      parameters:
+      - name: fromDate
+        in: query
+        required: true
+        description: Ngày bắt đầu
+        schema:
+          type: string
+          format: date
+
+      - name: toDate
+        in: query
+        required: true
+        description: Ngày kết thúc
+        schema:
+          type: string
+          format: date
+
       responses:
         '200':
           description: Thành công
@@ -148,21 +260,27 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/MessageResponse'
+
         '400':
           description: Yêu cầu không hợp lệ
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+
       security:
       - bearerAuth: []
+
 components:
+
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT
+
   schemas:
+
     MessageResponse:
       type: object
       properties:
@@ -172,6 +290,7 @@ components:
         message:
           type: string
           example: Thao tác thành công
+
     ErrorResponse:
       type: object
       properties:
