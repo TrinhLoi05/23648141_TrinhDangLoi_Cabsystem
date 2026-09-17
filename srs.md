@@ -1835,63 +1835,80 @@ Trong dự án CAB System, sử dụng các cột:
 | BP | BR | FR | UC | AC |
 |---|---|---|---|---|
 | BP02 – Đặt chuyến | BR01 – Đặt chuyến xe | FR01.01 – Nhập điểm đón | UC04 – Đặt chuyến xe | AC01 – Đặt chuyến thành công |
-| BP02 – Đặt chuyến | BR01 – Đặt chuyến xe | FR01.02 – Nhập điểm đến | UC01 – Đặt chuyến | AC01 – Đặt chuyến thành công |
-| BP02 – Đặt chuyến | BR01 – Đặt chuyến xe | FR01.03 – Chọn loại xe | UC01 – Đặt chuyến | AC01 – Đặt chuyến thành công |
-| BP02 – Đặt chuyến | BR01 – Đặt chuyến xe | FR01.04 – Gửi yêu cầu | UC01 – Đặt chuyến | AC01 – Đặt chuyến thành công |
-| BP02 – Đặt chuyến | BR01 – Đặt chuyến xe | FR01.05 – Kiểm tra yêu cầu | UC01 – Đặt chuyến | AC02 – Thiếu thông tin |
-| BP02 – Đặt chuyến | BR01 – Đặt chuyến xe | FR01.06 – Tạo chuyến | UC01 – Đặt chuyến | AC01 – Đặt chuyến thành công |
-| BP03 – Tìm tài xế | BR05 – Tìm tài xế | FR05.01 – Tìm tài xế sẵn sàng | UC02 – Tìm tài xế | AC03 – Tìm được tài xế |
-| BP03 – Tìm tài xế | BR05 – Tìm tài xế | FR05.02 – Kiểm tra vị trí | UC02 – Tìm tài xế | AC03 – Tìm được tài xế |
-| BP03 – Tìm tài xế | BR05 – Tìm tài xế | FR05.03 – Lọc tài xế | UC02 – Tìm tài xế | AC03 – Tìm được tài xế |
-| BP03 – Tìm tài xế | BR05 – Tìm tài xế | FR05.04 – Ưu tiên tài xế | UC02 – Tìm tài xế | AC03 – Tìm được tài xế |
-| BP04 – Phân công tài xế | BR06 – Phân công tài xế | FR06.01 – Gửi yêu cầu | UC03 – Phân công tài xế | AC03 – Tìm được tài xế |
-| BP04 – Phân công tài xế | BR06 – Phân công tài xế | FR06.02 – Chấp nhận chuyến | UC03 – Phân công tài xế | AC03 – Tìm được tài xế |
-| BP04 – Phân công tài xế | BR06 – Phân công tài xế | FR06.03 – Từ chối chuyến | UC03 – Phân công tài xế | AC04 – Tài xế từ chối |
-| BP04 – Phân công tài xế | BR06 – Phân công tài xế | FR06.04 – Xử lý không phản hồi | UC03 – Phân công tài xế | AC05 – Không phản hồi |
-| BP04 – Phân công tài xế | BR06 – Phân công tài xế | FR06.05 – Tìm tài xế khác | UC03 – Phân công tài xế | AC04 – Tài xế từ chối |
-| BP04 – Phân công tài xế | BR06 – Phân công tài xế | FR06.06 – Thông báo thất bại | UC03 – Phân công tài xế | AC06 – Không tìm được tài xế |
-| BP05 – Thực hiện chuyến | BR08 – Thực hiện chuyến | FR08.01 – Đã đến điểm đón | UC04 – Thực hiện chuyến | AC08 – Cập nhật chuyến |
-| BP05 – Thực hiện chuyến | BR08 – Thực hiện chuyến | FR08.02 – Đã đón khách | UC04 – Thực hiện chuyến | AC08 – Cập nhật chuyến |
-| BP05 – Thực hiện chuyến | BR08 – Thực hiện chuyến | FR08.03 – Đang di chuyển | UC04 – Thực hiện chuyến | AC08 – Cập nhật chuyến |
-| BP05 – Thực hiện chuyến | BR08 – Thực hiện chuyến | FR08.04 – Hoàn thành chuyến | UC04 – Thực hiện chuyến | AC08 – Cập nhật chuyến |
-| BP05 – Thực hiện chuyến | BR07 – Theo dõi chuyến | FR07.01 – Xem trạng thái | UC05 – Theo dõi chuyến | AC09 – Theo dõi chuyến |
-| BP05 – Thực hiện chuyến | BR07 – Theo dõi chuyến | FR07.02 – Xem tài xế | UC05 – Theo dõi chuyến | AC09 – Theo dõi chuyến |
-| BP05 – Thực hiện chuyến | BR07 – Theo dõi chuyến | FR07.03 – Theo dõi vị trí | UC05 – Theo dõi chuyến | AC09 – Theo dõi chuyến |
-| BP06 – Tính cước | BR10 – Tính cước | FR10.01 – Tính cước | UC07 – Thanh toán chuyến | AC10 – Thanh toán |
-| BP06 – Tính cước | BR10 – Tính cước | FR10.02 – Xác định dịch vụ | UC06 – Tính cước | AC10 – Thanh toán |
-| BP06 – Tính cước | BR10 – Tính cước | FR10.03 – Lưu cước | UC06 – Tính cước | AC10 – Thanh toán |
-| BP07 – Thanh toán | BR11 – Thanh toán | FR11.01 – Chọn phương thức | UC07 – Thanh toán | AC10 – Tiền mặt |
-| BP07 – Thanh toán | BR11 – Thanh toán | FR11.02 – Thanh toán tiền mặt | UC07 – Thanh toán | AC10 – Tiền mặt |
-| BP07 – Thanh toán | BR11 – Thanh toán | FR11.03 – Thanh toán điện tử | UC07 – Thanh toán | AC11 – Thanh toán điện tử |
-| BP07 – Thanh toán | BR11 – Thanh toán | FR11.04 – Nhận kết quả | UC07 – Thanh toán | AC11 – Thanh toán điện tử |
-| BP07 – Thanh toán | BR12 – Xử lý thanh toán lỗi | FR12.01 – Ghi nhận lỗi | UC08 – Xử lý thanh toán lỗi | AC12 – Thanh toán thất bại |
-| BP07 – Thanh toán | BR12 – Xử lý thanh toán lỗi | FR12.02 – Thông báo lỗi | UC08 – Xử lý thanh toán lỗi | AC12 – Thanh toán thất bại |
-| BP07 – Thanh toán | BR12 – Xử lý thanh toán lỗi | FR12.03 – Thanh toán lại | UC08 – Xử lý thanh toán lỗi | AC12 – Thanh toán thất bại |
-| BP08 – Thông báo | BR13 – Thông báo | FR13.01 – Thông báo đặt xe | UC09 – Gửi thông báo | AC13 – Gửi thông báo |
-| BP08 – Thông báo | BR13 – Thông báo | FR13.02 – Thông báo nhận chuyến | UC09 – Gửi thông báo | AC13 – Gửi thông báo |
-| BP08 – Thông báo | BR13 – Thông báo | FR13.03 – Thông báo đến điểm đón | UC09 – Gửi thông báo | AC13 – Gửi thông báo |
-| BP08 – Thông báo | BR13 – Thông báo | FR13.04 – Thông báo hoàn thành | UC09 – Gửi thông báo | AC13 – Gửi thông báo |
-| BP08 – Thông báo | BR13 – Thông báo | FR13.05 – Thông báo thanh toán | UC09 – Gửi thông báo | AC13 – Gửi thông báo |
-| BP09 – Đánh giá | BR14 – Đánh giá tài xế | FR14.01 – Đánh giá tài xế | UC10 – Đánh giá tài xế | AC14 – Đánh giá |
-| BP09 – Đánh giá | BR14 – Đánh giá tài xế | FR14.02 – Lưu đánh giá | UC10 – Đánh giá tài xế | AC14 – Đánh giá |
-| BP10 – Quản lý vận hành | BR15 – Quản lý vận hành | FR15.01 – Quản lý khách hàng | UC11 – Quản lý vận hành | AC15 – Quản lý vận hành |
-| BP10 – Quản lý vận hành | BR15 – Quản lý vận hành | FR15.02 – Quản lý tài xế | UC11 – Quản lý vận hành | AC15 – Quản lý vận hành |
-| BP10 – Quản lý vận hành | BR15 – Quản lý vận hành | FR15.03 – Quản lý phương tiện | UC11 – Quản lý vận hành | AC15 – Quản lý vận hành |
-| BP10 – Quản lý vận hành | BR15 – Quản lý vận hành | FR15.04 – Theo dõi chuyến | UC11 – Quản lý vận hành | AC15 – Quản lý vận hành |
-| BP10 – Quản lý vận hành | BR16 – Xử lý sự cố | FR16.01 – Xem chuyến lỗi | UC12 – Xử lý sự cố | AC15 – Quản lý vận hành |
-| BP10 – Quản lý vận hành | BR16 – Xử lý sự cố | FR16.02 – Xử lý chuyến lỗi | UC12 – Xử lý sự cố | AC15 – Quản lý vận hành |
-| BP10 – Quản lý vận hành | BR17 – Quản lý giao dịch | FR17.01 – Tra cứu giao dịch | UC13 – Tra cứu giao dịch | AC15 – Quản lý vận hành |
-| BP10 – Quản lý vận hành | BR17 – Quản lý giao dịch | FR17.02 – Xem trạng thái giao dịch | UC13 – Tra cứu giao dịch | AC15 – Quản lý vận hành |
-| BP10 – Quản lý vận hành | BR18 – Phân quyền | FR18.01 – Xác thực | UC14 – Đăng nhập | AC16 – Phân quyền |
-| BP10 – Quản lý vận hành | BR18 – Phân quyền | FR18.02 – Phân quyền | UC15 – Phân quyền | AC16 – Phân quyền |
-| BP10 – Quản lý vận hành | BR18 – Phân quyền | FR18.03 – Kiểm soát quản trị | UC15 – Phân quyền | AC16 – Phân quyền |
-| BP10 – Quản lý vận hành | BR19 – Báo cáo | FR19.01 – Báo cáo chuyến | UC16 – Báo cáo | AC17 – Báo cáo |
-| BP10 – Quản lý vận hành | BR19 – Báo cáo | FR19.02 – Báo cáo doanh thu | UC16 – Báo cáo | AC17 – Báo cáo |
-| BP10 – Quản lý vận hành | BR19 – Báo cáo | FR19.03 – Báo cáo hoàn thành | UC16 – Báo cáo | AC17 – Báo cáo |
-| BP10 – Quản lý vận hành | BR19 – Báo cáo | FR19.04 – Báo cáo hủy | UC16 – Báo cáo | AC17 – Báo cáo |
-| BP10 – Quản lý vận hành | BR19 – Báo cáo | FR19.05 – Báo cáo tài xế | UC16 – Báo cáo | AC17 – Báo cáo |
-| BP10 – Quản lý vận hành | BR20 – Ghi nhận thao tác | FR20.01 – Ghi log | UC17 – Ghi nhận thao tác | AC18 – Ghi log |
-| BP10 – Quản lý vận hành | BR20 – Ghi nhận thao tác | FR20.02 – Tra cứu log | UC18 – Tra cứu log | AC18 – Ghi log |
+| BP02 – Đặt chuyến | BR01 – Đặt chuyến xe | FR01.02 – Nhập điểm đến | UC04 – Đặt chuyến xe | AC01 – Đặt chuyến thành công |
+| BP02 – Đặt chuyến | BR01 – Đặt chuyến xe | FR01.03 – Chọn loại xe | UC04 – Đặt chuyến xe | AC01 – Đặt chuyến thành công |
+| BP02 – Đặt chuyến | BR01 – Đặt chuyến xe | FR01.04 – Gửi yêu cầu | UC04 – Đặt chuyến xe | AC01 – Đặt chuyến thành công |
+| BP02 – Đặt chuyến | BR01 – Đặt chuyến xe | FR01.05 – Kiểm tra yêu cầu | UC04 – Đặt chuyến xe | AC02 – Đặt chuyến thiếu thông tin |
+| BP02 – Đặt chuyến | BR01 – Đặt chuyến xe | FR01.06 – Tạo chuyến | UC04 – Đặt chuyến xe | AC01 – Đặt chuyến thành công |
+
+| BP03 – Tìm tài xế | BR05 – Tìm tài xế | FR05.01 – Tìm tài xế sẵn sàng | UC04 – Đặt chuyến xe | AC03 – Tìm được tài xế |
+| BP03 – Tìm tài xế | BR05 – Tìm tài xế | FR05.02 – Kiểm tra vị trí | UC04 – Đặt chuyến xe | AC03 – Tìm được tài xế |
+| BP03 – Tìm tài xế | BR05 – Tìm tài xế | FR05.03 – Lọc tài xế | UC04 – Đặt chuyến xe | AC03 – Tìm được tài xế |
+| BP03 – Tìm tài xế | BR05 – Tìm tài xế | FR05.04 – Ưu tiên tài xế | UC04 – Đặt chuyến xe | AC03 – Tìm được tài xế |
+
+| BP04 – Phân công tài xế | BR06 – Phân công tài xế | FR06.01 – Gửi yêu cầu | UC11 – Nhận yêu cầu chuyến | AC03 – Tìm được tài xế |
+| BP04 – Phân công tài xế | BR06 – Phân công tài xế | FR06.02 – Chấp nhận chuyến | UC12 – Chấp nhận chuyến | AC03 – Tìm được tài xế |
+| BP04 – Phân công tài xế | BR06 – Phân công tài xế | FR06.03 – Từ chối chuyến | UC13 – Từ chối chuyến | AC04 – Tài xế từ chối |
+| BP04 – Phân công tài xế | BR06 – Phân công tài xế | FR06.04 – Xử lý không phản hồi | UC11 – Nhận yêu cầu chuyến | AC05 – Tài xế không phản hồi |
+| BP04 – Phân công tài xế | BR06 – Phân công tài xế | FR06.05 – Tìm tài xế khác | UC13 – Từ chối chuyến | AC04 – Tài xế từ chối |
+| BP04 – Phân công tài xế | BR06 – Phân công tài xế | FR06.06 – Thông báo thất bại | UC04 – Đặt chuyến xe | AC06 – Không tìm được tài xế |
+
+| BP05 – Thực hiện chuyến | BR08 – Thực hiện chuyến | FR08.01 – Đã đến điểm đón | UC14 – Cập nhật trạng thái chuyến | AC08 – Cập nhật trạng thái chuyến |
+| BP05 – Thực hiện chuyến | BR08 – Thực hiện chuyến | FR08.02 – Đã đón khách | UC14 – Cập nhật trạng thái chuyến | AC08 – Cập nhật trạng thái chuyến |
+| BP05 – Thực hiện chuyến | BR08 – Thực hiện chuyến | FR08.03 – Đang di chuyển | UC14 – Cập nhật trạng thái chuyến | AC08 – Cập nhật trạng thái chuyến |
+| BP05 – Thực hiện chuyến | BR08 – Thực hiện chuyến | FR08.04 – Hoàn thành chuyến | UC14 – Cập nhật trạng thái chuyến | AC08 – Cập nhật trạng thái chuyến |
+
+| BP05 – Thực hiện chuyến | BR07 – Theo dõi chuyến | FR07.01 – Xem trạng thái | UC05 – Theo dõi chuyến | AC09 – Theo dõi và xem lịch sử chuyến |
+| BP05 – Thực hiện chuyến | BR07 – Theo dõi chuyến | FR07.02 – Xem tài xế | UC05 – Theo dõi chuyến | AC09 – Theo dõi và xem lịch sử chuyến |
+| BP05 – Thực hiện chuyến | BR07 – Theo dõi chuyến | FR07.03 – Theo dõi vị trí | UC05 – Theo dõi chuyến | AC09 – Theo dõi và xem lịch sử chuyến |
+| BP05 – Thực hiện chuyến | BR07 – Theo dõi chuyến | FR07.04 – Xem lịch sử chuyến | UC06 – Xem lịch sử chuyến | AC09 – Theo dõi và xem lịch sử chuyến |
+
+| BP06 – Tính cước | BR10 – Tính cước | FR10.01 – Tính cước | UC07 – Thanh toán chuyến | AC10 – Thanh toán bằng tiền mặt |
+| BP06 – Tính cước | BR10 – Tính cước | FR10.02 – Xác định dịch vụ | UC07 – Thanh toán chuyến | AC10 – Thanh toán bằng tiền mặt |
+| BP06 – Tính cước | BR10 – Tính cước | FR10.03 – Lưu cước | UC07 – Thanh toán chuyến | AC10 – Thanh toán bằng tiền mặt |
+
+| BP07 – Thanh toán | BR11 – Thanh toán | FR11.01 – Chọn phương thức | UC07 – Thanh toán chuyến | AC10 – Thanh toán bằng tiền mặt |
+| BP07 – Thanh toán | BR11 – Thanh toán | FR11.02 – Thanh toán tiền mặt | UC07 – Thanh toán chuyến | AC10 – Thanh toán bằng tiền mặt |
+| BP07 – Thanh toán | BR11 – Thanh toán | FR11.03 – Thanh toán điện tử | UC07 – Thanh toán chuyến / UC26 – Thanh toán điện tử | AC11 – Thanh toán điện tử thành công |
+| BP07 – Thanh toán | BR11 – Thanh toán | FR11.04 – Nhận kết quả | UC07 – Thanh toán chuyến / UC26 – Thanh toán điện tử | AC11 – Thanh toán điện tử thành công |
+
+| BP07 – Thanh toán | BR12 – Xử lý thanh toán lỗi | FR12.01 – Ghi nhận lỗi | UC07 – Thanh toán chuyến / UC26 – Thanh toán điện tử | AC12 – Thanh toán điện tử thất bại |
+| BP07 – Thanh toán | BR12 – Xử lý thanh toán lỗi | FR12.02 – Thông báo lỗi | UC07 – Thanh toán chuyến / UC26 – Thanh toán điện tử | AC12 – Thanh toán điện tử thất bại |
+| BP07 – Thanh toán | BR12 – Xử lý thanh toán lỗi | FR12.03 – Thanh toán lại | UC07 – Thanh toán chuyến / UC26 – Thanh toán điện tử | AC12 – Thanh toán điện tử thất bại |
+
+| BP08 – Thông báo | BR13 – Thông báo | FR13.01 – Thông báo đặt xe | UC27 – Gửi thông báo | AC13 – Gửi thông báo |
+| BP08 – Thông báo | BR13 – Thông báo | FR13.02 – Thông báo nhận chuyến | UC27 – Gửi thông báo | AC13 – Gửi thông báo |
+| BP08 – Thông báo | BR13 – Thông báo | FR13.03 – Thông báo đến điểm đón | UC27 – Gửi thông báo | AC13 – Gửi thông báo |
+| BP08 – Thông báo | BR13 – Thông báo | FR13.04 – Thông báo hoàn thành | UC27 – Gửi thông báo | AC13 – Gửi thông báo |
+| BP08 – Thông báo | BR13 – Thông báo | FR13.05 – Thông báo thanh toán | UC27 – Gửi thông báo | AC13 – Gửi thông báo |
+
+| BP09 – Đánh giá | BR14 – Đánh giá tài xế | FR14.01 – Đánh giá tài xế | UC08 – Đánh giá tài xế | AC14 – Đánh giá tài xế |
+| BP09 – Đánh giá | BR14 – Đánh giá tài xế | FR14.02 – Lưu đánh giá | UC08 – Đánh giá tài xế | AC14 – Đánh giá tài xế |
+
+| BP10 – Quản lý vận hành | BR15 – Quản lý vận hành | FR15.01 – Quản lý khách hàng | UC16 – Quản lý khách hàng | AC15 – Quản lý vận hành |
+| BP10 – Quản lý vận hành | BR15 – Quản lý vận hành | FR15.02 – Quản lý tài xế | UC17 – Quản lý tài xế | AC15 – Quản lý vận hành |
+| BP10 – Quản lý vận hành | BR15 – Quản lý vận hành | FR15.03 – Quản lý phương tiện | UC18 – Quản lý phương tiện | AC15 – Quản lý vận hành |
+| BP10 – Quản lý vận hành | BR15 – Quản lý vận hành | FR15.04 – Theo dõi chuyến | UC19 – Theo dõi chuyến | AC15 – Quản lý vận hành |
+
+| BP10 – Quản lý vận hành | BR16 – Xử lý sự cố | FR16.01 – Xem chuyến lỗi | UC20 – Xử lý sự cố | AC15 – Quản lý vận hành |
+| BP10 – Quản lý vận hành | BR16 – Xử lý sự cố | FR16.02 – Xử lý chuyến lỗi | UC20 – Xử lý sự cố | AC15 – Quản lý vận hành |
+
+| BP10 – Quản lý vận hành | BR17 – Quản lý giao dịch | FR17.01 – Tra cứu giao dịch | UC21 – Tra cứu giao dịch | AC15 – Quản lý vận hành |
+| BP10 – Quản lý vận hành | BR17 – Quản lý giao dịch | FR17.02 – Xem trạng thái giao dịch | UC21 – Tra cứu giao dịch | AC15 – Quản lý vận hành |
+
+| BP10 – Quản lý vận hành | BR18 – Phân quyền và quản lý tài khoản | FR18.01 – Xác thực | UC02 – Đăng nhập | AC16 – Phân quyền và quản lý tài khoản |
+| BP10 – Quản lý vận hành | BR18 – Phân quyền và quản lý tài khoản | FR18.02 – Phân quyền | UC24 – Phân quyền | AC16 – Phân quyền và quản lý tài khoản |
+| BP10 – Quản lý vận hành | BR18 – Phân quyền và quản lý tài khoản | FR18.03 – Kiểm soát quản trị | UC24 – Phân quyền | AC16 – Phân quyền và quản lý tài khoản |
+| BP10 – Quản lý vận hành | BR18 – Phân quyền và quản lý tài khoản | FR18.04 – Quản lý tài khoản | UC23 – Quản lý tài khoản | AC16 – Phân quyền và quản lý tài khoản |
+
+| BP10 – Quản lý vận hành | BR19 – Báo cáo | FR19.01 – Báo cáo chuyến | UC22 – Xem báo cáo | AC17 – Báo cáo |
+| BP10 – Quản lý vận hành | BR19 – Báo cáo | FR19.02 – Báo cáo doanh thu | UC22 – Xem báo cáo | AC17 – Báo cáo |
+| BP10 – Quản lý vận hành | BR19 – Báo cáo | FR19.03 – Báo cáo hoàn thành | UC22 – Xem báo cáo | AC17 – Báo cáo |
+| BP10 – Quản lý vận hành | BR19 – Báo cáo | FR19.04 – Báo cáo hủy | UC22 – Xem báo cáo | AC17 – Báo cáo |
+| BP10 – Quản lý vận hành | BR19 – Báo cáo | FR19.05 – Báo cáo tài xế | UC22 – Xem báo cáo | AC17 – Báo cáo |
+
+| BP10 – Quản lý vận hành | BR20 – Ghi nhận thao tác | FR20.01 – Ghi log | UC25 – Xem Audit Log | AC18 – Ghi log |
+| BP10 – Quản lý vận hành | BR20 – Ghi nhận thao tác | FR20.02 – Tra cứu log | UC25 – Xem Audit Log | AC18 – Ghi log |
 
 ---
 
