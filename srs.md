@@ -366,7 +366,7 @@ Functional Requirement là các chức năng cụ thể mà hệ thống phải 
 | Mã | Tên | Diễn giải |
 |---|---|---|
 | FR02.01 | Đăng ký | Khách hàng tạo tài khoản. |
-| FR02.02 | Đăng nhập | Khách hàng đăng nhập. |
+| FR02.02 | Đăng nhập | Người dùng đăng nhập vào hệ thống. |
 | FR02.03 | Cập nhật thông tin | Cập nhật thông tin cá nhân. |
 
 ## 7.3. BR03 – Quản lý tài xế
@@ -1183,10 +1183,6 @@ flowchart TD
 Tài xế cập nhật:
 
 ```text
-DRIVER_ASSIGNED
-        ↓
-DRIVER_ARRIVING
-        ↓
 DRIVER_ARRIVED
         ↓
 PASSENGER_PICKED_UP
