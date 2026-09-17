@@ -6,7 +6,6 @@
 "TS-TRIP-01","Tìm và phân công tài xế","POST /trips/{tripId}/matching, POST /trips/{tripId}/driver-offer, POST /trips/{tripId}/accept, POST /trips/{tripId}/reject, POST /trips/{tripId}/matching/retry, POST /trips/{tripId}/matching/fail","FR05.01-FR06.06"
 "TS-TRIP-02","Cập nhật trạng thái chuyến","PATCH /trips/{tripId}/status","FR08.01-FR08.04"
 "TS-TRIP-03","Cập nhật và theo dõi vị trí tài xế","POST /drivers/{driverId}/locations, GET /trips/{tripId}/tracking","FR07.03, FR09.01-FR09.02"
-"TS-HISTORY-01","Xem lịch sử chuyến","GET /customers/{customerId}/trips","FR07.04"
 "TS-PAY-01","Tính cước và thanh toán","POST /trips/{tripId}/fare/calculate, PATCH /payments/{paymentId}/method, POST /payments/cash, POST /payments/electronic, GET /payments/{paymentId}, PATCH /payments/{paymentId}/failed, POST /payments/{paymentId}/retry","FR10.01-FR12.03"
-"TS-RATE-01","Đánh giá tài xế sau chuyến","POST /trips/{tripId}/ratings","FR14.01-FR14.02"
+"TS-RATE-01","Xem lịch sử chuyến và đánh giá tài xế","GET /customers/{customerId}/trips, POST /trips/{tripId}/ratings","FR07.04, FR14.01-FR14.02"
 "TS-AUTHZ-01","Xác thực, phân quyền, quản lý tài khoản và Audit Log","POST /authorization/verify, PUT /authorization/users/{userId}/role, POST /authorization/check, PATCH /authorization/users/{userId}, POST /audit-logs, GET /audit-logs","FR18.01-FR18.04, FR20.01-FR20.02"
