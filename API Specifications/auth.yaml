@@ -4,7 +4,7 @@ info:
   title: CAB System - Authentication API
   version: 1.0.0
   description: >
-    API phục vụ các chức năng xác thực và quản lý thông tin
+    API phục vụ các chức năng xác thực người dùng và quản lý thông tin
     khách hàng của CAB System.
 
 servers:
@@ -35,7 +35,7 @@ x-functional-requirements:
   - id: FR02.02
     business_requirement: BR02
     name: Đăng nhập
-    description: Khách hàng có thể đăng nhập vào hệ thống.
+    description: Người dùng có thể đăng nhập vào hệ thống.
     api:
       method: POST
       path: /auth/login
@@ -139,10 +139,10 @@ paths:
       summary: Đăng nhập
 
       description: >
-        Cho phép khách hàng đăng nhập bằng email hoặc
-        số điện thoại và mật khẩu.
+        Cho phép Customer, Driver, Operator và Admin đăng nhập
+        bằng email hoặc số điện thoại và mật khẩu.
 
-      operationId: loginCustomer
+      operationId: loginUser
 
       x-fr-id: FR02.02
 
@@ -173,7 +173,7 @@ paths:
                 data:
                   accessToken: eyJhbGciOiJIUzI1NiJ9.example
                   user:
-                    customerId: CUS001
+                    userId: USR001
                     fullName: Nguyễn Văn A
                     role: CUSTOMER
 
@@ -482,9 +482,9 @@ components:
 
               properties:
 
-                customerId:
+                userId:
                   type: string
-                  example: CUS001
+                  example: USR001
 
                 fullName:
                   type: string
