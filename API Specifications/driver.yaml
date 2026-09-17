@@ -647,6 +647,7 @@ components:
         - fullName
         - phone
         - licenseNumber
+        - password
 
       properties:
 
