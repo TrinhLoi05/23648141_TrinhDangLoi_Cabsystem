@@ -579,6 +579,7 @@ Hệ thống CAB System có các thực thể cơ bản:
 | Rating | Đánh giá tài xế. |
 | Notification | Thông báo. |
 | DriverLocation | Vị trí tài xế. |
+| Incident | Thông tin sự cố của chuyến xe. |
 | AuditLog | Lịch sử các thao tác quan trọng. |
 
 ### Nguyên tắc quản lý tài khoản
@@ -682,6 +683,14 @@ erDiagram
         datetime recorded_at
     }
 
+    INCIDENT {
+        int incident_id PK
+        int trip_id FK
+        string status
+        string description
+        datetime created_at
+    }
+
     AUDIT_LOG {
         int log_id PK
         int account_id FK
@@ -707,6 +716,7 @@ erDiagram
 
     TRIP ||--o| PAYMENT : has
     TRIP ||--o| RATING : receives
+    TRIP ||--o{ INCIDENT : has
 
     CUSTOMER ||--o{ RATING : gives
     DRIVER ||--o{ RATING : receives
@@ -1877,6 +1887,17 @@ Trong dự án CAB System, sử dụng các cột:
 | BP02 – Đặt chuyến | BR01 – Đặt chuyến xe | FR01.05 – Kiểm tra yêu cầu | UC04 – Đặt chuyến xe | AC02 – Đặt chuyến thiếu thông tin |
 | BP02 – Đặt chuyến | BR01 – Đặt chuyến xe | FR01.06 – Tạo chuyến | UC04 – Đặt chuyến xe | AC01 – Đặt chuyến thành công |
 
+| — | BR02 – Quản lý khách hàng | FR02.01 – Đăng ký | UC01 – Đăng ký tài khoản | — |
+| — | BR02 – Quản lý khách hàng | FR02.02 – Đăng nhập | UC02 – Đăng nhập | — |
+| — | BR02 – Quản lý khách hàng | FR02.03 – Cập nhật thông tin | UC03 – Cập nhật thông tin | — |
+
+| — | BR03 – Quản lý tài xế | FR03.01 – Quản lý hồ sơ | UC09 – Cập nhật hồ sơ tài xế | — |
+| — | BR03 – Quản lý tài xế | FR03.02 – Cập nhật trạng thái | UC10 – Cập nhật trạng thái hoạt động | AC07 – Trạng thái tài xế |
+| — | BR03 – Quản lý tài xế | FR03.03 – Quản lý tài khoản | UC17 – Quản lý tài xế | — |
+
+| — | BR04 – Quản lý phương tiện | FR04.01 – Thêm phương tiện | UC18 – Quản lý phương tiện | — |
+| — | BR04 – Quản lý phương tiện | FR04.02 – Cập nhật phương tiện | UC18 – Quản lý phương tiện | — |
+
 | BP03 – Tìm tài xế | BR05 – Tìm tài xế | FR05.01 – Tìm tài xế sẵn sàng | UC04 – Đặt chuyến xe | AC03 – Tìm được tài xế |
 | BP03 – Tìm tài xế | BR05 – Tìm tài xế | FR05.02 – Kiểm tra vị trí | UC04 – Đặt chuyến xe | AC03 – Tìm được tài xế |
 | BP03 – Tìm tài xế | BR05 – Tìm tài xế | FR05.03 – Lọc tài xế | UC04 – Đặt chuyến xe | AC03 – Tìm được tài xế |
@@ -1893,6 +1914,9 @@ Trong dự án CAB System, sử dụng các cột:
 | BP05 – Thực hiện chuyến | BR08 – Thực hiện chuyến | FR08.02 – Đã đón khách | UC14 – Cập nhật trạng thái chuyến | AC08 – Cập nhật trạng thái chuyến |
 | BP05 – Thực hiện chuyến | BR08 – Thực hiện chuyến | FR08.03 – Đang di chuyển | UC14 – Cập nhật trạng thái chuyến | AC08 – Cập nhật trạng thái chuyến |
 | BP05 – Thực hiện chuyến | BR08 – Thực hiện chuyến | FR08.04 – Hoàn thành chuyến | UC14 – Cập nhật trạng thái chuyến | AC08 – Cập nhật trạng thái chuyến |
+
+| BP05 – Thực hiện chuyến | BR09 – Quản lý vị trí | FR09.01 – Ghi nhận vị trí | UC15 – Cập nhật vị trí | — |
+| BP05 – Thực hiện chuyến | BR09 – Quản lý vị trí | FR09.02 – Cập nhật vị trí | UC15 – Cập nhật vị trí | — |
 
 | BP05 – Thực hiện chuyến | BR07 – Theo dõi chuyến | FR07.01 – Xem trạng thái | UC05 – Theo dõi chuyến | AC09 – Theo dõi và xem lịch sử chuyến |
 | BP05 – Thực hiện chuyến | BR07 – Theo dõi chuyến | FR07.02 – Xem tài xế | UC05 – Theo dõi chuyến | AC09 – Theo dõi và xem lịch sử chuyến |
@@ -1970,3 +1994,4 @@ Test Case
 Test Result
  ↓
 Nghiệm thu
+```
