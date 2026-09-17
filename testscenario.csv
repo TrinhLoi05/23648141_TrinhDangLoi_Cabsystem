@@ -1,11 +1,11 @@
-﻿Test Scenario ID,Test Scenario,API,Functional Requirement,Business Rule / Exception,Độ phủ Test Case
-TS-AUTH-01,Đăng ký tài khoản khách hàng,POST /auth/register,FR02.01,EX08,Dữ liệu đúng; rỗng/thiếu; sai định dạng/kiểu; dữ liệu trùng
-TS-AUTH-02,Đăng nhập khách hàng,POST /auth/login,FR02.02,"BRULE01, EX08",Dữ liệu đúng; rỗng/thiếu; sai credential; sai kiểu dữ liệu
-TS-BOOK-01,Tạo yêu cầu đặt chuyến,"POST /bookings/validate, POST /bookings",FR01.01-FR01.06,"BRULE01, EX08",Dữ liệu đúng; trường bắt buộc rỗng/thiếu; loại xe sai; quyền truy cập
-TS-DRIVER-01,Cập nhật trạng thái sẵn sàng của tài xế,PATCH /drivers/{driverId}/availability,FR03.02,"BRULE02, BRULE10, EX07, EX08",Enum hợp lệ; rỗng/thiếu; sai enum/kiểu; quyền; ảnh hưởng matching
-TS-TRIP-01,Tìm và phân công tài xế,"POST /trips/{tripId}/matching, /driver-offer, /accept, /reject, /matching/retry, /matching/fail",FR05.01-FR06.06,"BRULE02-BRULE05, EX01-EX03, EX06",Có/không Driver; trạng thái Driver; vị trí; accept/reject/timeout; một chuyến một Driver
-TS-TRIP-02,Cập nhật trạng thái chuyến,PATCH /trips/{tripId}/status,FR08.01-FR08.04,"BRULE03, BRULE10, EX07, EX08",Luồng trạng thái đúng; rỗng/sai enum; chuyển sai thứ tự; sai quyền
-TS-TRIP-03,Cập nhật và theo dõi vị trí tài xế,"POST /drivers/{driverId}/locations, GET /trips/{tripId}/tracking","FR07.03, FR09.01-FR09.02","EX05, EX06, EX07, EX08",Tọa độ đúng; biên latitude/longitude; rỗng/sai kiểu; mất kết nối; vị trí gần nhất
-TS-PAY-01,Tính cước và thanh toán,"POST /trips/{tripId}/fare/calculate, PATCH /payments/{paymentId}/method, POST /payments/cash, POST /payments/electronic, GET/PATCH/POST /payments/{paymentId}*",FR10.01-FR12.03,"BRULE06-BRULE08, EX04, EX05, EX08",Tính cước; CASH/ELECTRONIC; amount rỗng/0/âm; payment fail/retry; bảo mật dữ liệu
-TS-RATE-01,Đánh giá tài xế sau chuyến,POST /trips/{tripId}/ratings,FR14.01-FR14.02,"BRULE09, BRULE10, EX07, EX08",Score hợp lệ; biên 1-5; ngoài biên; rỗng/sai kiểu; trạng thái Trip; quyền
-TS-AUTHZ-01,"Xác thực, phân quyền và Audit Log","POST /authorization/verify, PUT /authorization/users/{userId}/role, POST /authorization/check, POST/GET /audit-logs","FR18.01-FR18.03, FR20.01-FR20.02","BRULE01, BRULE10, BRULE11, EX07, EX08",Token; role; quyền thao tác; dữ liệu rỗng/sai; ghi/tra cứu Audit Log
+"Test Scenario ID","Test Scenario","API","Functional Requirement"
+"TS-AUTH-01","Đăng ký tài khoản khách hàng","POST /auth/register","FR02.01"
+"TS-AUTH-02","Đăng nhập khách hàng","POST /auth/login","FR02.02"
+"TS-BOOK-01","Tạo yêu cầu đặt chuyến","POST /bookings/validate, POST /bookings","FR01.01-FR01.06"
+"TS-DRIVER-01","Cập nhật trạng thái sẵn sàng của tài xế","PATCH /drivers/{driverId}/availability","FR03.02"
+"TS-TRIP-01","Tìm và phân công tài xế","POST /trips/{tripId}/matching, /driver-offer, /accept, /reject, /matching/retry, /matching/fail","FR05.01-FR06.06"
+"TS-TRIP-02","Cập nhật trạng thái chuyến","PATCH /trips/{tripId}/status","FR08.01-FR08.04"
+"TS-TRIP-03","Cập nhật và theo dõi vị trí tài xế","POST /drivers/{driverId}/locations, GET /trips/{tripId}/tracking","FR07.03, FR09.01-FR09.02"
+"TS-PAY-01","Tính cước và thanh toán","POST /trips/{tripId}/fare/calculate, PATCH /payments/{paymentId}/method, POST /payments/cash, POST /payments/electronic","FR10.01-FR12.03"
+"TS-RATE-01","Đánh giá tài xế sau chuyến","POST /trips/{tripId}/ratings","FR14.01-FR14.02"
+"TS-AUTHZ-01","Xác thực, phân quyền và Audit Log","POST /authorization/verify, PUT /authorization/users/{userId}/role, POST /authorization/check, POST/GET /audit-logs","FR18.01-FR18.03, FR20.01-FR20.02"
