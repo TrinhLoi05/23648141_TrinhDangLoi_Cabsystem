@@ -1,0 +1,7 @@
+"Test Case ID","Test Scenario","Test Case","Preconditions","Test Steps","Test Data","Expected Result","Priority"
+"TC-RATE-01-01","TS-RATE-01 – Xem lịch sử chuyến và đánh giá tài xế","Xem lịch sử chuyến","Customer đã đăng nhập","1. Gửi GET /customers/{customerId}/trips","customerId hợp lệ","Hiển thị danh sách chuyến của Customer","High"
+"TC-RATE-01-02","TS-RATE-01 – Xem lịch sử chuyến và đánh giá tài xế","Không có lịch sử chuyến","Customer đã đăng nhập nhưng chưa có chuyến","1. Gửi GET lịch sử chuyến","Không có Trip","Hiển thị danh sách rỗng","Medium"
+"TC-RATE-01-03","TS-RATE-01 – Xem lịch sử chuyến và đánh giá tài xế","Đánh giá hợp lệ","Trip của Customer đã COMPLETED","1. Gửi POST /trips/{tripId}/ratings","score hợp lệ","Lưu đánh giá thành công","High"
+"TC-RATE-01-04","TS-RATE-01 – Xem lịch sử chuyến và đánh giá tài xế","Score rỗng","Trip COMPLETED","1. Gửi rating không có score","score: null","Báo lỗi dữ liệu","High"
+"TC-RATE-01-05","TS-RATE-01 – Xem lịch sử chuyến và đánh giá tài xế","Đánh giá chuyến chưa hoàn thành","Trip IN_PROGRESS","1. Gửi rating","score hợp lệ","Hệ thống từ chối đánh giá","High"
+"TC-RATE-01-06","TS-RATE-01 – Xem lịch sử chuyến và đánh giá tài xế","Đánh giá chuyến của người khác","Trip thuộc Customer khác","1. Gửi rating cho Trip không thuộc mình","tripId của Customer khác","Hệ thống từ chối do không có quyền","High"
