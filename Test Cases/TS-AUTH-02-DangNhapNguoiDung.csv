@@ -1,0 +1,7 @@
+"Test Case ID","Test Scenario","Test Case","Preconditions","Test Steps","Test Data","Expected Result","Priority"
+"TC-AUTH-02-01","TS-AUTH-02 – Đăng nhập người dùng","Đăng nhập đúng thông tin","Tài khoản tồn tại và đang hoạt động","1. Nhập identifier; 2. Nhập password đúng; 3. Gửi POST /auth/login","identifier hợp lệ; password đúng","Đăng nhập thành công; trả accessToken và thông tin user","High"
+"TC-AUTH-02-02","TS-AUTH-02 – Đăng nhập người dùng","Identifier rỗng","Có tài khoản trong hệ thống","1. Để identifier rỗng; 2. Gửi đăng nhập","identifier: empty","Không đăng nhập; báo thiếu thông tin","High"
+"TC-AUTH-02-03","TS-AUTH-02 – Đăng nhập người dùng","Password rỗng","Có tài khoản trong hệ thống","1. Nhập identifier; 2. Để password rỗng; 3. Gửi đăng nhập","password: empty","Không đăng nhập; báo thiếu thông tin","High"
+"TC-AUTH-02-04","TS-AUTH-02 – Đăng nhập người dùng","Sai mật khẩu","Tài khoản tồn tại","1. Nhập identifier đúng; 2. Nhập password sai; 3. Gửi đăng nhập","password: wrong","Đăng nhập thất bại; không trả accessToken","High"
+"TC-AUTH-02-05","TS-AUTH-02 – Đăng nhập người dùng","Tài khoản không tồn tại","Không có tài khoản tương ứng","1. Nhập identifier không tồn tại; 2. Gửi đăng nhập","identifier không tồn tại","Đăng nhập thất bại","High"
+"TC-AUTH-02-06","TS-AUTH-02 – Đăng nhập người dùng","Tài khoản bị khóa","Tài khoản tồn tại nhưng bị khóa","1. Nhập thông tin đúng; 2. Gửi đăng nhập","credential đúng; account status: LOCKED","Từ chối đăng nhập; không trả accessToken","High"
