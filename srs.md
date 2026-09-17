@@ -569,16 +569,26 @@ Hệ thống CAB System có các thực thể cơ bản:
 
 | Entity | Diễn giải |
 |---|---|
-| Customer | Thông tin khách hàng. |
-| Driver | Thông tin tài xế. |
+| UserAccount | Tài khoản đăng nhập của người dùng. |
+| UserRole | Vai trò và quyền của người dùng. |
+| Customer | Thông tin hồ sơ khách hàng. |
+| Driver | Thông tin hồ sơ tài xế. |
 | Vehicle | Thông tin phương tiện. |
 | Trip | Thông tin chuyến xe. |
 | Payment | Thông tin thanh toán. |
 | Rating | Đánh giá tài xế. |
 | Notification | Thông báo. |
 | DriverLocation | Vị trí tài xế. |
-| AuditLog | Lịch sử thao tác. |
-| UserRole | Vai trò người dùng. |
+| AuditLog | Lịch sử các thao tác quan trọng. |
+
+### Nguyên tắc quản lý tài khoản
+
+- Mỗi người dùng có một tài khoản trong `USER_ACCOUNT`.
+- `USER_ACCOUNT` lưu thông tin dùng để đăng nhập và xác thực.
+- Customer và Driver có hồ sơ nghiệp vụ riêng liên kết với tài khoản.
+- Operator và Admin được xác định thông qua vai trò của tài khoản.
+- Mật khẩu không lưu trực tiếp trong Customer hoặc Driver.
+- Audit Log phải xác định được tài khoản nào đã thực hiện thao tác.
 
 ## 9.2. ERD
 
@@ -590,21 +600,27 @@ erDiagram
         string role_name
     }
 
+    USER_ACCOUNT {
+        int account_id PK
+        int role_id FK
+        string email
+        string password_hash
+        string status
+        datetime created_at
+    }
+
     CUSTOMER {
         int customer_id PK
-        int role_id FK
+        int account_id FK
         string full_name
         string phone
-        string email
-        string password
     }
 
     DRIVER {
         int driver_id PK
-        int role_id FK
+        int account_id FK
         string full_name
         string phone
-        string email
         string status
     }
 
@@ -668,16 +684,23 @@ erDiagram
 
     AUDIT_LOG {
         int log_id PK
-        int role_id FK
+        int account_id FK
         string action
+        string target_type
+        string target_id
+        string result
         string description
         datetime created_at
     }
 
-    USER_ROLE ||--o{ CUSTOMER : has
-    USER_ROLE ||--o{ DRIVER : has
+    USER_ROLE ||--o{ USER_ACCOUNT : assigned_to
+
+    USER_ACCOUNT ||--o| CUSTOMER : has_customer_profile
+    USER_ACCOUNT ||--o| DRIVER : has_driver_profile
+    USER_ACCOUNT ||--o{ AUDIT_LOG : performs
 
     DRIVER ||--o{ VEHICLE : owns
+
     CUSTOMER ||--o{ TRIP : creates
     DRIVER ||--o{ TRIP : performs
     VEHICLE ||--o{ TRIP : used_for
@@ -692,11 +715,27 @@ erDiagram
     DRIVER ||--o{ NOTIFICATION : receives
 
     DRIVER ||--o{ DRIVER_LOCATION : sends
-
-    USER_ROLE ||--o{ AUDIT_LOG : performs
 ```
 
+### 9.3. Giải thích mô hình tài khoản
+
+`USER_ACCOUNT` là thực thể quản lý thông tin xác thực dùng chung cho:
+
+- Customer.
+- Driver.
+- Operator.
+- Admin.
+
+Mỗi tài khoản được gán một `USER_ROLE` để xác định quyền truy cập.
+
+Customer và Driver có thêm hồ sơ riêng để lưu thông tin nghiệp vụ.
+
+Operator và Admin không cần bảng hồ sơ riêng trong phiên bản cơ bản nếu hệ thống chưa có yêu cầu lưu thêm thông tin nghiệp vụ riêng cho hai nhóm này.
+
+`AUDIT_LOG` liên kết với `USER_ACCOUNT` để xác định chính xác người thực hiện thao tác quan trọng.
+
 ---
+
 
 # BƯỚC 10. NON-FUNCTIONAL REQUIREMENTS
 
@@ -798,7 +837,7 @@ Non-Functional Requirement mô tả hệ thống phải hoạt động như th�
 | UC15 | Cập nhật vị trí | Driver |
 | UC16 | Quản lý khách hàng | Operator |
 | UC17 | Quản lý tài xế | Operator |
-| UC18 | Quản lý phương tiện | Operator |
+| UC18 | Quản lý phương tiện | Driver, Operator |
 | UC19 | Theo dõi chuyến | Operator |
 | UC20 | Xử lý sự cố | Operator |
 | UC21 | Tra cứu giao dịch | Operator |
@@ -873,6 +912,7 @@ flowchart LR
     Driver --> UC13
     Driver --> UC14
     Driver --> UC15
+    Driver --> UC18
 
     Operator --> UC02
     Operator --> UC16
